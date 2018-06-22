@@ -1,10 +1,7 @@
-# Tourism_portal
-
-### Description
-Tourim portal.
+# Tourism Portal
 Purchase of air tickets, hotel booking, life hack, wiki, and more.
 
-
+### Description
 
 
 ## Build Setup
