@@ -12,16 +12,12 @@ import BusEvent from './BusEvent.vue'
 
 export default {
   name: 'Map',
-
-  // components: { 'BusEvent': BusEvent },
-
   props:{
     geojson: {
       type: Object,
     },
     
   },
-
   data () {
     return {
       mapToken: 'pk.eyJ1IjoiY3JvbGxlciIsImEiOiJWX0ZXZF9zIn0.lIjITIfJ3v62baoHVIqtqQ',
