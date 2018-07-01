@@ -80,7 +80,7 @@
 
 
 <script>
-  import Vue from 'vue';
+
   import BusEvent from './BusEvent.vue';
   import Moment from 'moment';
   import Toastr from 'toastr';
@@ -190,6 +190,23 @@
           el.value =  ui.item.label;
           self.aviaDep_Place = ui.item.label;
           self.aviaDep_IATA = ui.item.value;
+
+          let data = {
+            "layerName": "aviaDep_Place",
+            "geojson": {
+              "type": "Feature",
+              "properties": {
+                "code": ui.item.value,
+                "label": ui.item.label,
+              },
+              "geometry": ui.item.geometry
+            }
+          };
+          //map zoom to data
+          BusEvent.$emit('zoomTo',data.geojson);
+          //set data at map
+          // BusEvent.$emit('createLayer', data);
+          // console.log(data)
           return false;
         },
       })
@@ -205,6 +222,20 @@
           el.value =  ui.item.label;
           self.aviaArr_Place = ui.item.label;
           self.aviaArr_IATA = ui.item.value;
+
+          let data = {
+            "layerName": "aviaDep_Place",
+            "geojson": {
+              "type": "Feature",
+              "properties": {
+                "code": ui.item.value,
+                "label": ui.item.label,
+              },
+              "geometry": ui.item.geometry
+            }
+          };
+          //map zoom to data
+          BusEvent.$emit('zoomTo',data.geojson);
           return false;
         }
       })
@@ -220,7 +251,8 @@
         minDate: new Date(),
         position: "bottom left",
         autoClose: true,
-        // todayButton: true,
+        todayButton: true,
+        range: true,
         offset: 8,
         onShow: function(dp, animationCompleted){
           console.log()
@@ -249,7 +281,7 @@
         // minDate: new Date(),
         position: "bottom right",
         autoClose: true,
-        // todayButton: true,
+        todayButton: true,
         offset: 8,
         onShow: function(dp, animationCompleted){
           if (!animationCompleted) {

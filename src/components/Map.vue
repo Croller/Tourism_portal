@@ -54,10 +54,11 @@
         };
       },
     },
-    created: function(){
-
+    created: function() {
+      
     },
     mounted () {
+      let self = this;
 
       //map init
       this.map = this.mapInit();
@@ -73,6 +74,13 @@
       // this.createLayer('cities', this.geojson, "", "")
 
       
+
+      //get geojson
+      BusEvent.$on('zoomTo', function(data) {
+        self.zoomTo(data);
+        // self.createLayer( data.layerName, data.geojson)
+      })
+
     },
 
     methods: {
@@ -91,8 +99,10 @@
           style: 'mapbox://styles/croller/cji75uvtw12de2sr0cwwfce45',
           center: [15.057,25.885],
           zoom: 1.8,
+          // minZoom: 1.8,
           doubleClickZoom: false,
           dragPan: true,
+          dragRotate: false,
           localIdeographFontFamily: "'Roboto', 'Noto Sans', 'Noto Sans CJK SC', sans-serif",
 
             continuousWorld: false,
@@ -140,17 +150,15 @@
             }
           ]
         }
-          var coordinates = geom.features[0].geometry.coordinates[0];
-          var bounds = coordinates.reduce(function (bounds, coord) {
-              return bounds.extend(coord);
-          }, new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]));
 
-          map.fitBounds(bounds, {
-              padding: 20
+        var coordinates = geom.features[0].geometry.coordinates[0];
+        var bounds = coordinates.reduce(function (bounds, coord) {
+            return bounds.extend(coord);
+        }, new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]));
+
+        map.fitBounds(bounds, {
+            padding: 20
         });
-
-        // aviaDep_Place
-
 
         return map;
 
@@ -246,7 +254,7 @@
         //paint
 
         var paint = {
-          "circle-color": "#dd6037",
+          "circle-color": "#00AEE8",
           "circle-opacity": 1,
           "circle-radius": 5,
           "circle-stroke-width": 1,
@@ -294,7 +302,9 @@
 
 
         console.log('add ' + layerName);
-        //hover
+        
+        // zoom to data
+        this.zoomTo(geojson);
 
       },
 
@@ -337,6 +347,15 @@
         }
         console.log('add ' + layerName);
       },
+
+      zoomTo: function(data){
+        // if point
+        if(!data.hasOwnProperty('features') && data.geometry.type == "Point"){
+          this.map.flyTo({center: data.geometry.coordinates, zoom: 10});
+        }
+        // var bbox = [[-79, 43], [-73, 45]];
+        // this.map.fitBounds(bbox);
+      }
 
     },
 
