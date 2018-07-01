@@ -11,10 +11,11 @@
   },
   "dependencies": {
     "inputmask": "^3.3.11",
-    "moment": "^2.22.1",
     "toastr": "^2.1.4",
     "vue": "^2.5.2",
+    "vue-click-outside": "^1.0.7",
     "vue-moment": "^3.2.0",
+    "vue-resource": "^1.5.0",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
@@ -51,7 +52,7 @@
     "vue-template-compiler": "^2.5.2",
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": "^2.9.0",
-    "webpack-dev-server": "^2.9.1",
+    "webpack-dev-server": "^2.11.2",
     "webpack-merge": "^4.1.0"
   },
   "engines": {

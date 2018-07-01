@@ -69,7 +69,7 @@
       <div class="row" v-for="flight in flights">
         <div class="col-12 border-top-dashed">
           <div class="dataBasic row">
-            <div class="col-12 text-center collapse" :class="'handl_'+ id" aria-labelledby="headingThree" data-parent="#accordion">
+            <div class="col-12 text-center collapse" :class="'handl_'+ url" aria-labelledby="headingThree" data-parent="#accordion">
               <div class="titleData row btn">
                 <div class="col-12">
                   Билет # {{ flight.part }}
@@ -140,7 +140,7 @@
         </div>
         
 
-        <div id="flightDesc" class="col-12 collapse" :class="'handl_'+ id" aria-labelledby="headingThree" data-parent="#accordion" v-for="flightDesc in flight.segment.flight">
+        <div id="flightDesc" class="col-12 collapse" :class="'handl_'+ url" aria-labelledby="headingThree" data-parent="#accordion" v-for="flightDesc in flight.segment.flight">
 
           <div class="delayDesc row" v-if="flightDesc.delay > 0">
             <div class="col-12">
@@ -256,7 +256,7 @@
       </div>
 
 
-      <div id="descShow" class="col-12 text-center collapsed" data-toggle="collapse" :data-target="'.handl_'+ id" aria-expanded="false" :aria-controls="'handl_'+ id">
+      <div id="descShow" class="col-12 text-center collapsed" data-toggle="collapse" :data-target="'.handl_'+ url" aria-expanded="false" :aria-controls="'handl_'+ url">
         <span class="fas fa-chevron-circle-up"></span>
         <span class="fas fa-chevron-circle-down"></span>
       </div>
@@ -273,7 +273,7 @@
             <div id="price">
               {{ price }}
             </div>
-            <button class="btn btn-primary">
+            <button class="btn btn-primary" @click="redirect(url)">
               Купить
             </button>
           </div>
@@ -301,6 +301,8 @@
 <script>
 	
   import Moment from 'moment';
+  import Toastr from 'toastr';
+  import '../../node_modules/toastr/build/toastr.css';
 
   export default {
     name: 'Avia_Item',
@@ -318,7 +320,7 @@
       }
     },
     computed: {
-      id: function(){
+      url: function(){
         var key = Object.keys(this.ticket.terms);
         return this.ticket.terms[key[0]].url;
       },
@@ -483,8 +485,61 @@
         }
         
       },
+
+      //alert
+      alertMsg(title,str,type){
+        //type 1.success 2.info 3.warning 4.error
+        Toastr.options = {
+          "closeButton": true,
+          "debug": false,
+          "progressBar": true,
+          "preventDuplicates": false,
+          "positionClass": "toast-top-center",
+          "onclick": null,
+          "showDuration": "500",
+          "hideDuration": "1000",
+          "timeOut": "3000",
+          "extendedTimeOut": "2500",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut"
+        };
+        Toastr[type](str,title);
+      },
       
-      
+      // redirect at seller company @buy
+      redirect(url){
+        // alert
+        this.alertMsg('Готовьтесь :)','Мы перенаправляем вас, на сайт для покупки билета', 'success');
+        // get search id from router
+        let uuid = this.$route.params.uuid;
+        let obj = {
+          'url': url,
+          'uuid': uuid,
+        };
+        this.$http.post('http://127.0.0.1:8081/aviaGetURLRedirect', obj).then(function (response) {
+          // Success
+          console.log('///////////////')
+          console.log('redirect')
+          if(response.status == 200){
+            if(response.data != null){
+              let obj = JSON.parse(response.data);
+              setTimeout(() => {
+                window.open(obj.url, '_blank');
+              }, 3000)
+              
+            }else{
+              this.alertMsg('Ошибка','Что-то не так на сервере, простите!', 'error');
+            }      
+            
+          }else{
+            this.alertMsg('Ошибка','Сервер не отвечает, попробуйте позже.', 'error');
+          }
+        }).catch(err => {
+          this.alertMsg('Ошибка','Сервер не отвечает, попробуйте позже.' , 'error');
+        });
+      }
     }
   }
 

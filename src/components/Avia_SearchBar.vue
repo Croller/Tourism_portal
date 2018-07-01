@@ -178,6 +178,7 @@
       // init autocomplite for input with cities
       var maxLimit = 5;
       $( "#aviaDep_Place" ).autocomplete({
+        // position: { my: "left bottom", at: "left top", collision: "flip" },
         minLength: 1,
         source: function(request, response) {
           var results = $.ui.autocomplete.filter(self.aviaCities, request.term);
@@ -696,6 +697,7 @@
   body > .ui-menu .ui-menu-item-wrapper:hover, .ui-menu .ui-menu-item-wrapper:focus {
     background-color: #F09A24;
     border: 1px solid #F09A24;
+    border-radius: 0px 0px 3px 3px;
     font-size: 14px;
     color: white;
     font-weight: 400;
@@ -703,7 +705,7 @@
   }
   body > .ui-widget.ui-widget-content{
     border: 1px solid #EBEBEB;
-    border-radius: 3px;
+    border-radius: 0px 0px 3px 3px;
     -webkit-box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1);
     box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1);
   }

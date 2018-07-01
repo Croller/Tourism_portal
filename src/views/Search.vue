@@ -2,7 +2,7 @@
 
   <div id="search">
     <!-- <div id="mapBlock"> -->
-      <Map v-bind:geojson="geojson"></Map>
+      <Map :geojson="geojson" :params="mapParams"></Map>
     <!-- </div> -->
 
     <div id="searchBlock" class="container">
@@ -71,6 +71,10 @@
     data () {
       return {
         geojson: {},
+        mapParams: {
+          width: document.documentElement.clientWidth + 'px',
+          height: document.documentElement.clientHeight  + 'px',
+        }
       }
     },
     created: function() {
@@ -81,19 +85,6 @@
       console.log('search - loaded')
 
       
-
-      // update navbar if page reload
-      $(".navbar .nav-item .nav-link").css({
-        "color": "#707070",
-        "font-weight": "700"
-      })
-      $(".navbar .nav-item.active .nav-link").css({
-        "color": "#F09A24",
-      })
-      $(".navbar .nav-item .nav-link:hover").css({
-        "color": "#F09A24",
-      })
-
       $('body').css('overflow-y','scroll');
     },
     methods: {      
@@ -119,7 +110,7 @@
 
   #search #searchBlock{
     position: relative;
-    margin-top: -250px;
+    margin-top: -210px;
   }
 
 

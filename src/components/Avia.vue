@@ -183,7 +183,7 @@
         // clear data before
         self.progressPerc = 5; 
         self.searchCount = 0;
-
+        self.ticketsNoSort = ['0'];
         // get new data
         self.getAviaTickets({'uuid': uuid});
       })

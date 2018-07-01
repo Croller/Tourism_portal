@@ -4,8 +4,10 @@
 
       <nav class="navbar navbar-expand-lg navbar-light" >
         <div class="container">
-          
-          <a class="navbar-brand" href="#">Brand</a>
+          <link rel="icon" href="../../src/assets/img/favicon_0.ico" />
+
+          <!-- <a class="navbar-brand" href="#">TripTrick</a> -->
+          <img src="../../src/assets/img/logo.svg" alt="" style="height:60px; color: red">
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Menu">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -76,7 +78,7 @@
 <style>
   
   header {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
@@ -104,6 +106,7 @@
 
     color: #fff;
     font-size: 12px;
+    /*font-weight: 400;*/
     /*text-transform: uppercase;*/
     
   }
@@ -149,7 +152,8 @@
 
   .navbar .nav-item .nav-link{
     color: #D6D6D6;
-    font-weight: 700;
+    color: black;
+    font-weight: 300;
   }
 
   .navbar .nav-item.active .nav-link{
@@ -158,7 +162,9 @@
   }
 
   .navbar .nav-item .nav-link:hover{
-    color: white;
+    color: #FF9F1C;
+    transition: color 250ms ease-in-out;
+
   }
 
 

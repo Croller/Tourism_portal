@@ -58,33 +58,33 @@
     watch:{
       $route (to, from){
 
-        if(to.fullPath === "/"){
+        // if(to.fullPath === "/"){
 
-          $(".navbar .nav-item .nav-link").css({
-            "color": "#D6D6D6",
-            "font-weight": "700"
-          })
-          $(".navbar .nav-item.active .nav-link").css({
-            "color": "white",
-          })
-          $(".navbar .nav-item .nav-link:hover").css({
-            "color": "white",
-          })
+        //   $(".navbar .nav-item .nav-link").css({
+        //     "color": "#D6D6D6",
+        //     "font-weight": "700"
+        //   })
+        //   $(".navbar .nav-item.active .nav-link").css({
+        //     "color": "white",
+        //   })
+        //   $(".navbar .nav-item .nav-link:hover").css({
+        //     "color": "white",
+        //   })
 
-        }else{
+        // }else{
 
-          $(".navbar .nav-item .nav-link").css({
-            "color": "#707070",
-            "font-weight": "700"
-          })
-          $(".navbar .nav-item.active .nav-link").css({
-            "color": "#F09A24",
-          })
-          $(".navbar .nav-item .nav-link:hover").css({
-            "color": "#F09A24",
-          })
+        //   $(".navbar .nav-item .nav-link").css({
+        //     "color": "#707070",
+        //     "font-weight": "700"
+        //   })
+        //   $(".navbar .nav-item.active .nav-link").css({
+        //     "color": "#F09A24",
+        //   })
+        //   $(".navbar .nav-item .nav-link:hover").css({
+        //     "color": "#F09A24",
+        //   })
 
-        }
+        // }
       }
     }, 
   }
