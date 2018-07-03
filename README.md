@@ -24,4 +24,4 @@ npm run build --report
 ```
 
 ### Screen
-![alt text](https://www.dropbox.com/s/3r2fxgnels4odbh/Screenshot_2.png?dl=0)
+![alt text](https://dl.dropboxusercontent.com/s/3266lqnadxatbzb/Screenshot_1.png?dl=0)
