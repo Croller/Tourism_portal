@@ -147,11 +147,11 @@
 
 
   #searchCategory .scrollmenu {
-     white-space: nowrap;
+    white-space: nowrap;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: -ms-autohiding-scrollbar; 
-    margin-bottom: 20px;
+    margin-bottom: 8px;
   }
   #searchCategory .scrollmenu::-webkit-scrollbar {
     display: none;

@@ -27,7 +27,7 @@
 
         // Open Weather Map
         openWeatherMapToken: 'e4922d5a32daed7adb3fde25dfb2e8c0',
-
+        openWeatherMapTokenCurr: 'b1b15e88fa797225412429c1c50c122a1',
         // city
         
         // airport

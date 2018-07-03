@@ -756,12 +756,12 @@
     top: 49px;
     font-size: 16px;
     line-height: 32px;
-    border-radius: 0px 0px 3px 3px;
+    /*border-radius: 0px 0px 3px 3px;*/
     background-color: white;
     text-align: center;
     -webkit-box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1);
     box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1); 
-    border: 1px solid #EBEBEB;
+    /*border: 1px solid #EBEBEB;*/
     z-index: 99;
     margin-left: auto; 
     margin-right: auto; 
@@ -770,7 +770,7 @@
   #aviaSearchBar #humanDesc .form-control{
     background-color: #FFFFFF;
     background-image: none;
-    border: 1px solid #e5e6e7;
+    border: 1px dashed #e5e6e7;
     border-left: 0px;
     border-right: 0px;
     border-radius: 0px;
@@ -808,10 +808,13 @@
   #aviaSearchBar #humanDesc #tripClass{
     background-color: #FF9F1C;
     color: white;
-    margin-top: 15px;
-    margin-bottom: 15px;
+    /*color: #000;*/
+    padding-top: 5px;
+    padding-bottom: 5px;
     line-height:2;
-    font-weight: 400;
+    font-weight: 500;
+    border-radius: 0px 0px 3px 3px;
+    border-right: 1px solid #FF9F1C;
   }
   #aviaSearchBar #humanDesc #tripClass label{
     margin-bottom: 0px;
