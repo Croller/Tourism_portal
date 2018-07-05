@@ -7,7 +7,7 @@
 
     <div id="searchBlock" class="container">
       <div class="row">
-        <div id="searchCategory" class="justify-content-center align-items-center mx-auto">
+        <div id="searchCategory" class="col-10 col-sm-10 col-md-8 col-lg-6 col-xl-6  mx-auto justify-content-center align-items-center">
           <ul class="nav shadow scrollmenu">
             <li class="nav-item">
               <a class="nav-link active" data-toggle="tab" href="#avia" role="tab"  aria-selected="true">Авиабилеты</a>
@@ -22,9 +22,13 @@
               <a class="nav-link" data-toggle="tab" href="#tourism" role="tab"  aria-selected="true">Экскурсии</a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#tourism" role="tab"  aria-selected="true">Wiki</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" data-toggle="tab" href="#chats" role="tab"  aria-selected="true">ЧатБот</a>
             </li>
           </ul>
+         
         </div>
       </div>
 
@@ -100,64 +104,82 @@
 
   #search #mapBlock{
     height: 400px; 
-    /*margin-top: 85px; */
     padding-top:3px; 
     padding-bottom:3px; 
-    /*border-top: 1px solid #FF9F1C; */
-    /*border-bottom: 1px solid #FF9F1C;*/
   }
-
 
   #search #searchBlock{
     position: relative;
-    margin-top: -210px;
+    margin-top: -25%;
   }
 
-
-
-
-
-
-  #search .nav{
-    margin-top: 25px;
+  #search #searchCategory .nav{
+    /*margin-top: 25px;*/
     font-size: 12px;
     font-family: 'Comfortaa', sans-serif;
     background-color: #FAFAFA;
     -webkit-box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1);
     box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1);
     border-radius: 3px;
+    flex-wrap: nowrap;
   }
 
-  #search .nav .active{
+  #search #searchCategory .nav .active{
     background-color: #FF9F1C;
     border-radius: 3px;
     color: white;
     font-weight: 700;
+    transition: background-color 0.5s;
   }
-
-  #search .nav li:hover{
+  #search .nav li{
+    border-right: 1.2px dashed #e5e6e7;
+  }
+  #search .nav li:last-child{
+    border-right: 0px dashed #e5e6e7;
+  }
+  #search #searchCategory .nav li:hover{
     background-color: white;
   }
 
+  #search #searchCategory a {
+    text-decoration: none;
+    background-color: transparent;
+    color: #888;
+  }
 
-
-
-
-  /*---------------------------------*/
-
-
-  #searchCategory .scrollmenu {
-    white-space: nowrap;
+  #search #searchCategory .scrollmenu {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: -ms-autohiding-scrollbar; 
-    margin-bottom: 8px;
+
   }
-  #searchCategory .scrollmenu::-webkit-scrollbar {
+  #search #searchCategory .scrollmenu::-webkit-scrollbar {
     display: none;
   }
 
-  /*---------------------------------*/
+  #map {
+   position: relative;
+   z-index: 0;
+  }
+  #map > .map-wrapper {
+      position: relative;
+      z-index: 5;
+  }
+  #map:before {
+      content: '';
+      position: absolute;
+      top:0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: block;
+      z-index: 10;
+      pointer-events: none;
+
+      -webkit-box-shadow: inset 0px -20px 19px -2px rgba(245,245,245,1);
+      -moz-box-shadow: inset 0px -20px 19px -2px rgba(245,245,245,1);
+      box-shadow: inset 0px -20px 19px -2px rgba(245,245,245,1);
+  }
 
 
 
@@ -175,8 +197,8 @@
   .shadow{
     border-radius: 3px;
     background-color: white;
-    -webkit-box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1);
-    box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0 1px 10px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 10px 0px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
   }
 

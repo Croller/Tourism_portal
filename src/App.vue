@@ -39,19 +39,19 @@
 
     methods: {
 
-      aviaLoadCities() {
-        let self = this;
+      // aviaLoadCities() {
+      //   let self = this;
 
-        this.$http.get('http://127.0.0.1:8081/aviaGetCities')
-        .then(response => {
-          if(response.status == 200){
-            // console.log(response.data)
-            BusEvent.$emit('aviaLoadCities', response.data);
-          }else{
-            console.log("Server error: "+ response.status);
-          }
-        });
-      },
+      //   this.$http.get('http://127.0.0.1:8081/aviaGetCities')
+      //   .then(response => {
+      //     if(response.status == 200){
+      //       // console.log(response.data)
+      //       BusEvent.$emit('aviaLoadCities', response.data);
+      //     }else{
+      //       console.log("Server error: "+ response.status);
+      //     }
+      //   });
+      // },
 
     },
 

@@ -6,8 +6,59 @@
 
     <Map :params="{}" ></Map>
 
+    <!-- <div class="row">
+      <div class="col-12" v-bind:style="{ position: positionSearchBar, top: topSearchBar+'%' }">
+        <Avia_SearchBar ></Avia_SearchBar>
+      </div>
+    </div> -->
 
-    <Avia_SearchBar v-bind:style="{ position: positionSearchBar, top: topSearchBar+'%' }"></Avia_SearchBar>
+    <div id="search" class="container">
+      <div class="row">
+        <div id="searchCategory" class="justify-content-center align-items-center mx-auto">
+          <ul class="nav shadow scrollmenu">
+            <li class="nav-item">
+              <a class="nav-link active" data-toggle="tab" href="#avia" role="tab"  aria-selected="true">Авиабилеты</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href=".hotel" role="tab"  aria-selected="true">Отели</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#transfer" role="tab"  aria-selected="true">Трансфер</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#tourism" role="tab"  aria-selected="true">Экскурсии</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#tourism" role="tab"  aria-selected="true">Wiki</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#chats" role="tab"  aria-selected="true">ЧатБот</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="tab-content col-12">
+          <div id="avia" class="tab-pane fade show active" role="tabpanel">
+            <Avia_SearchBar ></Avia_SearchBar>
+          </div>
+          <div id="" class=" hotel tab-pane fade show" role="tabpanel">
+            2
+          </div>
+          <div id="transfer" class="tab-pane fade show" role="tabpanel">
+            3
+          </div>
+          <div id="tourism" class="tab-pane fade show" role="tabpanel">
+            4
+          </div>
+          <div id="chats" class="tab-pane fade show" role="tabpanel">
+            5
+          </div>
+        </div>
+      </div>
+
+    </div>
 
     <!-- <Main_Body></Main_Body> -->
 
@@ -247,15 +298,84 @@
 
 <style>
 
-  #index #aviaSearchBar{
-    position: absolute; 
-    left: 0; 
-    right: 0; 
-    margin-left: auto; 
-    margin-right: auto; 
-    top: 40%;
+  #index #search #mapBlock{
+    height: 400px; 
+    padding-top:3px; 
+    padding-bottom:3px; 
   }
 
+  #index #search{
+    position: relative;
+    margin-top: -25%;
+  }
+
+  #index #search .nav{
+    margin-top: 25px;
+    font-size: 12px;
+    font-family: 'Comfortaa', sans-serif;
+    background-color: #FAFAFA;
+    -webkit-box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    flex-wrap: nowrap;
+  }
+
+  #index #search .nav .active{
+    background-color: #FF9F1C;
+    border-radius: 3px;
+    color: white;
+    font-weight: 700;
+  }
+  #index #search .nav li{
+    border-right: 1.2px dashed #e5e6e7;
+  }
+  #index #search .nav li:last-child{
+    border-right: 0px dashed #e5e6e7;
+  }
+  #index #search .nav li:hover{
+    background-color: white;
+  }
+  #index #search a {
+    text-decoration: none;
+    background-color: transparent;
+    color: #888;
+  }
+  #index #searchCategory {
+    margin-bottom: 20px;
+  }
+  #index #searchCategory .scrollmenu {
+    white-space: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar; 
+  }
+  #index #searchCategory .scrollmenu::-webkit-scrollbar {
+    display: none;
+  }
+
+  #map {
+   position: relative;
+   z-index: 0;
+  }
+  #map > .map-wrapper {
+      position: relative;
+      z-index: 5;
+  }
+  #map:before {
+      content: '';
+      position: absolute;
+      top:0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: block;
+      z-index: 10;
+      pointer-events: none;
+
+      -webkit-box-shadow: inset 0px -20px 19px -2px rgba(245,245,245,1);
+      -moz-box-shadow: inset 0px -20px 19px -2px rgba(245,245,245,1);
+      box-shadow: inset 0px -20px 19px -2px rgba(245,245,245,1);
+  }
 
 
   .shadow{

@@ -184,8 +184,11 @@
         self.progressPerc = 5; 
         self.searchCount = 0;
         self.ticketsNoSort = ['0'];
+
         // get new data
-        self.getAviaTickets({'uuid': uuid});
+        // self.getAviaTickets({'uuid': uuid});
+        // test data
+        self.getAviaTicketsTest({})
       })
     },
     mounted () {
@@ -262,36 +265,33 @@
         });
       },
       // get data from server ------
-      getAvia(obj){
-        this.$http.post('http://127.0.0.1:8081/getAviaTest', obj).then(function (response) {
+      getAviaTicketsTest(obj){
+        this.$http.post('http://127.0.0.1:8081/getAviaTicketsTest', obj).then(function (response) {
             // Success
             console.log('///////////////')
             console.log('get ticket - loaded')
-            // console.log(response.data)
-            if(response.data != null){
-              console.log('ticket found, length = ', response.data.ticketsNoSort.length);
-              this.getData(response.data);
-              // add watch 
-              // first to add data
-              this.mainFiltr()
 
-            }else{
-              console.log('no ticket found, sorry')
-              this.ticketsNoSort = [];
+            let data = response.data;
+            if(data != null){
+              
+              if(this.ticketsNoSort.length == 1) this.ticketsNoSort = [];
+                Object.assign(this.airlines, data.airlines);
+                Object.assign(this.airports, data.airports);
+                Object.assign(this.airplane, data.airplane);
+                Object.assign(this.sales, data.sales);
+                for (var i = 0; i < data.ticketsNoSort.length; i++) {
+                  this.ticketsNoSort.push(data.ticketsNoSort[i]);
+                }
+                this.segments = data.segments;
+
+                if(data.ticketsNoSort.length > 1){
+                  this.setPropertyFilter();
+                  this.mainFiltr();
+                }
+
             }
+
         });
-      },
-
-      // get tickets and dictionary -------------
-      getData(data){
-        this.airlines = data.airlines;
-        this.airports = data.airports;
-        this.airplane = data.airplane;
-        this.sales = data.sales;
-        this.segments = data.segments;
-        this.ticketsNoSort = data.ticketsNoSort;
-
-        // Object.assign(this.ticketsNoSort, data.ticketsNoSort);
       },
 
 

@@ -2,31 +2,31 @@
   
   <div id="aviaSearchBar" class="container" >
     <div class="row justify-content-center">
-      <div class="form-group col-xs-8 col-sm-10 col-md-5 col-lg-2" autocomplete="off">
+      <div class="form-group col-10 col-sm-10 col-md-5 col-lg-2" autocomplete="off">
         <!-- <label class="d-sm-block d-md-none d-lg-none">Example label</label> -->
         <span class="far fa-compass"></span>
         <input type="text" class="form-control" id="aviaDep_Place" placeholder="Откуда" autofocus v-model="aviaDep_Place" v-on:click="focused = false" focused>
         <span class="far fa-times-circle" v-on:click="clearSpan($event)"></span>
       </div>
-      <div class="form-group col-xs-8 col-sm-10 col-md-5 col-lg-2">
+      <div class="form-group col-10 col-sm-10 col-md-5 col-lg-2">
         <!-- <label class="d-sm-block d-md-none d-lg-none">Example label</label> -->
         <span class="fas fa-bars"></span>
         <input type="text" class="form-control" id="aviaArr_Place" placeholder="Куда" v-model="aviaArr_Place" autocomplete="off" v-on:click="focused = false">
         <span class="far fa-times-circle" v-on:click="clearSpan($event)"></span>
       </div>
-      <div class="form-group col-xs-8 col-sm-10 col-md-5 col-lg-2">
+      <div class="form-group col-5 col-sm-5 col-md-5 col-lg-2">
         <!-- <label class="d-sm-block d-md-none d-lg-none">Example label</label> -->
         <span class="far fa-calendar-alt"></span>
         <input type="text" class="form-control datepicker-here" id="aviaDep_Date" placeholder="Туда" v-model="aviaDep_Date" autocomplete="off" data-mask="99-99-9999" data-range="false" v-on:click="focused = false">
         <span class="far fa-times-circle" v-on:click="clearSpan($event)"></span>
       </div>
-      <div class="form-group col-xs-8 col-sm-10 col-md-5 col-lg-2">
+      <div class="form-group col-5 col-sm-5 col-md-5 col-lg-2">
         <!-- <label class="d-sm-block d-md-none d-lg-none">Example label</label> -->
         <span class="far fa-calendar-alt"></span>
         <input type="text" class="form-control datepicker-here" id="aviaArr_Date" placeholder="Обратно" v-model="aviaArr_Date" autocomplete="off" data-mask="99-99-9999" data-range="false" v-on:click="focused = false">
         <span class="far fa-times-circle" v-on:click="clearSpan($event)" ></span>
       </div>
-      <div class="form-group col-xs-8 col-sm-10 col-md-5 col-lg-2">
+      <div class="form-group col-10 col-sm-10 col-md-5 col-lg-2">
         <!-- <label class="d-sm-block d-md-none d-lg-none">Example label</label> -->
         <span class="fas fa-male"></span>
         <input type="text" class="form-control" placeholder="Пассажиры"  autocomplete="off" v-on:click="focused = !focused" v-model="totalPassenger" readonly="readonly" style="padding-left: 20px;">
@@ -66,7 +66,7 @@
           </ul>
         </div>
       </div>
-      <div class="form-group col-xs-8 col-sm-10 col-md-5 col-lg-2">
+      <div class="form-group col-10 col-sm-10 col-md-5 col-lg-2">
         <span class="fas fa-search"></span> 
         <!-- <router-link to="/search"> -->
           <!-- <router-link :to="{ name: 'Search', params: this.validObj}"> -->
@@ -144,6 +144,8 @@
 
       let self = this;
 
+      // load avia cities
+      this.aviaLoadCities();
 
 
       // set data from route params
@@ -172,8 +174,7 @@
 
 
 
-      // load avia cities
-      this.aviaLoadCities();
+      
    
       // init autocomplite for input with cities
       var maxLimit = 5;
@@ -577,7 +578,7 @@
         }else{
           el.parentNode.children[2].style.display = 'none';
         }
-        if(val == this.aviaDep_Place){
+        if(val == this.aviaDep_Place && val.length != 0){
           this.alertMsg('Совпадение','Город вылета не может быть и городом прибытия','warning');
         }
       },
@@ -711,36 +712,42 @@
   body > .ui-menu {
     font-family: 'Comfortaa', cursive, sans-serif;
     font-size: 14px;
-    /*width: 195px;*/
     color: #000;
-    letter-spacing: -0.5px;
     font-weight: 400;
-
   }
   body > .ui-menu .ui-menu-item div{
-    border-bottom: 1px dashed #EBEBEB;
+    border: 0px dashed #EBEBEB;
     padding: 6px 12px;
   }
-  body > .ui-menu .ui-menu-item a.ui-state-focus {
-    background-color: #FAFAFA;
-    border: 1px solid #FAFAFA;
+  body > .ui-menu .ui-menu-item {
+    background-color: white;
+    border: 0.5px solid #FAFAFA;
     color: #000;
   }
-  body > .ui-menu .ui-menu-item-wrapper:hover, .ui-menu .ui-menu-item-wrapper:focus {
+  body > .ui-menu .ui-state-hover {
     background-color: #F09A24;
-    border: 1px solid #F09A24;
+    border: 0.5px solid #F09A24;
     border-radius: 0px 0px 3px 3px;
-    font-size: 14px;
     color: white;
-    font-weight: 400;
-    transition: background-color 0.2s, border 0.2s;
+    transition: background-color 0.1s, border 0.1s;
+  }
+  body > .ui-menu .ui-state-default, body > .ui-menu .ui-state-active, .ui-state-hover {
+    background-color: #F09A24;
+    border: 0.5px solid #F09A24;
+    border-radius: 0px 0px 3px 3px;
+    color: white;
+    transition: background-color 0.1s, border 0.1s;
   }
   body > .ui-widget.ui-widget-content{
-    border: 1px solid #EBEBEB;
+    border: 0.5px solid #EBEBEB;
     border-radius: 0px 0px 3px 3px;
     -webkit-box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1);
     box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1);
   }
+
+
+
+
 
   /*#aviaSearchBar .row .form-group:first-child input{
     border-top-left-radius: 30px;
@@ -902,15 +909,15 @@
 
     #aviaSearchBar {
       /*background-color: white;*/
-      padding: 15px; 
-      padding-top: 20px;
+      /*padding: 15px; */
+      /*padding-top: 20px;*/
       /*margin-top: 15px; */
       /*margin-bottom: 15px; */
     }
 
     #aviaSearchBar .form-group {
       padding: 0px;
-      margin-bottom: 10px;
+      /*margin-bottom: 10px;*/
       /*margin-left: 10px;*/
       /*margin-right: 10px;*/
     }

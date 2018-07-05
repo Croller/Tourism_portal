@@ -1,7 +1,10 @@
 <template>
 
-  <div id="map" v-bind:style="{ 'width': mapWidth, 'height': mapHeight }" ></div>
+  <div id="map" v-bind:style="{ 'width': mapWidth, 'height': mapHeight }" >
+    <Map_InfoCard v-show="false" ref="Map_InfoCard"></Map_InfoCard>
+  </div>
 
+  
 </template>
 
 
@@ -10,8 +13,13 @@
 
   import BusEvent from './BusEvent.vue'
 
+  import Map_InfoCard from './Map_InfoCard.vue'
+
   export default {
     name: 'Map',
+    components: {
+      'Map_InfoCard': Map_InfoCard,
+    },
     props:{
       geojson: {
         type: Object,
@@ -22,8 +30,9 @@
       return {
         // MapBox GL
         mapToken: 'pk.eyJ1IjoiY3JvbGxlciIsImEiOiJWX0ZXZF9zIn0.lIjITIfJ3v62baoHVIqtqQ',
-        // mapWidth:  document.documentElement.clientWidth,
-        // mapHeight:  document.documentElement.clientHeight - ( this.mapWidth < 600 ? 300 : 250),
+        map: {},
+        // mapWidth:  document.documentElement.clientWidth + 'px',
+        // mapHeight:  document.documentElement.clientHeight + 'px',
 
         // Open Weather Map
         openWeatherMapToken: 'e4922d5a32daed7adb3fde25dfb2e8c0',
@@ -36,6 +45,7 @@
 
         layerDB: [], // 0 - layerName, 1 - group, 2 - data, 3 - paint,
         layerClicked: "",
+        popUpCard: {},
       }
     },
     computed: {
@@ -64,7 +74,7 @@
       this.map = this.mapInit();
 
       //event map - resize
-      window.addEventListener('resize', this.handleResize)
+      
 
       //event map - custom fucn for action
       this.registerEvents(this.map);
@@ -78,9 +88,13 @@
       //get geojson
       BusEvent.$on('zoomTo', function(data) {
         self.zoomTo(data);
-        // self.createLayer( data.layerName, data.geojson)
+      })
+      //get geojson
+      BusEvent.$on('closePopUp', function() {
+        this.popUpCard.remove();
       })
 
+      window.addEventListener('resize', this.handleResize)
     },
 
     methods: {
@@ -104,10 +118,8 @@
           dragPan: true,
           dragRotate: false,
           localIdeographFontFamily: "'Roboto', 'Noto Sans', 'Noto Sans CJK SC', sans-serif",
-
-            continuousWorld: false,
-            // This option disables loading tiles outside of the world bounds.
-            noWrap: true
+          continuousWorld: false,
+          noWrap: true
         });
 
         var nav = new mapboxgl.NavigationControl();
@@ -206,8 +218,15 @@
 
         map.on('click', e => {
           this.$emit('map-click', map, e);
-
-          var objs = map.queryRenderedFeatures(e.point);
+          let popUpHTML = this.$refs.Map_InfoCard.$el.innerHTML;
+          let objs = map.queryRenderedFeatures(e.point);
+          // set center on click 
+          this.zoomTo(turf.point([e.lngLat.lng, e.lngLat.lat]), map.getZoom(), 0.7);
+          // check popUp, and remove if exist and add
+          if(this.popUpCard.hasOwnProperty("option")){
+            this.popUpCard.remove();
+          }
+          // if click at custom object
           if(objs.length > 0){
             if(objs[0].layer.id.indexOf("_layer") > 0){
               this.layerClicked = objs[0].layer.id
@@ -221,9 +240,24 @@
                 );
                 this.layerClicked = "";
               }
-              
             }
           }
+          // config popUp
+          this.popUpCard = new mapboxgl
+            .Popup({
+              anchor: 'bottom',
+              offset: {
+                'bottom': [0, -10]
+              }
+            })
+            .setLngLat(e.lngLat)
+            .setHTML(popUpHTML)
+            .addTo(map);
+
+          // console.log(this.$refs.Map_InfoCard.$el)
+          //fade effect
+          // let el = document.getElementsByClassName("mapboxgl-popup");
+          // el[0].style.opacity = 0;
           console.log(objs)
         });
 
@@ -232,8 +266,9 @@
 
       handleResize (event) {
         // this.mapHeight = event.currentTarget.innerHeight - $('.navbar').height();
-        this.mapWidth = event.currentTarget.innerWidth;
-        this.mapHeight = event.currentTarget.innerHeight - ( this.mapWidth < 600 ? 300 : 250 );
+        this.mapWidth = event.currentTarget.clientWidth;
+        this.mapHeight = event.currentTarget.clientHeight - ( this.mapWidth < 600 ? 300 : 250 );
+        this.map.resize();
       },
 
       createLayer: function (layerName, geojson, clusterStat, layerBefore) {
@@ -348,10 +383,24 @@
         console.log('add ' + layerName);
       },
 
-      zoomTo: function(data){
+      zoomTo: function(data, zoom = 10, speed = 1.2){
+        let coords = null;
         // if point
-        if(!data.hasOwnProperty('features') && data.geometry.type == "Point"){
-          this.map.flyTo({center: data.geometry.coordinates, zoom: 10});
+        if(typeof(data) == "object"){
+          if(!data.hasOwnProperty('features') && data.geometry.type == "Point"){
+            coords = data.geometry.coordinates;
+          }
+        }
+        
+
+        if(coords != null){
+          this.map.flyTo({
+            center: coords, 
+            zoom: zoom,
+            speed: speed,
+          });
+        }else{
+          console.log('error: wrong coordinates')
         }
         // var bbox = [[-79, 43], [-73, 45]];
         // this.map.fitBounds(bbox);
@@ -367,35 +416,50 @@
 
 
     },
-
-    created: function(){
-
-      let self = this;
-
-      BusEvent.$on('changeWeatherTile', function(value) {
-        console.log(value);
-        self.loadWeatherTile(value);
-      })
-    }
   }
 </script>
 
 <style>
 
-#map {
-  width: 1000px;
-  height: 1000px;
-}
+  #map {
+    width: 1000px;
+    height: 1000px;
+  }
 
-#map .mapboxgl-ctrl-logo{
-  display: none;
-}
-#map .mapboxgl-ctrl.mapboxgl-ctrl-attrib{
-  display: none;
-}
-#map .mapboxgl-ctrl-top-right{
-  top: 15%;
-}
+  #map .mapboxgl-ctrl-logo{
+    display: none;
+  }
+  #map .mapboxgl-ctrl.mapboxgl-ctrl-attrib{
+    display: none;
+  }
+  #map .mapboxgl-ctrl-top-right{
+    top: 15%;
+  }
+  #map .mapboxgl-popup{
+    opacity: 1;
+    transition: opacity 2s;
+  }
+  #map .mapboxgl-popup-content{
+    padding: 0px;
+    border-radius: 3px 10px 3px 3px;
+    /*padding-top: 15px;*/
+  }
+  #map .mapboxgl-popup-close-button{
+    position: absolute;
+    z-index: 100;
+    display: none;
+  }
+
+  #mapInfoCard #infoCard {
+    font-family: 'Comfortaa', cursive, sans-serif;
+    width: 15rem; 
+  }
+  #mapInfoCard .fa-times-circle {
+    position: absolute; 
+    right:0px; 
+    color:#F26326; 
+    background-color:white;
+  }
 
 </style>
 

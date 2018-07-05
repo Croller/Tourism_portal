@@ -7,7 +7,9 @@
           <link rel="icon" href="../../src/assets/img/favicon_0.ico" />
 
           <!-- <a class="navbar-brand" href="#">TripTrick</a> -->
-          <img src="../../src/assets/img/logo.svg" alt="" style="height:60px; color: red">
+          <router-link to="/">
+            <img src="../../src/assets/img/logo.svg" alt="" style="height:60px; color: red">
+          </router-link>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Menu">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -17,11 +19,11 @@
 
               <li class="nav-item">
                 <router-link class="nav-link" to="/">Главная</router-link>
-                <!-- <a class="nav-link" href="#">Главная</a> -->
+
               </li>
-              <li class="nav-item">
+              <!--<li class="nav-item">
                 <router-link class="nav-link" to="/search">Билеты</router-link>
-              </li>
+              </li> -->
               <li class="nav-item">
                 <a class="nav-link" href="#">Сервисы</a>
               </li>

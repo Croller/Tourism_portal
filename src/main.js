@@ -9,6 +9,7 @@ Vue.use(Resource)
 
 require('@/assets/css/index.css')
 require('@/assets/css/fonts.css')
+
 require('@/assets/css/plugin/font-awesome/css/fontawesome-all.min.css')
 
 require('@/assets/css/plugin/air-datepicker-master/datepicker.min.css')
