@@ -273,8 +273,11 @@
             <div id="price">
               {{ price }}
             </div>
-            <button class="btn btn-primary" @click="redirect(url)">
+            <button class="btn btn-primary" @click="redirect(url)" v-if="!statTimeOut">
               Купить
+            </button>
+            <button class="btn btn-primary" @click="reloadTicket" v-if="statTimeOut">
+              Обновить
             </button>
           </div>
           
@@ -300,6 +303,7 @@
 
 <script>
 	
+  import BusEvent from './BusEvent.vue';
   import Moment from 'moment';
   import Toastr from 'toastr';
   import '../../node_modules/toastr/build/toastr.css';
@@ -313,6 +317,8 @@
       airports: Object,
       airplane: Object,
       sales: Object,
+
+      statTimeOut: Boolean,
     },
     data () {
       return {
@@ -508,6 +514,10 @@
         Toastr[type](str,title);
       },
       
+      // reload ticket
+      reloadTicket(){
+        BusEvent.$emit('reloadTicket');
+      },
       // redirect at seller company @buy
       redirect(url){
         // alert

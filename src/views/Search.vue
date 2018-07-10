@@ -5,9 +5,9 @@
       <Map :geojson="geojson" :params="mapParams"></Map>
     <!-- </div> -->
 
-    <div id="searchBlock" class="container">
+    <div id="searchBlock" class="container" v-bind:style="{ 'margin-top': topSearchBar+'%' }">
       <div class="row">
-        <div id="searchCategory" class="col-10 col-sm-10 col-md-8 col-lg-6 col-xl-6  mx-auto justify-content-center align-items-center">
+        <div id="searchCategory" class="col-10 col-sm-10 col-md-8 col-lg-6 col-xl-6  ustify-content-center align-items-center mx-auto">
           <ul class="nav shadow scrollmenu">
             <li class="nav-item">
               <a class="nav-link active" data-toggle="tab" href="#avia" role="tab"  aria-selected="true">Авиабилеты</a>
@@ -75,24 +75,42 @@
     data () {
       return {
         geojson: {},
-        mapParams: {
-          width: document.documentElement.clientWidth + 'px',
-          height: document.documentElement.clientHeight  + 'px',
-        }
+        mapParams: {},
+
+        topSearchBar: -25,
       }
     },
     created: function() {
       
     },
+    computed: {
+    },
     mounted () {
       console.log('///////////////')
       console.log('search - loaded')
 
-      
+      this.searchResize();
+      window.addEventListener('resize', this.searchResize)
       $('body').css('overflow-y','scroll');
     },
     methods: {      
+      searchResize() { 
+        let width = window.innerWidth;
+        if(width <= 576){
+          this.topSearchBar = -130;
+        }else if(width >= 577 && width <= 766){
+          this.topSearchBar = -100;
+        }else if(width >= 767 && width <= 991){
+          this.topSearchBar = -55;
+        }else if(width >= 992 && width <= 1200){
+          this.topSearchBar = -28;
+        }else{
+          this.topSearchBar = -20;
+        }
 
+        this.mapParams.width = window.innerWidth - 10 + 'px';
+        this.mapParams.height = window.innerHeight  + 'px';
+      },
     }
   }
 
@@ -110,7 +128,7 @@
 
   #search #searchBlock{
     position: relative;
-    margin-top: -25%;
+    /*margin-top: -25%;*/
   }
 
   #search #searchCategory .nav{
@@ -122,13 +140,13 @@
     box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1);
     border-radius: 3px;
     flex-wrap: nowrap;
+    font-weight: 400;
   }
 
   #search #searchCategory .nav .active{
     background-color: #FF9F1C;
     border-radius: 3px;
     color: white;
-    font-weight: 700;
     transition: background-color 0.5s;
   }
   #search .nav li{

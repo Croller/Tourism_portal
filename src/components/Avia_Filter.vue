@@ -473,6 +473,7 @@
     line-height: 1.2;
     cursor: pointer;
     font-weight: 700;
+    min-width: 170px;
   }
 
   .headFiltr:hover{

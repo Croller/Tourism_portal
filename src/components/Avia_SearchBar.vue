@@ -147,7 +147,6 @@
       // load avia cities
       this.aviaLoadCities();
 
-
       // set data from route params
       // console.log(this.$route.params.objQuery)
       let rParams = this.$route.params.searchBar;
@@ -169,11 +168,15 @@
         BusEvent.$emit('getTicket', uuid);
 
       }else{
+        // check cookie
         // BusEvent.$emit('getTicket', uuid);
       }
 
 
-
+      //reload data after time out
+      BusEvent.$on('reloadTicket', function() {
+        self.aviaSubmit();
+      });
       
    
       // init autocomplite for input with cities
@@ -184,6 +187,10 @@
         source: function(request, response) {
           var results = $.ui.autocomplete.filter(self.aviaCities, request.term);
           response(results.slice(0, maxLimit));
+          // let results;
+          // if(request.term.length > 2){
+          //   response(self.aviaLoadAutoComplete(request.term));
+          // }
         },
         select: function( event, ui ) {
           let el = document.getElementById('aviaDep_Place');
@@ -210,6 +217,7 @@
           // console.log(data)
           return false;
         },
+        change: function( event, ui ) {}
       })
       $( "#aviaArr_Place" ).autocomplete({
         minLength: 1,
@@ -256,45 +264,38 @@
         range: true,
         offset: 8,
         onShow: function(dp, animationCompleted){
-          console.log()
-          if (!animationCompleted) {
-            if(window.innerWidth > 989){
-              var newWidth = $('#aviaDep_Date').css('width')
-              newWidth = 2*(parseInt(newWidth.replace('px','')))
-              $('#datepickers-container > div').css('width', newWidth)
-            }else{
-              var newWidth = $('#aviaDep_Date').css('width')
-              $('#datepickers-container > div').css('width', newWidth)
-            }
-          }
+          // if (!animationCompleted) {
+            var newWidth = $('#aviaDep_Date').css('width');
+            newWidth = 2*(parseInt(newWidth.replace('px','')));
+            $('#datepickers-container > div').css('width', newWidth);            
+          // }
         },
         onSelect: function(formattedDate, date, inst){
+          // console.log(date)
           if (date.length > 1) {
             self.aviaArr_Date = Moment(date[1]).format("DD.MM.YYYY");
             self.aviaDep_Date = Moment(date[0]).format("DD.MM.YYYY");
+            $('#aviaArr_Date').data('datepicker').minDate = date[1];
           }else{
             self.aviaDep_Date = Moment(date).format("DD.MM.YYYY");
+            // set new date if dep date selected
+            $('#aviaArr_Date').data('datepicker').minDate = date;
           }
-          
         },
       });
       $('#aviaArr_Date').datepicker({
-        // minDate: new Date(),
+        minDate: new Date(),
         position: "bottom right",
         autoClose: true,
         todayButton: true,
         offset: 8,
         onShow: function(dp, animationCompleted){
           if (!animationCompleted) {
-            if(window.innerWidth > 989){
-              var newWidth = $('#aviaArr_Date').css('width')
-              var newWidth = $('#aviaArr_Date').css('left', )
-              newWidth = 2*(parseInt(newWidth.replace('px','')))
-              $('#datepickers-container > div').css('width', newWidth)
-            }else{
-              var newWidth = $('#arrDate').css('width')
-              $('#datepickers-container > div').css('width', newWidth)
-            }
+            // set style
+            var newWidth = $('#aviaArr_Date').css('width');
+            var newWidth = $('#aviaArr_Date').css('left', );
+            newWidth = 2*(parseInt(newWidth.replace('px','')));
+            $('#datepickers-container > div').css('width', newWidth);
           }
         },
         onSelect: function(formattedDate, date, inst){
@@ -424,12 +425,45 @@
       },
 
       aviaLoadCities() {
-        this.$http.get('http://127.0.0.1:8081/aviaGetCities')
+        this.$http.get('http://127.0.0.1:8081/getAviaCities')
         .then(response => {
           if(response.status == 200){
             this.aviaCities = response.data;
             // console.log(response.data)
             // BusEvent.$emit('aviaLoadCities', response.data);
+          }else{
+            console.log("Server error: "+ response.status);
+          }
+        });
+      },
+
+      aviaLoadAutoComplete(str){
+        let obj = {
+          str: str,
+          locale: this.locale,
+          type: 'city,country'
+        }
+        this.$http.post('http://127.0.0.1:8081/getAutoComplete', obj)
+        .then(response => {
+          if(response.status == 200){
+            console.log(response.data)
+            if(response.data != null){ 
+              let data = JSON.parse(response.data);         
+              let newArr= [];
+              data.forEach((item) => {
+                if(item.hasOwnProperty('type')){
+                  newArr.push({
+                    "value": item.code,
+                    "label": item.name + ", " + item.country_name,
+                    "geometry": turf.point([item.coordinates.lat, item.coordinates.lon]),
+                  })
+                }
+              })
+              console.log(newArr)
+              return newArr
+            }else{
+              console.log('autocomplete not found');
+            }
           }else{
             console.log("Server error: "+ response.status);
           }
@@ -450,7 +484,7 @@
           },
           "segments": []
         }
-
+        console.log(this.aviaDep_IATA)
         if(this.aviaDep_IATA.length == 3){
           if(this.aviaArr_IATA.length == 3){
             if(this.aviaDep_Date.length != 0 && this.aviaDep_Date != 'Ivalid date'){
@@ -503,23 +537,15 @@
       aviaSubmit() {
         this.focused = false;
         let queryObj = this.validObj();
-        
         this.aviaUUID(queryObj);
-      },
-
-      aviaRefresh(){
-        BusEvent.$emit('getTicket', this.uuid);
       },
 
       aviaUUID(obj){
         this.$http.post('http://127.0.0.1:8081/getAviaUUID', obj).then(function (response) {
-            // Success
             console.log('///////////////')
             console.log('get uuid')
             if(response.data != null){
-              console.log(response.data)
               this.mainLogic(response.data)
-              //return response.data
             }else{
               console.log('query not good');
             }
@@ -541,14 +567,7 @@
           'aviaChildren': this.aviaChildren,
           'aviaInfants': this.aviaInfants,
         }
-
         this.uuid = uuid;
-        // if(this.$route.name == 'Search'){
-        //   BusEvent.$emit('getTicket', this.uuid);
-        // }else{
-        //   this.$router.push({ name: 'Search', params: {uuid: this.uuid, searchBar: searchBarData }});
-        // }
-
         this.$router.push({ name: 'Search', params: {uuid: this.uuid, searchBar: searchBarData }});
         BusEvent.$emit('getTicket', this.uuid);
       },
@@ -586,10 +605,10 @@
       aviaDep_Date: function (val, oldVal) {
         let self = this;
         $('#aviaArr_Date').datepicker({
-        minDate: this.aviaDep_Date.length !=0 ? new Date(Moment.utc(this.aviaDep_Date, "DD.MM.YYYY").valueOf()) : new Date()});
+          minDate: this.aviaDep_Date.length != 0 ? new Date(Moment.utc(this.aviaDep_Date, "DD.MM.YYYY").valueOf()) : new Date()});
        // $('#arrDate')datepicker.update('minDate', new Date())
         $('#aviaArr_Date').datepicker({
-          date: Date(Moment.utc(this.aviaDep_Date, "DD.MM.YYYY").valueOf())
+          minDate: this.aviaDep_Date.length != 0 ? new Date(Moment.utc(this.aviaDep_Date, "DD.MM.YYYY").valueOf()) : new Date()
         })
         var el = document.getElementById('aviaDep_Date')
         if(val.length != 0){
@@ -597,7 +616,6 @@
         }else{
           el.parentNode.children[2].style.display = 'none';
         }
-        // set color to select date
       },
 
       aviaArr_Date: function (val, oldVal) {
@@ -661,12 +679,12 @@
     text-align: center;
     /*font-family: 'Lato', sans-serif;*/
     font-family: 'Comfortaa', cursive, sans-serif;
-    font-size: 14px;
+    font-size: 13px;
     line-height: 33px;
     /*color: #888;*/
     color: #000;
     letter-spacing: -0.5px;
-    font-weight: 700;
+    /*font-weight: 700;*/
     box-sizing: border-box;
     outline: none;
   }
@@ -711,7 +729,7 @@
 
   body > .ui-menu {
     font-family: 'Comfortaa', cursive, sans-serif;
-    font-size: 14px;
+    font-size: 12px;
     color: #000;
     font-weight: 400;
   }
@@ -725,10 +743,12 @@
     color: #000;
   }
   body > .ui-menu .ui-state-hover {
+    font-family: 'Comfortaa', cursive, sans-serif;
     background-color: #F09A24;
     border: 0.5px solid #F09A24;
     border-radius: 0px 0px 3px 3px;
     color: white;
+    font-size: 12px;
     transition: background-color 0.1s, border 0.1s;
   }
   body > .ui-menu .ui-state-default, body > .ui-menu .ui-state-active, .ui-state-hover {
@@ -894,7 +914,10 @@
     filter: alpha(opacity=90);
   }
  
-
+  #aviaSearchBar #datepickers-container {}
+  #aviaSearchBar #datepickers-container .datepicker--cell.-current- {
+    background-color: #FF9F1C;
+  }
   @media (max-width: 989px){
     #aviaSearchBar{
       position: relative;

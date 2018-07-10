@@ -147,13 +147,13 @@
 
   }
 
-  footer a {
+  a {
     text-decoration: none;
     background-color: transparent;
     color: #888;
   }
 
-  footer a:hover {
+  a:hover {
     text-decoration: none;
     color: #888;
   }

@@ -4,7 +4,7 @@
 
     <!-- <Main_Carousel></Main_Carousel> -->
 
-    <Map :params="{}" ></Map>
+    <Map :params="mapParams" ></Map>
 
     <!-- <div class="row">
       <div class="col-12" v-bind:style="{ position: positionSearchBar, top: topSearchBar+'%' }">
@@ -12,9 +12,9 @@
       </div>
     </div> -->
 
-    <div id="search" class="container">
+    <div id="search" class="container-fluid mx-auto" v-bind:style="{ 'margin-top': topSearchBar+'%' }">
       <div class="row">
-        <div id="searchCategory" class="justify-content-center align-items-center mx-auto">
+        <div id="searchCategory" class="col-10 col-sm-10 col-md-8 col-lg-6 col-xl-6 justify-content-center align-items-center mx-auto">
           <ul class="nav shadow scrollmenu">
             <li class="nav-item">
               <a class="nav-link active" data-toggle="tab" href="#avia" role="tab"  aria-selected="true">Авиабилеты</a>
@@ -62,7 +62,7 @@
 
     <!-- <Main_Body></Main_Body> -->
 
-    <!-- <Footer></Footer> -->
+    <Footer v-show="false"></Footer>
 
 
 
@@ -85,6 +85,7 @@
   import Footer from '../components/Footer.vue'
 
   export default {
+
     name: 'Index',
     components: { 
       'Main_Carousel': Main_Carousel,
@@ -100,25 +101,33 @@
         citiesTrP : {},
         countriesTrP : {},
         userLocation: {},
-
+        
 
         positionSearchBar : "absolute", // set position searchBar
-        //topSearchBar : 60,
+        topSearchBar: -35,
+        mapParams: {},
       }
     },
     computed:{
-      topSearchBar: function(){
-        if(window.innerWidth <= 767){
-          return 35;
-        }else if(window.innerWidth >= 767 && window.innerWidth <= 991){
-          return 55;
-        }else{
-          return 60;
-        }
-      }
+      // topSearchBar: function(){
+      //   let width = window.innerWidth;
+      //   if(width <= 576){
+      //     return -130;
+      //   }else if(width >= 577 && width <= 766){
+      //     return -100;
+      //   }else if(width >= 767 && width <= 991){
+      //     return -55;
+      //   }else if(width >= 992 && width <= 1200){
+      //     return -35;
+      //   }else{
+      //     return -25;
+      //   }
+      // }
     },
     mounted() {
 
+      this.searchResize();
+      window.addEventListener('resize', this.searchResize)
       // update positionSearchBar by width windwos
       // if(window.innerWidth <= 767){
       //   this.positionSearchBar = 'static';
@@ -135,6 +144,24 @@
       // this.$router.push({ path:'/search', params: { messageId: 'bar' } })
     },
     methods: {
+
+      searchResize() { 
+        let width = window.innerWidth;
+        if(width <= 576){
+          this.topSearchBar = -130;
+        }else if(width >= 577 && width <= 766){
+          this.topSearchBar = -100;
+        }else if(width >= 767 && width <= 991){
+          this.topSearchBar = -55;
+        }else if(width >= 992 && width <= 1200){
+          this.topSearchBar = -45;
+        }else{
+          this.topSearchBar = -30;
+        }
+        
+        this.mapParams.width = window.innerWidth + 'px';
+        this.mapParams.height = window.innerHeight  + 'px';
+      },
 
       loadCitiesTrP() {
         this.$http.get('http://127.0.0.1:8081/getCities')
@@ -290,7 +317,9 @@
       },
 
 
-    }
+    },
+
+    watch: {},
 
   }
 
@@ -305,8 +334,8 @@
   }
 
   #index #search{
-    position: relative;
-    margin-top: -25%;
+    position: absolute;
+    /*margin-top: -25%;*/
   }
 
   #index #search .nav{
@@ -318,13 +347,13 @@
     box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1);
     border-radius: 3px;
     flex-wrap: nowrap;
+    font-weight: 400;
   }
 
   #index #search .nav .active{
     background-color: #FF9F1C;
     border-radius: 3px;
     color: white;
-    font-weight: 700;
   }
   #index #search .nav li{
     border-right: 1.2px dashed #e5e6e7;
@@ -341,7 +370,7 @@
     color: #888;
   }
   #index #searchCategory {
-    margin-bottom: 20px;
+    /*margin-bottom: 20px;*/
   }
   #index #searchCategory .scrollmenu {
     white-space: nowrap;
@@ -358,31 +387,41 @@
    z-index: 0;
   }
   #map > .map-wrapper {
-      position: relative;
-      z-index: 5;
+    position: relative;
+    z-index: 5;
   }
   #map:before {
-      content: '';
-      position: absolute;
-      top:0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      display: block;
-      z-index: 10;
-      pointer-events: none;
+    content: '';
+    position: absolute;
+    top:0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: block;
+    z-index: 10;
+    pointer-events: none;
 
-      -webkit-box-shadow: inset 0px -20px 19px -2px rgba(245,245,245,1);
-      -moz-box-shadow: inset 0px -20px 19px -2px rgba(245,245,245,1);
-      box-shadow: inset 0px -20px 19px -2px rgba(245,245,245,1);
+    -webkit-box-shadow: inset 0px -20px 19px -2px rgba(245,245,245,1);
+    -moz-box-shadow: inset 0px -20px 19px -2px rgba(245,245,245,1);
+    box-shadow: inset 0px -20px 19px -2px rgba(245,245,245,1);
   }
 
+  .datepicker--nav{
+    height: 40px;
+  }
+  .datepicker--buttons{
+    height: 40px;
+  }
+  .datepicker--cell.datepicker--cell-day{
+    height: 23px;
+  }
 
   .shadow{
     border-radius: 3px;
     background-color: white;
     -webkit-box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1);
     box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
   }
   
   

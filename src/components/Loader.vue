@@ -2,8 +2,8 @@
   
   <div id="loadBlock">
     <div class="sk-spinner sk-spinner-double-bounce">
-      <div class="sk-double-bounce1 shadow"></div>
-      <div class="sk-double-bounce2 shadow"></div>
+      <div class="sk-double-bounce1"></div>
+      <div class="sk-double-bounce2"></div>
     </div>
   </div>
 
@@ -22,21 +22,6 @@ export default {
   computed:{
   },
   mounted() {
-
-    // update positionSearchBar by width windwos
-    // if(window.innerWidth <= 767){
-    //   this.positionSearchBar = 'static';
-    // }
-
-
-
-
-    //this.loadCitiesTrP();
-    //this.loadCountriesTrP();
-    // this.getIP();
-    // this.getVT();
-
-    // this.$router.push({ path:'/search', params: { messageId: 'bar' } })
   },
   methods: {
 
@@ -65,7 +50,7 @@ export default {
     border-radius: 50%;
     border: 5px solid white;
     background-color: #FF9F1C;
-    opacity: 0.6;
+    opacity: 0.8;
     position: absolute;
     top: 0;
     left: 0;
@@ -75,6 +60,30 @@ export default {
   #loadBlock .sk-spinner-double-bounce .sk-double-bounce2 {
     -webkit-animation-delay: -1s;
     animation-delay: -1s;
+  }
+  @-webkit-keyframes sk-doubleBounce {
+    0%,
+    100% {
+      -webkit-transform: scale(0);
+      transform: scale(0);
+    }
+    50% {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+      border: 5px solid white;
+    }
+  }
+  @keyframes sk-doubleBounce {
+    0%,
+    100% {
+      -webkit-transform: scale(0);
+      transform: scale(0);
+    }
+    50% {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+      border: 5px solid white;
+    }
   }
   
   

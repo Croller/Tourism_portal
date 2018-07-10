@@ -12,7 +12,7 @@
         
       
         <div id="infoPanel" class="col-12">
-
+          
           <!-- <div class="row" style="background-color:red; width: 100%" >
             <div class="col-12 ">
               {{ progressPerc }}
@@ -59,7 +59,7 @@
       </div>
       <div id="aviaItems" class="col-12" >
 
-        <Avia_Item v-bind:ticket=ticket v-bind:airlines=airlines v-bind:airports=airports v-bind:airplane=airplane v-bind:sales=sales v-for="(ticket, index) in tickets" :key="index" v-if="tickets.length > 0"></Avia_Item>
+        <Avia_Item v-bind:ticket=ticket v-bind:airlines=airlines v-bind:airports=airports v-bind:airplane=airplane v-bind:sales=sales v-for="(ticket, index) in tickets" v-bind:statTimeOut=statTimeOut :key="index" v-if="tickets.length > 0"></Avia_Item>
 
 
         <div id="errorBlock" class="row shadow" v-if="(ticketsNoSort.length == 0 && progressPerc == 100) || ticketsExtraSort.length == 0">
@@ -86,6 +86,7 @@
   import Loader from './Loader.vue'
 
   import Moment from 'moment';
+  import Toastr from 'toastr';
 
   import BusEvent from './BusEvent.vue'
 
@@ -113,6 +114,9 @@
         ticketsNoSort: ['0'], 
         ticketsExtraSort: ['0'], 
         tickets: [],
+
+        // time out search results
+        statTimeOut: false,
 
         // dictionary
         airlines: {},
@@ -182,13 +186,14 @@
       BusEvent.$on('getTicket', function(uuid) {
         // clear data before
         self.progressPerc = 5; 
-        self.searchCount = 0;
+        // self.searchCount = 0;
         self.ticketsNoSort = ['0'];
-
+        self.ticketsExtraSort = ['0'];
+        self.statTimeOut = false;
         // get new data
-        // self.getAviaTickets({'uuid': uuid});
+        self.getAviaTickets({'uuid': uuid});
         // test data
-        self.getAviaTicketsTest({})
+        // self.getAviaTicketsTest({})
       })
     },
     mounted () {
@@ -216,6 +221,15 @@
           this.defaultFiltrData = el.children[0].value;
         }
       },
+      // check time out avia results
+      timeOutSearch(){
+        setTimeout( () => {
+          if(!this.statTimeOut && this.ticketsNoSort.length > 0){
+            // this.alertMsg('Время истекло','Результат поиска устарел','warning');
+            this.statTimeOut = true;
+          }
+        },850000);
+      },
       
       // get data by uuid ------
       getAviaTickets(obj){
@@ -227,41 +241,42 @@
             document.getElementById("progressSearch").children[0].classList.add('progress-bar-animated');
             
             let data = response.data;
-            if(this.searchCount != 40){
+            // if(this.searchCount != 40){
               // set to component data  dictionary and tickets
-              if(data != null){
-                if(this.ticketsNoSort.length == 1) this.ticketsNoSort = [];
-                Object.assign(this.airlines, data.airlines);
-                Object.assign(this.airports, data.airports);
-                Object.assign(this.airplane, data.airplane);
-                Object.assign(this.sales, data.sales);
-                for (var i = 0; i < data.ticketsNoSort.length; i++) {
-                  this.ticketsNoSort.push(data.ticketsNoSort[i]);
-                }
-                this.segments = data.segments;
-
-                if(data.ticketsNoSort.length > 1){
-                  this.setPropertyFilter();
-                  this.mainFiltr();
-                }
-
-              }else{
-                document.getElementById("progressSearch").children[0].classList.remove('progress-bar-animated');
-                this.progressPerc = 100;
-                return;
+            if(data != null){
+              if(this.ticketsNoSort.length == 1) this.ticketsNoSort = [];
+              Object.assign(this.airlines, data.airlines);
+              Object.assign(this.airports, data.airports);
+              Object.assign(this.airplane, data.airplane);
+              Object.assign(this.sales, data.sales);
+              for (var i = 0; i < data.ticketsNoSort.length; i++) {
+                this.ticketsNoSort.push(data.ticketsNoSort[i]);
               }
-              
-              // repeat request tickets
-              setTimeout(() => {
-                this.getAviaTickets(obj);
-              }, 2500);
+              this.segments = data.segments;
 
-              if(this.progressPerc < 80){
-                this.progressPerc = this.progressPerc + 10;
+              if(data.ticketsNoSort.length > 1){
+                this.setPropertyFilter();
+                this.mainFiltr();
               }
-              
-              this.searchCount ++;
+            }else{
+              document.getElementById("progressSearch").children[0].classList.remove('progress-bar-animated');
+              this.progressPerc = 100;
+              this.timeOutSearch();
+              return;
             }
+            
+            // repeat request tickets
+
+            setTimeout(() => {
+              if(this.progressPerc <= 100 && data != null){
+                this.getAviaTickets(obj);
+              }
+            }, 2500);
+
+            if(this.progressPerc < 80){
+              this.progressPerc = this.progressPerc + 10;
+            }
+
         });
       },
       // get data from server ------
@@ -521,11 +536,31 @@
       // get val from deep path at object
       getDeepObjVal(obj, path){
         for (var i=0, path=path.split('.'), len=path.length; i<len; i++){
-            obj = obj[path[i]];
+          obj = obj[path[i]];
         };
         return obj;
       },
 
+      alertMsg(title,str,type, ){
+        //type 1.success 2.info 3.warning 4.error
+        Toastr.options = {
+          "closeButton": true,
+          "debug": false,
+          "progressBar": true,
+          "preventDuplicates": false,
+          "positionClass": "toast-top-center",
+          "onclick": null,
+          "showDuration": "500",
+          "hideDuration": "1000",
+          "timeOut": "7000",
+          "extendedTimeOut": "2500",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut"
+        };
+        Toastr[type](str,title);
+      },
     },
     watch: {
       defaultFiltrData: function(val, oldVal){
@@ -593,61 +628,6 @@
 
   #avia #filterBlock{
     padding-right: 5px;
-  }
-
-
-
-  #loadBlock {
-    padding-top: 100px;
-    padding-bottom: 100px;
-  }
-  #loadBlock .sk-spinner-double-bounce.sk-spinner {
-    width: 40px;
-    height: 40px;
-    position: relative;
-    margin: 0 auto;
-  }
-  #loadBlock .sk-spinner-double-bounce .sk-double-bounce1,
-  #loadBlock .sk-spinner-double-bounce .sk-double-bounce2 {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    border: 5px solid white;
-    background-color: #FF9F1C;
-    opacity: 0.6;
-    position: absolute;
-    top: 0;
-    left: 0;
-    -webkit-animation: sk-doubleBounce 2s infinite ease-in-out;
-    animation: sk-doubleBounce 2s infinite ease-in-out;
-  }
-  #loadBlock .sk-spinner-double-bounce .sk-double-bounce2 {
-    -webkit-animation-delay: -1s;
-    animation-delay: -1s;
-  }
-  @-webkit-keyframes sk-doubleBounce {
-    0%,
-    100% {
-      -webkit-transform: scale(0);
-      transform: scale(0);
-    }
-    50% {
-      -webkit-transform: scale(1);
-      transform: scale(1);
-      border: 5px solid white;
-    }
-  }
-  @keyframes sk-doubleBounce {
-    0%,
-    100% {
-      -webkit-transform: scale(0);
-      transform: scale(0);
-    }
-    50% {
-      -webkit-transform: scale(1);
-      transform: scale(1);
-      border: 5px solid white;
-    }
   }
 
   #errorBlock {
