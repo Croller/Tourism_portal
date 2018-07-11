@@ -79,8 +79,7 @@
 
   import ViewProperty from '../components/ViewProperty.vue'
   import Map from '../components/Map.vue'
-  import Avia_SearchBar from '../components/Avia_SearchBar.vue'
-  import Main_Body from '../components/Main_Body.vue'
+  import Avia_SearchBar from '../components/Avia_SearchBar.vue'  
   import Footer from '../components/Footer.vue'
 
   export default {
@@ -90,7 +89,6 @@
       'ViewProperty': ViewProperty,
       'Map': Map,
       'Avia_SearchBar': Avia_SearchBar,
-      'Main_Body': Main_Body,
       'Footer': Footer
     },
     data () {
