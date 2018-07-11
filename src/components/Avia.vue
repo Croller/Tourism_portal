@@ -33,9 +33,7 @@
 
 
     <div id="filterBlock" class="col-md-3 col-lg-3 d-none d-sm-none d-md-block d-lg-block">
-
-      <Avia_Filter v-bind:propertiesFiltr=propertiesFiltr v-on:getExtraFiltr="mainFiltr"></Avia_Filter>
-                    
+      <Avia_Filter v-bind:propertiesFiltr=propertiesFiltr v-on:getExtraFiltr="mainFiltr"></Avia_Filter>                
     </div>
 
     <div id="resultsBlock" class="col-12 col-sm-12 col-md-9 col-lg-9">
@@ -62,7 +60,7 @@
         <Avia_Item v-bind:ticket=ticket v-bind:airlines=airlines v-bind:airports=airports v-bind:airplane=airplane v-bind:sales=sales v-for="(ticket, index) in tickets" v-bind:statTimeOut=statTimeOut :key="index" v-if="tickets.length > 0"></Avia_Item>
 
 
-        <div id="errorBlock" class="row shadow" v-if="(ticketsNoSort.length == 0 && progressPerc == 100) || ticketsExtraSort.length == 0">
+        <div id="errorBlock" class="row shadow" v-if="(ticketsNoSort.length == 0 && progressPerc == 100) || ticketsExtraSort.length == 0" style="margin-bottom: 100px;">
           <div class="container">
             <h3 class="display-6 text-center">Мы не нашли билетов :(</h3>
             <p class="h6 text-center" v-if="ticketsNoSort.length == 0">Совет: попробуйте изменить даты вылета и/или прилета.</p>
@@ -70,7 +68,7 @@
           </div>
         </div>
         
-        <Loader  v-if="tickets.length == 0"></Loader>
+        <Loader  v-if="tickets.length == 0" style="margin-bottom: 100px;"></Loader>
 
       </div>
     </div>
@@ -233,6 +231,7 @@
       
       // get data by uuid ------
       getAviaTickets(obj){
+        let self = this;
         this.$http.post('http://127.0.0.1:8081/getAviaTickets', obj).then(function (response) {
             // Success
             console.log('///////////////')
@@ -249,14 +248,17 @@
               Object.assign(this.airports, data.airports);
               Object.assign(this.airplane, data.airplane);
               Object.assign(this.sales, data.sales);
-              for (var i = 0; i < data.ticketsNoSort.length; i++) {
-                this.ticketsNoSort.push(data.ticketsNoSort[i]);
-              }
+
+              Array.prototype.push.apply(self.ticketsNoSort, data.ticketsNoSort); 
+              // for (var i = 0; i < data.ticketsNoSort.length; i++) {
+              //   this.ticketsNoSort.push(data.ticketsNoSort[i]);
+              // }
+              console.log(this.ticketsNoSort)
               this.segments = data.segments;
 
               if(data.ticketsNoSort.length > 1){
-                this.setPropertyFilter();
-                this.mainFiltr();
+                self.setPropertyFilter();
+                self.mainFiltr();
               }
             }else{
               document.getElementById("progressSearch").children[0].classList.remove('progress-bar-animated');
@@ -274,7 +276,7 @@
             }, 2500);
 
             if(this.progressPerc < 80){
-              this.progressPerc = this.progressPerc + 10;
+              this.progressPerc = this.progressPerc + 15;
             }
 
         });
@@ -311,6 +313,7 @@
 
 
       mainFiltr(filtrObj) {
+        let self = this;
 
         var countTickets = 30;
         var groupTicketsArr = [];
@@ -320,7 +323,7 @@
 
         // extra sort tickets ( output tickets without groupping by param )
         if( typeof filtrObj == "object"){
-          let tickets = this.ticketsNoSort;
+          let tickets = self.ticketsNoSort;
           for (var f = 0; f < Object.keys(filtrObj).length; f++) {
             let key = Object.keys(filtrObj)[f];
             let params = filtrObj[Object.keys(filtrObj)[f]];
@@ -385,7 +388,7 @@
           }
           this.ticketsExtraSort = tickets;
         }else{
-          this.ticketsExtraSort = this.ticketsNoSort;
+          this.ticketsExtraSort = self.ticketsNoSort;
         }
         // console.log('extra len = ' + this.ticketsExtraSort.length)
         
@@ -583,10 +586,12 @@
   #avia #defaultFilter .col-4{
     text-align: center;
     font-family: 'Comfortaa', sans-serif;
-    color: #000;
+    /*color: #000;*/
+    color: #888;
     font-size: 14px;
     line-height: 35px;
     border-right: 1px solid #EBEBEB;
+    min-width: 150px;
   }
 
   #avia #defaultFilter .col-4:last-child{

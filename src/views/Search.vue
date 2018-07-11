@@ -7,7 +7,7 @@
 
     <div id="searchBlock" class="container" v-bind:style="{ 'margin-top': topSearchBar+'%' }">
       <div class="row">
-        <div id="searchCategory" class="col-10 col-sm-10 col-md-8 col-lg-6 col-xl-6  ustify-content-center align-items-center mx-auto">
+        <div id="searchCategory" class="col-10 col-sm-10 col-md-8 col-lg-6 col-xl-6  justify-content-center align-items-center mx-auto">
           <ul class="nav shadow scrollmenu">
             <li class="nav-item">
               <a class="nav-link active" data-toggle="tab" href="#avia" role="tab"  aria-selected="true">Авиабилеты</a>
@@ -52,7 +52,7 @@
         </div>
       </div>
 
-      
+
     </div>
 
     
@@ -222,13 +222,7 @@
     margin-bottom: 20px;
   }
 
-  .flex-child {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 90px;
-    height: 28px;
-  }
+  
 
 
   @media (max-width: 600px){

@@ -2,18 +2,14 @@
   
   <footer>
     <div class="container">
-      
-
-
       <div class="row  justify-content-sm-center fadeInOnScroll">
-
-        
-
-
         <div id="info" class="col-md-6 col-lg-3 col-xl-4 order-lg-1 text-center text-sm-center text-md-center text-lg-left">
-          <a href="./" class="text-big text-black">Brand</a>
-          <p class="text-small" style="margin-top: 16px;">
-            Турестический информационный портал. <br> Все новости и события мировых культурных столиц, обзоры и лайфхаки, а так же билеты на самолеты, бронирование отелей и всего что необходимо.
+          <router-link to="/">
+            <img src="../../src/assets/img/logo.png" alt="" style="height:60px; color: red">
+          </router-link>
+          <!-- <a href="./" class="text-big text-black">Brand</a> -->
+          <p class="text-extra-small" style="margin-top: 16px;">
+            Турестический информационный портал. <br> Все новости и события мировых культурных столиц, обзоры и лайфхаки, а так же билеты на самолеты, бронирование отелей и все что необходимо.
           </p>
         </div>
 
@@ -33,7 +29,7 @@
               <a href="./" class="fab fa-instagram icon icon-square icon-fill text-gray"></a>
             </li>
           </ul>
-          <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#subscribe">Подписка</button>
+          <button class="btn btn-primary shadow" type="button" data-toggle="modal" data-target="#subscribe">Подписка</button>
         </div>
 
         <div id="service" class="col-sm-12 col-md-12 col-lg-6 order-lg-2 text-center">
@@ -168,6 +164,10 @@
     margin-top: 55px;
   }
 
+  footer #info p{
+    line-height: 1.5;
+  }
+
   footer #service .col-md-6{
     line-height: 1.2;
   }
@@ -205,18 +205,18 @@
   
 
   footer .btn {
+    font-family: 'Comfortaa', cursive, sans-serif;
     width: 160px;
-    border-radius: 30px;
+    border-radius: 3px;
     border: 1px solid transparent;
     padding: 9px 20px;
     font-size: 12px;
-    font-weight: 900;
+    font-weight: 700;
     line-height: 21px;
     text-transform: uppercase;
     -webkit-transition: .3s ease-out;
     -o-transition: .3s ease-out;
     transition: .3s ease-out;
-
   }
 
   footer .btn-primary {

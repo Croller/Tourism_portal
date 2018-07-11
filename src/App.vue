@@ -3,7 +3,7 @@
   <div>
     
     <!-- layout -->
-    <NavBar_v2></NavBar_v2>
+    <NavBar></NavBar>
     
     <router-view></router-view>
 
@@ -14,13 +14,13 @@
 
 <script>
 
-  import NavBar_v2 from './components/NavBar v2.vue'
+  import NavBar from './components/NavBar.vue'
   import BusEvent from './components/BusEvent.vue';
 
   export default {
-    name: 'NabBar',
+    name: 'app',
     components: { 
-      'NavBar_v2': NavBar_v2,
+      'NavBar': NavBar,
     },
     data () {
       return {

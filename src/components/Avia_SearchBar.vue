@@ -679,7 +679,7 @@
     text-align: center;
     /*font-family: 'Lato', sans-serif;*/
     font-family: 'Comfortaa', cursive, sans-serif;
-    font-size: 13px;
+    font-size: 14px;
     line-height: 33px;
     /*color: #888;*/
     color: #000;
@@ -742,6 +742,10 @@
     border: 0.5px solid #FAFAFA;
     color: #000;
   }
+  body > .ui-menu .ui-menu-item:last-child {
+    border-radius: 0px 0px 3px 3px;
+  }
+
   body > .ui-menu .ui-state-hover {
     font-family: 'Comfortaa', cursive, sans-serif;
     background-color: #F09A24;
@@ -867,7 +871,7 @@
     line-height: 33px;
     color: white;
     letter-spacing: -0.5px;
-    font-weight: 700;
+    font-weight: 400;
   }
 
   #aviaSearchBar  .btn:focus {
@@ -917,6 +921,16 @@
   #aviaSearchBar #datepickers-container {}
   #aviaSearchBar #datepickers-container .datepicker--cell.-current- {
     background-color: #FF9F1C;
+  }
+
+  .datepicker--nav{
+    height: 40px;
+  }
+  .datepicker--buttons{
+    height: 40px;
+  }
+  .datepicker--cell.datepicker--cell-day{
+    height: 23px;
   }
   @media (max-width: 989px){
     #aviaSearchBar{

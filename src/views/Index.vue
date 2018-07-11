@@ -2,17 +2,16 @@
   
   <div id='index'> 
 
+    
     <!-- <Main_Carousel></Main_Carousel> -->
 
     <Map :params="mapParams" ></Map>
 
-    <!-- <div class="row">
-      <div class="col-12" v-bind:style="{ position: positionSearchBar, top: topSearchBar+'%' }">
-        <Avia_SearchBar ></Avia_SearchBar>
-      </div>
-    </div> -->
+    <div id="search" class="container mx-auto" v-bind:style="{ 'margin-top': topSearchBar + 'px' }">
 
-    <div id="search" class="container-fluid mx-auto" v-bind:style="{ 'margin-top': topSearchBar+'%' }">
+
+      <!-- <ViewProperty></ViewProperty> -->
+      
       <div class="row">
         <div id="searchCategory" class="col-10 col-sm-10 col-md-8 col-lg-6 col-xl-6 justify-content-center align-items-center mx-auto">
           <ul class="nav shadow scrollmenu">
@@ -78,7 +77,7 @@
 
 <script>
 
-  import Main_Carousel from '../components/Main_Carousel.vue'
+  import ViewProperty from '../components/ViewProperty.vue'
   import Map from '../components/Map.vue'
   import Avia_SearchBar from '../components/Avia_SearchBar.vue'
   import Main_Body from '../components/Main_Body.vue'
@@ -88,7 +87,7 @@
 
     name: 'Index',
     components: { 
-      'Main_Carousel': Main_Carousel,
+      'ViewProperty': ViewProperty,
       'Map': Map,
       'Avia_SearchBar': Avia_SearchBar,
       'Main_Body': Main_Body,
@@ -104,25 +103,11 @@
         
 
         positionSearchBar : "absolute", // set position searchBar
-        topSearchBar: -35,
+        topSearchBar: - window.innerHeight  / 2  - 50,
         mapParams: {},
       }
     },
     computed:{
-      // topSearchBar: function(){
-      //   let width = window.innerWidth;
-      //   if(width <= 576){
-      //     return -130;
-      //   }else if(width >= 577 && width <= 766){
-      //     return -100;
-      //   }else if(width >= 767 && width <= 991){
-      //     return -55;
-      //   }else if(width >= 992 && width <= 1200){
-      //     return -35;
-      //   }else{
-      //     return -25;
-      //   }
-      // }
     },
     mounted() {
 
@@ -146,18 +131,19 @@
     methods: {
 
       searchResize() { 
-        let width = window.innerWidth;
-        if(width <= 576){
-          this.topSearchBar = -130;
-        }else if(width >= 577 && width <= 766){
-          this.topSearchBar = -100;
-        }else if(width >= 767 && width <= 991){
-          this.topSearchBar = -55;
-        }else if(width >= 992 && width <= 1200){
-          this.topSearchBar = -45;
-        }else{
-          this.topSearchBar = -30;
-        }
+        // let width = window.innerWidth;
+        // let height = window.innerHeight;
+        // if(width <= 576){
+        //   this.topSearchBar = -130;
+        // }else if(width >= 577 && width <= 766){
+        //   this.topSearchBar = -100;
+        // }else if(width >= 767 && width <= 991){
+        //   this.topSearchBar = -55;
+        // }else if(width >= 992 && width <= 1200){
+        //   this.topSearchBar = -45;
+        // }else{
+        //   this.topSearchBar = -35;
+        // }
         
         this.mapParams.width = window.innerWidth + 'px';
         this.mapParams.height = window.innerHeight  + 'px';
@@ -334,7 +320,7 @@
   }
 
   #index #search{
-    position: absolute;
+    position: relative;
     /*margin-top: -25%;*/
   }
 
@@ -364,7 +350,7 @@
   #index #search .nav li:hover{
     background-color: white;
   }
-  #index #search a {
+  #index #searchCategory a {
     text-decoration: none;
     background-color: transparent;
     color: #888;
@@ -406,15 +392,7 @@
     box-shadow: inset 0px -20px 19px -2px rgba(245,245,245,1);
   }
 
-  .datepicker--nav{
-    height: 40px;
-  }
-  .datepicker--buttons{
-    height: 40px;
-  }
-  .datepicker--cell.datepicker--cell-day{
-    height: 23px;
-  }
+  
 
   .shadow{
     border-radius: 3px;

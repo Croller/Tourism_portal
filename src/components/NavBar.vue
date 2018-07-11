@@ -1,6 +1,6 @@
 <template>
   
-  <header>
+  <div id="navBar">
     <nav class="navbar main-menu-cont">
       <div class="container">
         <div class="navbar-header">
@@ -15,7 +15,7 @@
             <!-- AnyTour -->
           </a>
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
+        <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
               <a href="index.html" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Главная</a>
@@ -176,7 +176,7 @@
       </div>
     </nav>
 
-  </header>
+  </div>
 </template>
 
 <script>
@@ -202,7 +202,7 @@
 
 <style>
 
-  header{
+  #navBar{
     z-index: 160;
     -webkit-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.35);
     -moz-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.35);
@@ -217,11 +217,11 @@
     top: 0px;
   }
 
-  .nav{
+  #navBar .nav{
     text-transform: uppercase;
   }
 
-  .navbar{
+  #navBar .navbar{
     border-radius: 0px;
     border: 0px;
     margin-bottom: 0px;

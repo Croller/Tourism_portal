@@ -463,6 +463,13 @@
     padding-right: 0px;
   }
 
+  #avia #filterPanel #airlines .list-item, #avia #filterPanel #sales .list-item{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 175px;
+    padding-left: 1px;
+  }
 
   .headFiltr{
     font-family: 'Comfortaa', sans-serif;
@@ -543,6 +550,14 @@
     cursor: pointer;
     -webkit-box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
     box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  .flex-child {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 70px;
+    height: 28px;
   }
 
   .descFiltr .titleRange{

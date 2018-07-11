@@ -384,6 +384,7 @@
             .setHTML(popUpHTML)
             .addTo(this.map);
         }, 100)
+
       },
 
 
