@@ -6,8 +6,8 @@
       <!-- loader -->
       <Loader  v-if="loaderStat" ref="Loader"></Loader>
       <!-- control -->
-      <Map_RightControl></Map_RightControl>
-      <Map_LeftControl></Map_LeftControl>
+      <Map_RightControl class="d-none d-sm-none d-md-block d-lg-block"></Map_RightControl>
+      <Map_LeftControl class="d-none d-sm-none d-md-block d-lg-block"></Map_LeftControl>
 
       <!-- popUp -->
       <Map_InfoCard v-show="false" ref="Map_InfoCard" :data="popUpData"></Map_InfoCard>
