@@ -38,7 +38,7 @@
             <Avia></Avia>
           </div>
           <div id="" class=" hotel tab-pane fade show" role="tabpanel">
-            2
+            <Hotel></Hotel>
           </div>
           <div id="transfer" class="tab-pane fade show" role="tabpanel">
             3
@@ -65,6 +65,7 @@
 
   import Map from '../components/Map.vue'
   import Avia from '../components/Avia.vue'
+  import Hotel from '../components/Hotel.vue'
   import Footer from '../components/Footer.vue'
 
   export default {
@@ -72,6 +73,7 @@
     components: { 
       'Map': Map,
       'Avia': Avia,
+      'Hotel': Hotel,
       'Footer': Footer,
     },
     data () {
