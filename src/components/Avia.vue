@@ -243,17 +243,17 @@
             // if(this.searchCount != 40){
               // set to component data  dictionary and tickets
             if(data != null){
-              if(this.ticketsNoSort.length == 1) this.ticketsNoSort = [];
+              if(self.ticketsNoSort.length == 1) self.ticketsNoSort = [];
               Object.assign(this.airlines, data.airlines);
               Object.assign(this.airports, data.airports);
               Object.assign(this.airplane, data.airplane);
               Object.assign(this.sales, data.sales);
 
-              Array.prototype.push.apply(self.ticketsNoSort, data.ticketsNoSort); 
-              // for (var i = 0; i < data.ticketsNoSort.length; i++) {
-              //   this.ticketsNoSort.push(data.ticketsNoSort[i]);
-              // }
-              console.log(this.ticketsNoSort)
+              // Array.prototype.push.apply(self.ticketsNoSort, data.ticketsNoSort); 
+              for (var i = 0; i < data.ticketsNoSort.length; i++) {
+                self.ticketsNoSort.push(data.ticketsNoSort[i]);
+              }
+              // console.log(self.ticketsNoSort);
               this.segments = data.segments;
 
               if(data.ticketsNoSort.length > 1){
@@ -283,6 +283,7 @@
       },
       // get data from server ------
       getAviaTicketsTest(obj){
+        let self = this;
         this.$http.post('http://127.0.0.1:8081/getAviaTicketsTest', obj).then(function (response) {
             // Success
             console.log('///////////////')
@@ -297,7 +298,7 @@
                 Object.assign(this.airplane, data.airplane);
                 Object.assign(this.sales, data.sales);
                 for (var i = 0; i < data.ticketsNoSort.length; i++) {
-                  this.ticketsNoSort.push(data.ticketsNoSort[i]);
+                  self.ticketsNoSort.push(data.ticketsNoSort[i]);
                 }
                 this.segments = data.segments;
 
@@ -386,7 +387,7 @@
                 break;
             }
           }
-          this.ticketsExtraSort = tickets;
+          // this.ticketsExtraSort = tickets;
         }else{
           this.ticketsExtraSort = self.ticketsNoSort;
         }
