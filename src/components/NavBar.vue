@@ -1,182 +1,47 @@
 <template>
   
-  <div id="navBar">
-    <nav class="navbar main-menu-cont">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar icon-bar1"></span>
-            <span class="icon-bar icon-bar2"></span>
-            <span class="icon-bar icon-bar3"></span>
-          </button>
-          <a href="index.html" title="" class="navbar-brand">
-            <img src="../assets/img/logo.png" alt="anytour">
-            <!-- AnyTour -->
-          </a>
-        </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown">
-              <a href="index.html" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Главная</a>
-              <ul class="dropdown-menu">
-                <li><a href="index.html">Homepage 1 - slider</a></li>
-                <li><a href="index-map.html">Homepage 1 - map</a></li>
-                <li><a href="index2.html">Homepage 2 - slider</a></li>
-                <li><a href="index2-map.html">Homepage 2 - map</a></li>
-                <li><a href="index3.html">One Page Single Propery - slider</a></li>
-                <li><a href="index3-street-view.html">One Page Single Propery - panorama!</a></li>
-              </ul>
-            </li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Listings</a>
-              <ul class="dropdown-menu">
-                <li class="dropdown-submenu">
-                  <a tabindex="-1" href="listing-grid-right-sidebar.html">Grid Listing</a>
-                  <ul class="dropdown-menu">
-                    <li><a href="listing-grid-right-sidebar.html">Right Sidebar</a></li>
-                    <li><a href="listing-grid-left-sidebar.html">Left Sidebar</a></li>
-                    <li><a href="listing-grid-no-sidebar.html">No Sidebar</a></li>
-                  </ul>
-                </li>
-                <li class="dropdown-submenu">
-                  <a tabindex="-1" href="listing-masonry-right-sidebar.html">Masonry Listing</a>
-                  <ul class="dropdown-menu">
-                    <li><a href="listing-masonry-right-sidebar.html">Right Sidebar</a></li>
-                    <li><a href="listing-masonry-left-sidebar.html">Left Sidebar</a></li>
-                    <li><a href="listing-masonry-no-sidebar.html">No Sidebar</a></li>
-                  </ul>
-                </li>
-                <li class="dropdown-submenu">
-                  <a tabindex="-1" href="listing-list-right-sidebar.html">Classic Listing</a>
-                  <ul class="dropdown-menu">
-                    <li><a href="listing-list-right-sidebar.html">Right Sidebar</a></li>
-                    <li><a href="listing-list-left-sidebar.html">Left Sidebar</a></li>
-                    <li><a href="listing-list-no-sidebar.html">No Sidebar</a></li>
-                  </ul>
-                </li>
-                <li class="dropdown-submenu">
-                  <a tabindex="-1" href="estate-details-right-sidebar.html">Single Property</a>
-                  <ul class="dropdown-menu">
-                    <li><a href="estate-details-right-sidebar.html">Right Sidebar</a></li>
-                    <li><a href="estate-details-left-sidebar.html">Left Sidebar</a></li>
-                    <li><a href="estate-details-no-sidebar.html">No Sidebar</a></li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Agencies</a>
-              <ul class="dropdown-menu">
-                <li class="dropdown-submenu">
-                  <a tabindex="-1" href="agencies-listing-right-sidebar.html">Agencies Listing</a>
-                  <ul class="dropdown-menu">
-                    <li><a href="agencies-listing-right-sidebar.html">Right Sidebar</a></li>
-                    <li><a href="agencies-listing-left-sidebar.html">Left Sidebar</a></li>
-                    <li><a href="agencies-listing-no-sidebar.html">No Sidebar</a></li>
-                  </ul>
-                </li>
-                <li class="dropdown-submenu">
-                  <a tabindex="-1" href="agency-details-right-sidebar.html">Agency Details</a>
-                  <ul class="dropdown-menu">
-                    <li><a href="agency-details-right-sidebar.html">Right Sidebar</a></li>
-                    <li><a href="agency-details-left-sidebar.html">Left Sidebar</a></li>
-                    <li><a href="agency-details-no-sidebar.html">No Sidebar</a></li>
-                  </ul>
-                </li>
-                <li class="dropdown-submenu">
-                  <a tabindex="-1" href="agents-right-sidebar.html">Agents List</a>
-                  <ul class="dropdown-menu">
-                    <li><a href="agents-right-sidebar.html">Right Sidebar</a></li>
-                    <li><a href="agents-left-sidebar.html">Left Sidebar</a></li>
-                    <li><a href="agents-no-sidebar.html">No Sidebar</a></li>
-                  </ul>
-                </li>
-                <li class="dropdown-submenu">
-                  <a tabindex="-1" href="agent-right-sidebar.html">Agent Details</a>
-                  <ul class="dropdown-menu">
-                    <li><a href="agent-right-sidebar.html">Right Sidebar</a></li>
-                    <li><a href="agent-left-sidebar.html">Left Sidebar</a></li>
-                    <li><a href="agent-no-sidebar.html">No Sidebar</a></li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Партнеры</a>
-              <ul class="dropdown-menu">
-                <li class="dropdown-submenu">
-                  <a tabindex="-1" href="typography-no-sidebar.html">Typography &amp; Elements</a>
-                  <ul class="dropdown-menu">
-                    <li><a href="typography-no-sidebar.html">No Sidebar</a></li>
-                    <li><a href="typography-right-sidebar.html">Right Sidebar</a></li>
-                    <li><a href="typography-left-sidebar.html">Left Sidebar</a></li>
-                  </ul>
-                </li>
-                <li><a href="404.html">Error 404</a></li>
-                <li class="dropdown-submenu">
-                  <a tabindex="-1" href="rtl-index.html">RTL Pages</a>
-                  <ul class="dropdown-menu">
-                    <li><a href="rtl-index.html">RTL Homepage</a></li>
-                    <li><a href="rtl-page.html">RTL Estate details</a></li>
-                  </ul>
-                </li>
-                <li role="separator" class="divider"></li>
-                <li><a href="#login-modal" data-toggle="modal">Login</a></li>
-                <li><a href="#register-modal" data-toggle="modal">Register</a></li>
-                <li><a href="#forgot-modal" data-toggle="modal">Forgotten Password</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="my-offers.html">My account - Offers</a></li>
-                <li><a href="my-profile.html">My account - Profile</a></li>
-              </ul>
-            </li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Блог</a>
-              <ul class="dropdown-menu">
-                <li><a href="archive-grid.html">Default Grid</a></li>
-                <li class="dropdown-submenu">
-                  <a tabindex="-1" href="archive-grid2-right-sidebar.html">Masonry Grid</a>
-                  <ul class="dropdown-menu">
-                    <li><a href="archive-grid2-right-sidebar.html">Right Sidebar</a></li>
-                    <li><a href="archive-grid2-left-sidebar.html">Left Sidebar</a></li>
-                    <li><a href="archive-grid2-no-sidebar.html">No Sidebar</a></li>
-                  </ul>
-                </li>
-                <li class="dropdown-submenu">
-                  <a tabindex="-1" href="archive-right-sidebar.html">Classic List</a>
-                  <ul class="dropdown-menu">
-                    <li><a href="archive-right-sidebar.html">Right Sidebar</a></li>
-                    <li><a href="archive-left-sidebar.html">Left Sidebar</a></li>
-                    <li><a href="archive-no-sidebar.html">No Sidebar</a></li>
-                  </ul>
-                </li>
-                <li class="dropdown-submenu">
-                  <a tabindex="-1" href="blog-right-sidebar.html">Single Post</a>
-                  <ul class="dropdown-menu">
-                    <li><a href="blog-right-sidebar.html">Right Sidebar</a></li>
-                    <li><a href="blog-left-sidebar.html">Left Sidebar</a></li>
-                    <li><a href="blog-no-sidebar.html">No Sidebar</a></li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Контакты</a>
-              <ul class="dropdown-menu">
-                <li><a href="contact1.html">Contact version 1</a></li>
-                <li><a href="contact2.html">Contact version 2</a></li>
-              </ul>
-            </li>
-            <li id="loginButtonBar">
-              <!-- <img src="./assets/img/user.png"> -->
-              <i class="fa fa-suitcase"></i>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+  <header>
 
-  </div>
+      <nav class="navbar navbar-expand-lg navbar-light" >
+        <div class="container">
+          <link rel="icon" href="../../src/assets/img/favicon_0.ico" />
+
+          <!-- <a class="navbar-brand" href="#">TripTrick</a> -->
+          <router-link to="/">
+            <img src="../../src/assets/img/logo.svg" alt="" style="height:60px; color: red">
+          </router-link>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Menu">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+
+              <li class="nav-item">
+                <router-link class="nav-link" to="/">Главная</router-link>
+
+              </li>
+              <!--<li class="nav-item">
+                <router-link class="nav-link" to="/search">Билеты</router-link>
+              </li> -->
+              <li class="nav-item">
+                <a class="nav-link" href="#">Сервисы</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Блог</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Галлерея</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Контакты</a>
+              </li>
+
+            </ul> 
+          </div>
+        </div>
+      </nav>                    
+    </header>
 </template>
 
 <script>
@@ -184,15 +49,27 @@
 
   export default {
     name: 'NabBar',
+    prop:{
+
+    },
     data () {
       return {
-
-        // lng_globe: 'ru',
-
+        
       }
     },
+
+    created: function() {
+      window.addEventListener('scroll', this.getScroll);
+    },
     mounted () {
+      console.log('///////////////')
       console.log('navbar - loaded')
+
+    
+
+    },
+    methods: {
+      
     }
   }
 
@@ -201,93 +78,96 @@
 
 
 <style>
-
-  #navBar{
-    z-index: 160;
-    -webkit-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.35);
-    -moz-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.35);
-    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.35);
-    -webkit-transition: all .2s ease-in-out;
-    -moz-transition:    all .2s ease-in-out;
-    -ms-transition:     all .2s ease-in-out;
-    -o-transition:      all .2s ease-in-out;
-    transition:         all .2s ease-in-out;
-    position: relative;
-    width: 100%;
-    top: 0px;
+  
+  header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
   }
 
-  #navBar .nav{
+  .navbar{
+    /*background: transparent;*/
+    /*background-color: rgb(217, 217, 217, 0.3);*/
+    font-family: 'Comfortaa', cursive, sans-serif;
+    box-shadow: none;
+  }
+
+
+    /*font-family: 'Lato', sans-serif;*/
+
+  .navbar .container{
+    max-width: 1200px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-left: auto;
+    margin-right: auto;
+
+    color: #fff;
+    font-size: 12px;
+    /*font-weight: 400;*/
+    /*text-transform: uppercase;*/
+    
+  }
+
+  .navbar .navbar-brand{
     text-transform: uppercase;
   }
 
-  #navBar .navbar{
-    border-radius: 0px;
-    border: 0px;
-    margin-bottom: 0px;
+  .navbar .container ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
   }
 
-  .navbar a{
-    padding-top: 10px;
-  }
 
-  .navbar img{
-    height: 80px;
-  }
-
-  .navbar-header button{
-    border: 1px solid #3797dd;
-  }
-
-  .navbar-header button .icon-bar{
-    background-color: #3797dd;
-  }
-
-  .navbar ul.navbar-nav li.dropdown a:first-child :hover{
-    -webkit-transition: all .2s ease-in-out;
-    -moz-transition:    all .2s ease-in-out;
-    -ms-transition:     all .2s ease-in-out;
-    -o-transition:      all .2s ease-in-out;
-    transition:         all .2s ease-in-out;
-    background-color: #3797dd;
-    color: white;
-    /*letter-spacing: 1.2px;*/
-  }
-
-  .navbar ul.navbar-nav li.dropdown a{
-    padding: 40px 20px 40px 20px;
+  .navbar .container li a{
+    line-height: 2.5;
     text-decoration: none;
-    text-transform: uppercase;
     text-align: center;
-    color: #979797;
-  }
-
-
-
-  #loginButtonBar{
-    background-color: #3797dd;
     color: white;
-    font-weight: 600;
-
-    /*width: 50px;
-    height: 50px;*/
+    font-size: 12px;
   }
 
-  #loginButtonBar :hover{
-    background-color: #3797dd;
+
+  .navbar .container li a:after{
+    display:block;
+    content: '';
+    border-bottom: solid 3px #FF9F1C;  
+    transform: scaleX(0);  
+    transition: transform 250ms ease-in-out;
+  }
+
+  .navbar .container li a:before{
+    position: absolute;
+    left: 0;
+    width: 100%;
+  }
+
+  .navbar .container li a:hover:after{ 
+    transform: scaleX(1); 
+  }
+
+
+  .navbar .nav-item .nav-link{
+    color: #D6D6D6;
+    color: black;
+    font-weight: 300;
+  }
+
+  .navbar .nav-item.active .nav-link{
+    background-color: rgba(0,0,0,0);
     color: white;
   }
 
+  .navbar .nav-item .nav-link:hover{
+    color: #FF9F1C;
+    transition: color 250ms ease-in-out;
 
-  #loginButtonBar i{
-    color: white;
-    font-size: 34px;
-    padding: 29px 20px 37px 20px;
-    cursor: pointer;
-    /*padding: 40px 20px 40px 20px;*/
   }
-
-
 
 
 </style>
