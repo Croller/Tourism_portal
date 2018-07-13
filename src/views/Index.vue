@@ -19,7 +19,7 @@
               <a class="nav-link active" data-toggle="tab" href="#avia" role="tab"  aria-selected="true">Авиабилеты</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" href=".hotel" role="tab"  aria-selected="true">Отели</a>
+              <a class="nav-link" data-toggle="tab" href="#hotel" role="tab"  aria-selected="true">Отели</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" data-toggle="tab" href="#transfer" role="tab"  aria-selected="true">Трансфер</a>
@@ -42,8 +42,8 @@
           <div id="avia" class="tab-pane fade show active" role="tabpanel">
             <Avia_SearchBar ></Avia_SearchBar>
           </div>
-          <div id="" class=" hotel tab-pane fade show" role="tabpanel">
-            2
+          <div id="hotel" class="tab-pane fade show" role="tabpanel">
+            <Hotel_SearchBar ></Hotel_SearchBar>
           </div>
           <div id="transfer" class="tab-pane fade show" role="tabpanel">
             3
@@ -80,6 +80,8 @@
   import ViewProperty from '../components/ViewProperty.vue'
   import Map from '../components/Map.vue'
   import Avia_SearchBar from '../components/Avia_SearchBar.vue'  
+  import Hotel_SearchBar from '../components/Hotel_SearchBar.vue'
+
   import Footer from '../components/Footer.vue'
 
   export default {
@@ -89,6 +91,7 @@
       'ViewProperty': ViewProperty,
       'Map': Map,
       'Avia_SearchBar': Avia_SearchBar,
+      'Hotel_SearchBar': Hotel_SearchBar,
       'Footer': Footer
     },
     data () {

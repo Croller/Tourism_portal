@@ -471,8 +471,6 @@
       },
 
       // validation data
-
-
       validObj(){
         var obj = {
           "locale": this.locale,
@@ -484,7 +482,7 @@
           },
           "segments": []
         }
-        console.log(this.aviaDep_IATA)
+
         if(this.aviaDep_IATA.length == 3){
           if(this.aviaArr_IATA.length == 3){
             if(this.aviaDep_Date.length != 0 && this.aviaDep_Date != 'Ivalid date'){
@@ -837,19 +835,20 @@
     margin-top: -27px;
   }
   #aviaSearchBar #humanDesc #tripClass{
-    background-color: #FF9F1C;
-    color: white;
-    /*color: #000;*/
+    /*background-color: #FF9F1C;*/
+    /*color: white;*/
+    color: #000;
     padding-top: 5px;
     padding-bottom: 5px;
     line-height:2;
-    font-weight: 500;
+    font-weight: 300;
     border-radius: 0px 0px 3px 3px;
-    border-right: 1px solid #FF9F1C;
+    /*border-right: 1px solid #FF9F1C;*/
   }
   #aviaSearchBar #humanDesc #tripClass label{
     margin-bottom: 0px;
     cursor: pointer;
+    font-size: 13px;
   }
 
 

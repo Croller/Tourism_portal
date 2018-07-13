@@ -1,6 +1,6 @@
 <template>
   
-  <div class="row">
+  <div id="avia" class="row">
 
     <div class="col-12">
       <Avia_SearchBar v-bind:style="{position: positionSearchBar}" ></Avia_SearchBar>
@@ -127,7 +127,6 @@
         positionSearchBar : "static", // set position searchBar
         searchCount: 0,
         progressPerc: 0,
-        loadStatus: true,
 
         // filter parmmetrs
         extraFiltrData: {},
@@ -580,7 +579,7 @@
 
 <style>
   
-  #resultsBlock .btn{
+  #avia #resultsBlock .btn{
     -webkit-box-shadow: none;
   }
 
@@ -636,7 +635,7 @@
     padding-right: 5px;
   }
 
-  #errorBlock {
+  #avia #errorBlock {
     font-family: 'Comfortaa', sans-serif;
     color: #888;
     font-size: 14px;
@@ -644,7 +643,7 @@
     padding-bottom: 15px;
     margin-top: 20px;
   }
-  #errorBlock p{
+  #avia  #errorBlock p{
     margin-top: 15px;
   }
 

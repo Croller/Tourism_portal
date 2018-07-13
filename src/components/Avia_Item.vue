@@ -557,7 +557,7 @@
 
 <style>
 
-	 #aviaItem{
+	#aviaItem{
     padding: 10px;
     font-family: 'Comfortaa', cursive, sans-serif;
   }

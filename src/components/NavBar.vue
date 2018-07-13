@@ -1,47 +1,41 @@
 <template>
-  
   <header>
+    <nav class="navbar navbar-expand-lg navbar-light" >
+      <div class="container">
 
-      <nav class="navbar navbar-expand-lg navbar-light" >
-        <div class="container">
-          <link rel="icon" href="../../src/assets/img/favicon_0.ico" />
+        <router-link to="/">
+          <img src="../../src/assets/img/logo.svg" alt="" style="height:60px; color: red">
+        </router-link>
 
-          <!-- <a class="navbar-brand" href="#">TripTrick</a> -->
-          <router-link to="/">
-            <img src="../../src/assets/img/logo.svg" alt="" style="height:60px; color: red">
-          </router-link>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Menu">
-            <span class="navbar-toggler-icon"></span>
-          </button>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Menu">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-          <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul class="navbar-nav">
-
-              <li class="nav-item">
-                <router-link class="nav-link" to="/">Главная</router-link>
-
-              </li>
-              <!--<li class="nav-item">
-                <router-link class="nav-link" to="/search">Билеты</router-link>
-              </li> -->
-              <li class="nav-item">
-                <a class="nav-link" href="#">Сервисы</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Блог</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Галлерея</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Контакты</a>
-              </li>
-
-            </ul> 
-          </div>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <router-link class="nav-link" to="/">Главная</router-link>
+            </li>
+            <!--<li class="nav-item">
+              <router-link class="nav-link" to="/search">Билеты</router-link>
+            </li> -->
+            <li class="nav-item">
+              <a class="nav-link" href="#">Сервисы</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Блог</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Галлерея</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Контакты</a>
+            </li>
+          </ul> 
         </div>
-      </nav>                    
-    </header>
+      </div>
+    </nav>                    
+  </header>
 </template>
 
 <script>

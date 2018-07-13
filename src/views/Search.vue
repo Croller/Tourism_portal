@@ -13,7 +13,7 @@
               <a class="nav-link active" data-toggle="tab" href="#avia" role="tab"  aria-selected="true">Авиабилеты</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" href=".hotel" role="tab"  aria-selected="true">Отели</a>
+              <a class="nav-link" data-toggle="tab" href="#hotel" role="tab"  aria-selected="true">Отели</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" data-toggle="tab" href="#transfer" role="tab"  aria-selected="true">Трансфер</a>
@@ -37,7 +37,7 @@
           <div id="avia" class="tab-pane fade show active" role="tabpanel">
             <Avia></Avia>
           </div>
-          <div id="" class=" hotel tab-pane fade show" role="tabpanel">
+          <div id="hotel" class="tab-pane fade show" role="tabpanel">
             <Hotel></Hotel>
           </div>
           <div id="transfer" class="tab-pane fade show" role="tabpanel">
@@ -153,6 +153,7 @@
     color: white;
     transition: background-color 0.5s;
   }
+  
   #search .nav li{
     border-right: 1.2px dashed #e5e6e7;
   }
@@ -168,7 +169,12 @@
     background-color: transparent;
     color: #888;
   }
-
+  #search #searchCategory .nav a[href$=avia].active{
+    background-color: #FF9F1C;
+  }
+  #search #searchCategory .nav a[href$=hotel].active{
+    background-color: #55B533;
+  }
   #search #searchCategory .scrollmenu {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;

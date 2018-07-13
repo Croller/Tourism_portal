@@ -177,26 +177,26 @@
           this.$emit('map-load', map);
         });
 
-        map.on('mouseover', e => {
-          this.$emit('map-mouseover', map, e);
-        });
+        // map.on('mouseover', e => {
+        //   this.$emit('map-mouseover', map, e);
+        // });
 
         map.on('mouseenter', e => {
           this.$emit('map-mouseenter', map, e);
         });
 
-        map.on('mousemove', e => {
-          this.$emit('map-mousemove', map, e);
-          // console.log(map.queryRenderedFeatures(e.point))
-          var objs = map.queryRenderedFeatures(e.point);
-          if(objs.length > 0){
-            if(objs[0].layer.id.indexOf("_layer") > 0){
-              map.getCanvas().style.cursor = "pointer";
-            }else{
-              map.getCanvas().style.cursor = "";
-            }
-          }
-        });
+        // map.on('mousemove', e => {
+        //   this.$emit('map-mousemove', map, e);
+        //   // console.log(map.queryRenderedFeatures(e.point))
+        //   var objs = map.queryRenderedFeatures(e.point);
+        //   if(objs.length > 0){
+        //     if(objs[0].layer.id.indexOf("_layer") > 0){
+        //       map.getCanvas().style.cursor = "pointer";
+        //     }else{
+        //       map.getCanvas().style.cursor = "";
+        //     }
+        //   }
+        // });
 
         map.on('mouseleave', e => {
           this.$emit('map-mouseleave', map, e);
