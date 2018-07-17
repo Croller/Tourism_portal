@@ -169,6 +169,7 @@
               "geometry": ui.item.geometry
             }
           };
+          BusEvent.$emit('zoomTo',data.geojson);
           return false;
         },
       }).autocomplete( "instance" )._renderItem = function( ul, item ) {

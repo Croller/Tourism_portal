@@ -386,7 +386,7 @@
                 break;
             }
           }
-          // this.ticketsExtraSort = tickets;
+          this.ticketsExtraSort = tickets;
         }else{
           this.ticketsExtraSort = self.ticketsNoSort;
         }
@@ -643,7 +643,7 @@
     padding-bottom: 15px;
     margin-top: 20px;
   }
-  #avia  #errorBlock p{
+  #avia #errorBlock p{
     margin-top: 15px;
   }
 

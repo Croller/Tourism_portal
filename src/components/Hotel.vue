@@ -31,23 +31,24 @@
         <div class="row">
           <div class="btn-group btn-group-toggle btn-block scrollmenu" data-toggle="buttons">
             <label class="btn col-4 active" v-on:click="changeRadio($event)">
-              <input type="radio" value="0" autocomplete="off" v-model="defaultFiltrData" > Самый дешевый
+              <input type="radio" value="0" autocomplete="off" v-model="defaultFiltrData" > 
+              Популярный
             </label>
             <label class="btn col-4" v-on:click="changeRadio($event)">
-              <input type="radio" value="1" autocomplete="off" v-model="defaultFiltrData"> Самый удобный
+              <input type="radio" value="1" autocomplete="off" v-model="defaultFiltrData"> Дешевый
             </label>
             <label class="btn col-4" v-on:click="changeRadio($event)">
               <input type="radio" value="2" autocomplete="off" v-model="defaultFiltrData"> Оптимальный
             </label>
             <label class="btn col-4" v-on:click="changeRadio($event)">
               <input type="radio" value="3" autocomplete="off" v-model="defaultFiltrData">
-              У центра
+              В центре
             </label>
           </div>
         </div>
       </div>
       <div id="aviaItems" class="col-12" >
-        <Hotel_Item v-bind:hotel=hotel v-for="(hotel, index) in hotelsNoSort.slice(0, 20)"  :key="index"></Hotel_Item>
+        <Hotel_Item v-bind:hotel=hotel v-for="(hotel, index) in hotels.slice(0, 20)"  :key="index" v-if="hotels.length > 0"></Hotel_Item>
         <!-- <Hotel_Item v-bind:ticket=ticket v-bind:airlines=airlines v-bind:airports=airports v-bind:airplane=airplane v-bind:sales=sales v-for="(ticket, index) in hotels" v-bind:statTimeOut=statTimeOut :key="index" v-if="hotels.length > 0"></Hotel_Item> -->
 
 
@@ -130,7 +131,11 @@
         self.getHotelsTest({});
       })
     },
-    mounted() {},
+    mounted() {
+      // get dictionary availible amenities
+      // http://engine.hotellook.com/api/v2/static/amenities/ru.json?token=de9e64ff1948b68fbf6ecaab308e9652
+      // 
+    },
     methods: {
 
       // check time out avia results
@@ -182,7 +187,7 @@
           if(data != null){
             
             this.progressPerc = 100;
-            self.hotelsNoSort = data.result
+            self.hotels = data.result
           }
 
         });
