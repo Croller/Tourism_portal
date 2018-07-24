@@ -1,6 +1,7 @@
 <template>
 
   <div id="search">
+    <LightBoxGallery></LightBoxGallery>
     <!-- <div id="mapBlock"> -->
       <Map :geojson="geojson" :params="mapParams"></Map>
     <!-- </div> -->
@@ -63,6 +64,7 @@
 
 <script>
 
+  import LightBoxGallery from '../components/LightBoxGallery.vue'
   import Map from '../components/Map.vue'
   import Avia from '../components/Avia.vue'
   import Hotel from '../components/Hotel.vue'
@@ -71,6 +73,7 @@
   export default {
     name: 'Search',
     components: { 
+      'LightBoxGallery': LightBoxGallery,
       'Map': Map,
       'Avia': Avia,
       'Hotel': Hotel,

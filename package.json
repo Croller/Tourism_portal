@@ -10,6 +10,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.2.0",
     "inputmask": "^3.3.11",
     "ladda": "^2.0.1",
     "toastr": "^2.1.4",

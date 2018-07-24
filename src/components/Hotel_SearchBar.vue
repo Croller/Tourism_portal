@@ -124,8 +124,8 @@
 
       self.hotelArr_IATA  ="";
       self.hotelArr_Place ="The Reef Playacar - Все включено";
-      self.hotelArr_Date  ="20.07.2018";
-      self.hotelDep_Date  ="29.07.2018";
+      self.hotelArr_Date  ="20.09.2018";
+      self.hotelDep_Date  ="29.09.2018";
 
 
       //reload data after time out

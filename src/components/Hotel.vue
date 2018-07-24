@@ -47,8 +47,8 @@
           </div>
         </div>
       </div>
-      <div id="aviaItems" class="col-12" >
-        <Hotel_Item v-bind:hotel=hotel v-for="(hotel, index) in hotels.slice(0, 20)"  :key="index" v-if="hotels.length > 0"></Hotel_Item>
+      <div id="hotelItems" class="col-12" >
+        <Hotel_Item v-bind:hotel=hotel v-for="(hotel, index) in hotels.slice(0, 20)"  :key="index" v-if="hotels.length > 0" ></Hotel_Item>
         <!-- <Hotel_Item v-bind:ticket=ticket v-bind:airlines=airlines v-bind:airports=airports v-bind:airplane=airplane v-bind:sales=sales v-for="(ticket, index) in hotels" v-bind:statTimeOut=statTimeOut :key="index" v-if="hotels.length > 0"></Hotel_Item> -->
 
 
@@ -107,9 +107,6 @@
         hotelsExtraSort: ['0'], 
         hotels: [],
 
-        // time out search results
-        statTimeOut: false,
-
         // stats
         progressPerc: 0,
 
@@ -138,14 +135,33 @@
     },
     methods: {
 
-      // check time out avia results
-      timeOutSearch(){
-        setTimeout( () => {
-          if(!this.statTimeOut && this.hotelsNoSort.length > 0){
-            // this.alertMsg('Время истекло','Результат поиска устарел','warning');
-            this.statTimeOut = true;
+      getPhoto(arr, callback){
+        let self = this;
+        let hotelIDs = [];
+        if(arr.length != 0){
+          arr.reduce(function(rv, x) {
+            if(x.hasOwnProperty('id')){
+              hotelIDs.push(x.id);
+            }
+          });
+        }
+
+        this.$http.get('https://yasen.hotellook.com/photos/hotel_photos?id=' + hotelIDs.join(',')).then(function (response) {
+          let data = response.body;
+          if(data != null){
+            arr.forEach((hotel, i) => {
+              if(data[hotel.id] != undefined){
+                arr[i]['photoIDs'] = data[hotel.id];
+              }else{
+                arr[i]['photoIDs'] = [];
+              }
+            })
+            return callback(null, arr);
+          }else{
+            return callback('error', null);
           }
-        },10000);
+          
+        })
       },
 
       getHotels(obj){
@@ -183,13 +199,16 @@
           console.log('///////////////')
           console.log('get ticket - loaded')
 
-          let data = response.data;
+          let data = response.data.result;
           if(data != null){
             
-            this.progressPerc = 100;
-            self.hotels = data.result
-          }
+            self.progressPerc = 100;
 
+            self.getPhoto(data, function(err, data) {
+              self.hotelsNoSort = data;
+              self.hotels = data;
+            });
+          }
         });
       },
     },
