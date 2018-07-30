@@ -32,9 +32,9 @@
 	      <ul class="list-group list-unstyled">
 	        <li class="list-item" v-for="(time, index) in propertiesFiltr.segments_time" style="margin-bottom:5px;">
 	          <div class="titleRange text-center text-extra-small">
-	            <span class="float-left flex-child">{{ propertiesFiltr.segments[index].origin }}</span>
+	            <span class="float-left flex-child">{{ propertiesFiltr.stops_airports.filter(x=>x.city_code == propertiesFiltr.segments[index].origin)[0].city }}</span>
 	            <span class="text-center fas fa-plane"></span>
-	            <span class="float-right flex-child">{{ propertiesFiltr.segments[index].destination }}</span>
+	            <span class="float-right flex-child">{{ propertiesFiltr.stops_airports.filter(x=>x.city_code == propertiesFiltr.segments[index].destination)[0].city }}</span>
 	          </div>
 	          <div :id="'segments_time_Range_'+index" style="margin-bottom:5px;margin-top:3px"></div>
 	          <div class="text-extra-small float-left" style="line-height:1.5;">
@@ -85,9 +85,9 @@
         <ul class="list-group list-unstyled">
           <li class="list-item" v-for="(time, index) in propertiesFiltr.segment_durations" style="margin-bottom:5px;">
             <div class="titleRange text-center text-extra-small">
-              <span class="float-left flex-child">{{ propertiesFiltr.segments[index].origin }}</span>
+              <span class="float-left flex-child">{{ propertiesFiltr.stops_airports.filter(x=>x.city_code == propertiesFiltr.segments[index].origin)[0].city }}</span>
               <span class="text-center fas fa-plane"></span>
-              <span class="float-right flex-child">{{ propertiesFiltr.segments[index].destination }}</span>
+              <span class="float-right flex-child">{{ propertiesFiltr.stops_airports.filter(x=>x.city_code == propertiesFiltr.segments[index].destination)[0].city }}</span>
             </div>
             <div :id="'segment_durations_Range_'+index" style="margin-bottom:5px;margin-top:3px"></div>
             <div class="text-extra-small float-left" style="line-height:1.5;">
@@ -206,7 +206,6 @@
     components: { },
     props:{
       propertiesFiltr: Object,
-      airports: Object,
     },
     data () {
       return {
@@ -240,6 +239,7 @@
         this.sliderStopDuration(this.propertiesFiltr.stop_duration);
       }, 100);
       
+      console.log( this.propertiesFiltr.stops_airports.filter(x=>x.city_code == this.propertiesFiltr.segments[0].origin)[0].city)
     },
     computed: {
 
