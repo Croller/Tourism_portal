@@ -206,6 +206,7 @@
     components: { },
     props:{
       propertiesFiltr: Object,
+      airports: Object,
     },
     data () {
       return {

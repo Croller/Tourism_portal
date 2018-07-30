@@ -11,13 +11,13 @@
               <img class="img-fluid rounded" :src='"http://photo.hotellook.com/rooms/limit/h" + hotelID + "_" + groupRoom[0].internalTypeId + "_0/200/200.auto"' alt="">
             </div>
             <div class="carousel-item active" v-if="photoLen == null">
-              <img class="img-fluid rounded" src="https://fakeimg.pl/650x600/?text=img" alt="">
+              <img class="img-fluid rounded" src="https://fakeimg.pl/650x600/?text=Img" alt="">
             </div>
           </div>
-          <a class="carousel-control-prev" :href='"#roomPhCarousel_" + hotelID + "_" + groupRoom[0].internalTypeId' role="button" data-slide="prev" v-on:click="countHotelPhoto -= 1">
+          <a class="carousel-control-prev" :href='"#roomPhCarousel_" + hotelID + "_" + groupRoom[0].internalTypeId' role="button" data-slide="prev" v-on:click="countHotelPhoto -= 1" v-if="photoLen != null">
             <span class="fas fa-chevron-circle-left" aria-hidden="true"></span>
           </a>
-          <a class="carousel-control-next" :href='"#roomPhCarousel_" + hotelID + "_" + groupRoom[0].internalTypeId' role="button" data-slide="next" v-on:click="countHotelPhoto += 1">
+          <a class="carousel-control-next" :href='"#roomPhCarousel_" + hotelID + "_" + groupRoom[0].internalTypeId' role="button" data-slide="next" v-on:click="countHotelPhoto += 1" v-if="photoLen != null">
             <span class="fas fa-chevron-circle-right" aria-hidden="true"></span>
           </a>
           <div class="row justify-content-center">
@@ -39,7 +39,7 @@
     <div class="col-7 col-sm-5 col-md-5 col-lg-5">
       <div class="row">
         <div class="roomName col-12 text-center">
-          <span> {{ groupRoom[0].desc }} </span>
+          <span> {{ groupRoom[0].internalTypeId != null ? roomTypes[groupRoom[0].internalTypeId] : groupRoom[0].desc }} </span>
         </div>
         <div class="roomDesc col-12">
           <ul class="list-unstyled">
@@ -124,7 +124,7 @@
       groupRoom: Array,
       hotelID: Number,
       photoLen: Number,
-
+      roomTypes: Object,
     },
     data() {
       return {

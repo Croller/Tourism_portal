@@ -356,6 +356,12 @@
     background-color: transparent;
     color: #888;
   }
+  #search #searchCategory .nav a[href$=avia].active{
+    background-color: #FF9F1C;
+  }
+  #search #searchCategory .nav a[href$=hotel].active{
+    background-color: #55B533;
+  }
   #index #searchCategory {
     /*margin-bottom: 20px;*/
   }

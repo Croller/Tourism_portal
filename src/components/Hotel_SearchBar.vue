@@ -86,8 +86,9 @@
         
         // language
         locale:         "ru",       //search on language
-        hotelArr_Id:  0,
+        hotelArr_HotelID:  "",
         hotelArr_IATA:  "",
+        hotelArr_CityID: "",
         hotelArr_Place: "",
         hotelArr_Date:  "",
         hotelDep_Date:  "",
@@ -123,7 +124,8 @@
 
 
       self.hotelArr_IATA  ="";
-      self.hotelArr_Place ="The Reef Playacar - Все включено";
+      self.hotelArr_CityID = 1416741;
+      self.hotelArr_Place = "город Обнинск";
       self.hotelArr_Date  ="20.09.2018";
       self.hotelDep_Date  ="29.09.2018";
 
@@ -154,8 +156,13 @@
           self.hotelArr_Place = ui.item.label;
           if(ui.item.hasOwnProperty('iata')){
             self.hotelArr_IATA = ui.item.iata;
+            self.hotelArr_CityID = parseInt(ui.item.value);
           }else{
-            self.hotelArr_Id = parseInt(ui.item.hotelId);
+            self.hotelArr_CityID = parseInt(ui.item.value);
+          }
+          if(ui.hasOwnProperty('hotelId')){
+            self.hotelArr_HotelID = parseInt(ui.item.hotelId);
+            self.hotelArr_CityID = parseInt(ui.item.locationId);
           }
 
           let data = {
@@ -288,8 +295,9 @@
             var id = list_el[i].id.split('_')[0] ;
             if(list_el[i].id.indexOf('Place') != -1){
               self[id + '_Place'] = "" ;       
-              self[id + '_Id'] = "" ;  
+              self[id + '_HotelID'] = "" ;  
               self[id + '_IATA'] = "" ;  
+              self[id + '_CityID'] = "" ;  
             }else{
               self[id + '_Date'] = "" ; 
             }     
@@ -383,17 +391,19 @@
           "childrenCount": this.hotelChildren,
           "lang": this.locale,
           "currency": 'RUB',
+          "cityId": this.hotelArr_CityID,
           "waitForResult": 0, // if 1 then results in get UUID if 0 results in get Hotels
         }
 
         if (this.hotelArr_IATA.length != 0) {
           obj["iata"] = this.hotelArr_IATA;
-        }else{
-          obj["hotelId"] = this.hotelArr_Id;
+        }
+        if(this.hotelArr_HotelID.length != 0){
+          obj["hotelId"] = this.hotelArr_HotelID;
         }
    
 
-        if(this.hotelArr_IATA.length == 0 && this.hotelArr_Id.length == 0 ){
+        if(this.hotelArr_IATA.length == 0 && this.hotelArr_HotelID.length == 0 && this.hotelArr_CityID.length == 0 ){
           document.getElementById('hotelArr_Place').style.border = '1px solid #FF5C1C';
           this.alertMsg('Город или Отель', 'введен не верно','warning');
           return null;
@@ -439,20 +449,10 @@
       },
 
       mainLogic(uuidObj){
-        // console.log(uuidObj)
-        // let searchBarData = {
-        //   'locale': this.locale,
-        //   'hotelArr_Place': this.hotelArr_Place,
-        //   'hotelArr_Code': this.hotelArr_IATA,
-        //   'hotelArr_Date': this.hotelArr_Date,
-        //   'hotelDep_Date': this.hotelDep_Date,
-        //   'hotelAdults': this.hotelAdults,
-        //   'hotelChildren': this.hotelChildren,
-        //   'childAgeObj': this.childAgeObj,
-        // }
+
         this.uuidObj = uuidObj;
         // this.$router.push({ name: 'Search', params: {uuidObj: this.uuidObj, searchBar: searchBarData }});
-        BusEvent.$emit('getHotels', this.uuidObj);
+        BusEvent.$emit('getHotels', {'uuid': this.uuidObj, 'cityId': this.hotelArr_CityID});
 
       },
     },

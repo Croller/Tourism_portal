@@ -8,13 +8,13 @@
               <img class="img-fluid rounded" :src='"https://photo.hotellook.com/image_v2/limit/"+ ( id.length != 0 ? id : "h1743427074_31_110") +"/710/600.auto"' alt="">
             </div>
             <div class="carousel-item active" v-if="hotel.photoIDs.length == 0">
-              <img class="img-fluid rounded" src="https://fakeimg.pl/650x600/?text=Image" alt="">
+              <img class="img-fluid rounded" src="https://fakeimg.pl/650x600/?text=Img" alt="">
             </div>
           </div>
-          <a class="carousel-control-prev" :href='"#photoCarousel_"+hotel.id' role="button" data-slide="prev" v-on:click="countHotelPhoto -= 1">
+          <a class="carousel-control-prev" :href='"#photoCarousel_"+hotel.id' role="button" data-slide="prev" v-on:click="countHotelPhoto -= 1" v-if="hotel.photoIDs.length != 0">
             <span class="fas fa-chevron-circle-left" aria-hidden="true"></span>
           </a>
-          <a class="carousel-control-next" :href='"#photoCarousel_"+hotel.id' role="button" data-slide="next" v-on:click="countHotelPhoto += 1">
+          <a class="carousel-control-next" :href='"#photoCarousel_"+hotel.id' role="button" data-slide="next" v-on:click="countHotelPhoto += 1" v-if="hotel.photoIDs.length != 0">
             <span class="fas fa-chevron-circle-right" aria-hidden="true"></span>
           </a>
           <div class="row justify-content-center">
@@ -56,29 +56,20 @@
         
         <div class="hotelDesc col-12">
           <ul class="list-unstyled">
+            <li class="list-item">Тип: <span>{{ hotelTypes[hotel.propertyType] }}</span></li>
             <li class="list-item">Адрес: <span>{{ hotel.address }}</span></li>
             <li class="list-item">Цена: <span>{{ hotel.minPriceTotal }} </span> - <span>{{ hotel.maxPrice }} руб</span></li>
             <li class="list-item">Центр: <span>{{ hotel.distance }} км</span></li>
-            
 
-            <ul class="options list-inline">
-              <li class="list-inline-item">
-                <i class="fas fa-snowflake"></i>
+           <ul class="options list-inline" style="margin-top: 10px;">
+              <li class="list-inline-item" v-for="(amen, index) in hotel.amenities" v-if="amenities[amen] != undefined && index <= 4" >
+                <span class="far fa-check-circle"></span> {{ amenities[amen].name }}
               </li>
-              <li class="list-inline-item">
-                <i class="fas fa-taxi"></i>
-              </li>
-              <li class="list-inline-item">
-                <i class="fas fa-bath"></i>
-              </li>
-              <li class="list-inline-item">
-                <i class="fas fa-smoking"></i>
-              </li>
-              <li class="list-inline-item">
-                <i class="fas fa-parking"></i>
-              </li>
-              <li class="list-inline-item">
-                <i class="fas fa-broom"></i>
+            </ul>
+
+            <ul class="options list-inline collapse" :class="'handl_'+ hotel.id" aria-labelledby="headingThree" data-parent="#accordion">
+              <li class="list-inline-item" v-for="(amen, index) in hotel.amenities" v-if="amenities[amen] != undefined && index > 4" >
+                <span class="far fa-check-circle"></span> {{ amenities[amen].name }}
               </li>
             </ul>
           </ul>
@@ -118,7 +109,7 @@
 
     <div id="roomList" class="col-12 order-1 order-sm-1 order-md-1 order-lg-2 collapse" :class="'handl_'+ hotel.id" aria-labelledby="headingThree" data-parent="#accordion">
       <div class="groupRoom" v-for="groupRoom in sortObjList(groupObjVal(this.hotel.rooms, 'internalTypeId'), 'total')"> 
-        <Hotel_Room_Item :groupRoom="groupRoom" :hotelID="hotel.id" :photoLen="photoLen(groupRoom)" ></Hotel_Room_Item>
+        <Hotel_Room_Item :groupRoom="groupRoom" :roomTypes="roomTypes" :hotelID="hotel.id" :photoLen="photoLen(groupRoom)" ></Hotel_Room_Item>
       </div> 
       <div id="descShowRoom" class="col-12 text-center" data-toggle="collapse" :data-target="'.handl_' + hotel.id" aria-expanded="false" :aria-controls="'handl_' + hotel.id" >
         <span class="fas fa-chevron-circle-up" @click="hide=true"></span>
@@ -146,7 +137,9 @@
     },
     props:{
       hotel: Object,
-
+      hotelTypes: Object,
+      amenities: Object,
+      roomTypes: Object,
     },
     data() {
       return {
@@ -172,7 +165,7 @@
 
       // console.log(this.sortObjList(this.groupObjVal(this.hotel.rooms, 'internalTypeId'), 'total'));
       // console.log(this.sortObjVal(this.groupObjVal(this.hotel.rooms, 'internalTypeId'), 'total'))
-
+      // console.log(this.$parent.$options)
     },
     methods: {
       // declension(num, expressions) {
@@ -201,9 +194,6 @@
         BusEvent.$emit('fullScreenPhoto', arr);
       },
 
-      hideBtn(){
-        console.log(this.$refs.collapseBtn)
-      },
 
       photoLen(groupRoom){
         if(groupRoom[0].internalTypeId != null){
@@ -349,8 +339,17 @@
     font-family: 'Comfortaa', cursive, sans-serif;
     color: #53AD32;
     font-weight: 300;
-    margin-top: 10px;
-    font-size: 16px;
+    /*margin-top: 10px;*/
+    font-size: 11px;
+    /*white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 220px;*/
+  }
+  #hotelItem #hotelInfo .hotelDesc .options span{
+    color: #53AD32;
+    font-weight: 400;
+    font-size: 12px;
   }
 
   #hotelItem #descShow, #hotelItem #descShowRoom{
@@ -520,6 +519,11 @@ box-shadow: 0px 0px 15px 0px rgba(189,189,189,1)
 
     #hotelItem #priceCard{
       margin-top: 10px;
+    }
+
+    #hotelItem #hotelInfo .hotelDesc .options{
+
+      max-width: 555px;
     }
 
   }

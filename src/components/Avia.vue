@@ -33,7 +33,7 @@
 
 
     <div id="filterBlock" class="col-md-3 col-lg-3 d-none d-sm-none d-md-block d-lg-block">
-      <Avia_Filter v-bind:propertiesFiltr=propertiesFiltr v-on:getExtraFiltr="mainFiltr"></Avia_Filter>                
+      <Avia_Filter v-bind:propertiesFiltr=propertiesFiltr v-on:getExtraFiltr="mainFiltr" v-bind:airports="airports"></Avia_Filter>                
     </div>
 
     <div id="resultsBlock" class="col-12 col-sm-12 col-md-9 col-lg-9">
@@ -68,7 +68,7 @@
           </div>
         </div>
         
-        <Loader  v-if="tickets.length == 0" style="margin-bottom: 100px;"></Loader>
+        <Loader  v-if="tickets.length == 0" style="margin-bottom: 100px;" :color=color></Loader>
 
       </div>
     </div>
@@ -104,6 +104,7 @@
       return {
         // language
         locale: "ru",
+        color: "#FF9F1C",
 
         // data map
         geojson: {},

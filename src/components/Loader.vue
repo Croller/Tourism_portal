@@ -2,8 +2,8 @@
   
   <div id="loadBlock">
     <div class="sk-spinner sk-spinner-double-bounce">
-      <div class="sk-double-bounce1"></div>
-      <div class="sk-double-bounce2"></div>
+      <div class="sk-double-bounce1" :style='"background-color: " + color'></div>
+      <div class="sk-double-bounce2" :style='"background-color: " + color'></div>
     </div>
   </div>
 
@@ -14,6 +14,9 @@
 export default {
   name: 'Loader',
   components: { 
+  },
+  props:{
+    color: String,
   },
   data () {
     return {
