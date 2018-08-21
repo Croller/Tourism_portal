@@ -322,7 +322,8 @@
     },
     data () {
       return {
-
+        //ip
+        pathData: document.location.href.indexOf("8080") != -1 ? document.location.href.split(":").slice(0,2).join(":")+":8081" : document.location.href.split(":").slice(0,2).join(":")+":5000",
       }
     },
     computed: {
@@ -528,7 +529,7 @@
           'url': url,
           'uuid': uuid,
         };
-        this.$http.post('http://127.0.0.1:8081/aviaGetURLRedirect', obj).then(function (response) {
+        this.$http.post(this.pathData + '/aviaGetURLRedirect', obj).then(function (response) {
           // Success
           console.log('///////////////')
           console.log('redirect')

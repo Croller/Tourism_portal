@@ -76,7 +76,7 @@
         <span class="fas fa-caret-right"></span>
         <a>Расстояние от центра</a>
       </div>
-      <div id="distance" class="descFiltr collapse" aria-labelledby="headingThree" data-parent="#accordion" v-if="propertiesFiltr.distance.length != 0">
+      <div id="distance" class="descFiltr collapsed" aria-labelledby="headingThree" data-parent="#accordion" v-if="propertiesFiltr.distance.length != 0">
         <ul class="list-group list-unstyled">
           <li class="list-item">
            

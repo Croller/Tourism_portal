@@ -17,12 +17,20 @@ export default new Router({
       component: Index
     },
     {
-      path: '/search/:uuid',
+      path: '/search/',
       name: 'Search',
       component: Search,
       props(route) {
         return  route.query || {}
       }
     },
+    // {
+    //   path: '/search/:uuid',
+    //   name: 'Search',
+    //   component: Search,
+    //   props(route) {
+    //     return  route.query || {}
+    //   }
+    // },
   ]
 })

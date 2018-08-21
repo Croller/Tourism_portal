@@ -94,6 +94,8 @@
     props:{},
     data() {
       return {
+        // ip
+        pathData: document.location.href.indexOf("8080") != -1 ? document.location.href.split(":").slice(0,2).join(":")+":8081" : document.location.href.split(":").slice(0,2).join(":")+":5000",
         // language
         locale: "ru",
         color: "#55B533",
@@ -214,7 +216,7 @@
 
         // document.getElementById("progressSearch").children[0].classList.add('progress-bar-animated');
 
-        this.$http.post('http://127.0.0.1:8081/getHotelsInfo', obj).then(function (response) {
+        this.$http.post(self.pathData + '/getHotelsInfo', obj).then(function (response) {
           console.log('///////////////')
           console.log('get hotel info - loaded');
 
@@ -243,7 +245,7 @@
         let self = this;
         self.queryObj = obj;
 
-        this.$http.post('http://127.0.0.1:8081/getHotels', obj).then(function (response) {
+        this.$http.post(self.pathData + '/getHotels', obj).then(function (response) {
           console.log('///////////////')
           console.log('get hotel price - loaded');
 
@@ -297,7 +299,7 @@
 
       getHotelsTest(obj){
         let self = this;
-        this.$http.post('http://127.0.0.1:8081/getHotelsTest', obj).then(function (response) {
+        this.$http.post(self.pathData + '/getHotelsTest', obj).then(function (response) {
             // Success
           console.log('///////////////')
           console.log('get hotel - loaded')

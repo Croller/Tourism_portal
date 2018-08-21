@@ -102,6 +102,9 @@
     },
     data () {
       return {
+        //ip
+        pathData: document.location.href.indexOf("8080") != -1 ? document.location.href.split(":").slice(0,2).join(":")+":8081" : document.location.href.split(":").slice(0,2).join(":")+":5000",
+
         // language
         locale: "ru",
         color: "#FF9F1C",
@@ -232,7 +235,7 @@
       // get data by uuid ------
       getAviaTickets(obj){
         let self = this;
-        this.$http.post('http://127.0.0.1:8081/getAviaTickets', obj).then(function (response) {
+        this.$http.post(self.pathData + '/getAviaTickets', obj).then(function (response) {
             // Success
             console.log('///////////////')
             console.log('get ticket - loaded')
@@ -284,7 +287,7 @@
       // get data from server ------
       getAviaTicketsTest(obj){
         let self = this;
-        this.$http.post('http://127.0.0.1:8081/getAviaTicketsTest', obj).then(function (response) {
+        this.$http.post(self.pathData + '/getAviaTicketsTest', obj).then(function (response) {
             // Success
             console.log('///////////////')
             console.log('get ticket - loaded')

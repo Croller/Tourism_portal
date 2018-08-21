@@ -92,7 +92,8 @@
     name: 'Avia_SearchBar',
     data () {
       return {
-        //def
+        //ip
+        pathData: document.location.href.indexOf("8080") != -1 ? document.location.href.split(":").slice(0,2).join(":")+":8081" : document.location.href.split(":").slice(0,2).join(":")+":5000",
         
         aviaCities: [],     //cities
 
@@ -446,7 +447,7 @@
       },
 
       aviaLoadCities() {
-        this.$http.get('http://127.0.0.1:8081/getAviaCities')
+        this.$http.get(this.pathData +'/getAviaCities')
         .then(response => {
           if(response.status == 200){
             this.aviaCities = response.data;
@@ -470,7 +471,7 @@
           "convertCase": 1,
         }
 
-        this.$http.post('http://127.0.0.1:8081/getAutoComplete', obj)
+        this.$http.post(this.pathData +'/getAutoComplete', obj)
         .then(response => {
           if(response.status == 200 && response.data != null){
             callback(null, response.data);
@@ -552,7 +553,7 @@
       },
 
       aviaUUID(obj){
-        this.$http.post('http://127.0.0.1:8081/getAviaUUID', obj).then(function (response) {
+        this.$http.post(this.pathData +'/getAviaUUID', obj).then(function (response) {
             console.log('///////////////')
             console.log('get uuid')
             if(response.data != null){

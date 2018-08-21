@@ -82,8 +82,8 @@
     name: 'Hotel_SearchBar',
     data () {
       return {
-        //def
-        
+        //ip
+        pathData: document.location.href.indexOf("8080") != -1 ? document.location.href.split(":").slice(0,2).join(":")+":8081" : document.location.href.split(":").slice(0,2).join(":")+":5000",
         // language
         locale:         "ru",       //search on language
         hotelArr_HotelID:  "",
@@ -123,11 +123,11 @@
       let self = this;
 
 
-      self.hotelArr_IATA  ="";
-      self.hotelArr_CityID = 1416741;
-      self.hotelArr_Place = "город Обнинск";
-      self.hotelArr_Date  ="20.09.2018";
-      self.hotelDep_Date  ="29.09.2018";
+      // self.hotelArr_IATA  ="";
+      // self.hotelArr_CityID = 1416741;
+      // self.hotelArr_Place = "город Обнинск";
+      // self.hotelArr_Date  ="20.09.2018";
+      // self.hotelDep_Date  ="29.09.2018";
 
 
       //reload data after time out
@@ -371,8 +371,7 @@
           "limit": 5,
           "convertCase": 1,
         }
-
-        this.$http.post('http://127.0.0.1:8081/getAutoComplete', obj)
+        this.$http.post(this.pathData + "/getAutoComplete", obj)
         .then(response => {
           if(response.status == 200 && response.data != null){
             callback(null, response.data);
@@ -440,7 +439,7 @@
 
       hotelUUID(obj){
         let self = this;
-        this.$http.post('http://127.0.0.1:8081/getHotelUUID', obj).then(function (response) {
+        this.$http.post(self.pathData + '/getHotelUUID', obj).then(function (response) {
           console.log('///////////////')
           console.log('get obj query')
           if(response.data != null && !response.data.hasOwnProperty('errorCode')){
