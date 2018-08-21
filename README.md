@@ -27,6 +27,7 @@ npm run build --report
 
 #### First Page
 ![alt text](https://dl.dropboxusercontent.com/s/3r2fxgnels4odbh/Screenshot_2.png?dl=0)
-#### Second Page
-![alt text](https://dl.dropboxusercontent.com/s/o6ahfs52sz6zoxg/Screenshot_5.png?dl=0)
-![alt text](https://dl.dropboxusercontent.com/s/idg0d8f7m93knuz/Screenshot_6.png?dl=0)
+#### Avia Page
+![alt text](https://dl.dropboxusercontent.com/s/deukf50mt9fsmj1/Screenshot_7.png?dl=0)
+#### Hotel Page
+![alt text](https://dl.dropboxusercontent.com/s/e3m8l3a6bwun5ub/Screenshot_8.png?dl=0)
