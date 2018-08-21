@@ -4,8 +4,8 @@
       <div class="row">
         <div :id='"roomPhCarousel_" + hotelID + "_" + groupRoom[0].internalTypeId' class="carousel carousel-fade slide" data-ride="carousel" data-interval="false">
           <div class="carousel-inner">
-            <div :class='"carousel-item " + (ph == 1 ? "active" : "")' v-for="(ph, index) in photoLen " v-if="photoLen > 1 ">
-              <img class="img-fluid rounded" :src='"http://photo.hotellook.com/rooms/limit/h" + hotelID + "_" + groupRoom[0].internalTypeId + "_" + index + "/200/200.auto"' alt="">
+            <div class="carousel-item active" v-if="photoLen > 1 ">
+              <img class="img-fluid rounded" ref="imgHotelRoom" :src='"http://photo.hotellook.com/rooms/limit/h" + hotelID + "_" + groupRoom[0].internalTypeId + "_" + 0 + "/200/185.auto"' alt="">
             </div>
             <div class="carousel-item active" v-if="photoLen == 1">
               <img class="img-fluid rounded" :src='"http://photo.hotellook.com/rooms/limit/h" + hotelID + "_" + groupRoom[0].internalTypeId + "_0/200/200.auto"' alt="">
@@ -43,7 +43,7 @@
         </div>
         <div class="roomDesc col-12">
           <ul class="list-unstyled">
-            <li class="list-item">Цена за ночь: <span>{{ groupRoom[0].price }} руб</span></li>
+            <li class="list-item">Цена за ночь: <span>{{ groupRoom[0].price.toLocaleString() }} руб</span></li>
             <ul class="options list-inline ">
               <li class="list-inline-item" v-if="groupRoom[0].options.breakfast">
                 <span class="far fa-check-circle"></span> Завтрак включен
@@ -87,11 +87,11 @@
     <div class="col-12 col-sm-4 col-md-4 col-lg-4">
       <div class="row">
         <div class="col-12 text-center">
-          <span class="priceDesc" v-if="groupRoom[0].options.hasOwnProperty('available')"> Осталось {{ groupRoom[0].options.available }} {{ declension(countNight(), ['номер','номера','номеров']) }}</span>
+          <span class="priceDesc" v-if="groupRoom[0].options.hasOwnProperty('available')"> Осталось {{ groupRoom[0].options.available }} {{ declension(countNight(), ['номер','номеров','номера']) }}</span>
           <div id="priceCard" :style='"margin-top:" + 10 + "px"'>
             <span class="text-extra-small" style="color:#595959;">Цена за {{ countNight() }} {{ declension(countNight(), ['ночь','ночи','ночей']) }}:</span>
             <div id="price">
-              {{ groupRoom[0].total }} руб.
+              {{ price }}
             </div>
             <span class="priceDesc" v-if="groupRoom[0].options.refundable"> Бесплатная отмена </span>
             <button class="btn btn-primary" @click="submit">
@@ -134,7 +134,15 @@
         statTimeOut: false,
       }
     },
-    computed: {},
+    computed: {
+      price: function(){
+        var price = parseInt(this.groupRoom[0].total).toString();
+        price = price.replace(/./g, function(c, i, a) {
+          return i && c !== "." && ((a.length - i) % 3 === 0) ? ' ' + c : c;
+        });
+        return price +" руб." ;
+      },
+    },
     created: function() {},
     mounted() {
 
@@ -209,6 +217,7 @@
         if(nVal > this.photoLen){
           this.countHotelPhoto = 1;
         }
+        this.$refs.imgHotelRoom.src = "http://photo.hotellook.com/rooms/limit/h" + this.hotelID + "_" + this.groupRoom[0].internalTypeId + "_" + this.countHotelPhoto + "/200/185.auto";
       }
     },
   }
@@ -302,7 +311,7 @@
 
     font-family: 'Comfortaa', cursive, sans-serif;
     font-size: 14px;
-    line-height: 20px;
+    line-height: 27px;
     color: white;
     letter-spacing: -0.5px;
     font-weight: 700;

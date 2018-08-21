@@ -59,6 +59,10 @@ export default {
     left: 0;
     -webkit-animation: sk-doubleBounce 2s infinite ease-in-out;
     animation: sk-doubleBounce 2s infinite ease-in-out;
+
+    -webkit-box-shadow: 0px 0px 21px 3px rgba(0,0,0,0.2);
+-moz-box-shadow: 0px 0px 21px 3px rgba(0,0,0,0.2);
+box-shadow: 0px 0px 21px 3px rgba(0,0,0,0.2);
   }
   #loadBlock .sk-spinner-double-bounce .sk-double-bounce2 {
     -webkit-animation-delay: -1s;

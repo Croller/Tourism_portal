@@ -126,7 +126,7 @@
 
         // stats
         positionSearchBar : "static", // set position searchBar
-        searchCount: 0,
+        // searchCount: 0,
         progressPerc: 0,
 
         // filter parmmetrs

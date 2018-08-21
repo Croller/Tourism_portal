@@ -97,7 +97,7 @@
         hotelChildren:  0,  // childern count <= 3, age <= 17, default age = 1 
         childAgeObj:    {},
 
-        uuidObj:           666,
+        queryObj:           666,
 
         focused: false,
 
@@ -160,10 +160,11 @@
           }else{
             self.hotelArr_CityID = parseInt(ui.item.value);
           }
-          if(ui.hasOwnProperty('hotelId')){
+          if(ui.item.hasOwnProperty('hotelId')){
             self.hotelArr_HotelID = parseInt(ui.item.hotelId);
             self.hotelArr_CityID = parseInt(ui.item.locationId);
           }
+          //console.log(ui.item)
 
           let data = {
             "layerName": "hotelArr_Place",
@@ -371,7 +372,7 @@
           "convertCase": 1,
         }
 
-        this.$http.post('http://127.0.0.1:8081/getHotelAutoComplete', obj)
+        this.$http.post('http://127.0.0.1:8081/getAutoComplete', obj)
         .then(response => {
           if(response.status == 200 && response.data != null){
             callback(null, response.data);
@@ -415,7 +416,7 @@
           return null;
         }
 
-        if(this.hotelDep_Date == this.hotelArr_Date || this.hotelDep_Date.length == 0 || this.hotelDep_Date == 'Ivalid date'){
+        if(this.hotelDep_Date <= this.hotelArr_Date || this.hotelDep_Date.length == 0 || this.hotelDep_Date == 'Ivalid date'){
           document.getElementById('hotelDep_Date').style.border = '1px solid #FF5C1C';
           this.alertMsg('Дата выезда','введена не верно','warning');
           return null;
@@ -432,14 +433,16 @@
       hotelSubmit(){
         this.focused = false;
         let queryObj = this.validObj();
-        this.hotelUUID(queryObj);
+        if(queryObj != null){
+          this.hotelUUID(queryObj);
+        }
       },
 
       hotelUUID(obj){
         let self = this;
         this.$http.post('http://127.0.0.1:8081/getHotelUUID', obj).then(function (response) {
           console.log('///////////////')
-          console.log('get uuidObj')
+          console.log('get obj query')
           if(response.data != null && !response.data.hasOwnProperty('errorCode')){
             self.mainLogic(response.data)
           }else{
@@ -448,11 +451,16 @@
         });
       },
 
-      mainLogic(uuidObj){
-
-        this.uuidObj = uuidObj;
-        // this.$router.push({ name: 'Search', params: {uuidObj: this.uuidObj, searchBar: searchBarData }});
-        BusEvent.$emit('getHotels', {'uuid': this.uuidObj, 'cityId': this.hotelArr_CityID});
+      mainLogic(queryObj){
+        this.queryObj = queryObj;
+        if(typeof queryObj == 'number'){
+          this.queryObj = {
+            "searchId": queryObj,
+          };
+        }
+        
+        // this.$router.push({ name: 'Search', params: {queryObj: this.queryObj, searchBar: searchBarData }});
+        BusEvent.$emit('getHotels', {'queryObj': this.queryObj, 'cityId': this.hotelArr_CityID});
 
       },
     },
@@ -623,18 +631,18 @@
 
   body > .ui-menu .ui-state-hover {
     font-family: 'Comfortaa', cursive, sans-serif;
-    background-color: #F09A24;
-    border: 0.5px solid #F09A24;
+    background-color: #E3E3E3;
+    border: 0.5px solid #E3E3E3;
     border-radius: 0px 0px 3px 3px;
-    color: white;
+    color: #000;
     font-size: 12px;
     transition: background-color 0.1s, border 0.1s;
   }
   body > .ui-menu .ui-state-default, body > .ui-menu .ui-state-active, .ui-state-hover {
-    background-color: #F09A24;
-    border: 0.5px solid #F09A24;
+    background-color: #E3E3E3;
+    border: 0.5px solid #E3E3E3;
     border-radius: 0px 0px 3px 3px;
-    color: white;
+    color: #000;
     transition: background-color 0.1s, border 0.1s;
   }
   body > .ui-widget.ui-widget-content{

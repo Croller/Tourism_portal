@@ -145,7 +145,7 @@
       let self = this;
 
       // load avia cities
-      this.aviaLoadCities();
+      // this.aviaLoadCities();
 
       // set data from route params
       // console.log(this.$route.params.objQuery)
@@ -183,21 +183,28 @@
       var maxLimit = 5;
       $( "#aviaDep_Place" ).autocomplete({
         // position: { my: "left bottom", at: "left top", collision: "flip" },
-        minLength: 1,
         source: function(request, response) {
-          var results = $.ui.autocomplete.filter(self.aviaCities, request.term);
-          response(results.slice(0, maxLimit));
-          // let results;
-          // if(request.term.length > 2){
-          //   response(self.aviaLoadAutoComplete(request.term));
-          // }
+          if(request.term.length > 2){
+            self.aviaLoadAutoComplete (request.term, function(err, data) {
+              response(data);
+            });
+          }
         },
+        minLength: 1,
+        // source: function(request, response) {
+        //   var results = $.ui.autocomplete.filter(self.aviaCities, request.term);
+        //   response(results.slice(0, maxLimit));
+        //   // let results;
+        //   // if(request.term.length > 2){
+        //   //   response(self.aviaLoadAutoComplete(request.term));
+        //   // }
+        // },
         select: function( event, ui ) {
           let el = document.getElementById('aviaDep_Place');
           el.style.border = '1px solid #e5e6e7';
           el.value =  ui.item.label;
           self.aviaDep_Place = ui.item.label;
-          self.aviaDep_IATA = ui.item.value;
+          self.aviaDep_IATA = ui.item.iata;
 
           let data = {
             "layerName": "aviaDep_Place",
@@ -216,21 +223,31 @@
           // BusEvent.$emit('createLayer', data);
           // console.log(data)
           return false;
-        },
-        change: function( event, ui ) {}
-      })
+        }
+      }).autocomplete( "instance" )._renderItem = function( ul, item ) {
+        return $( "<li>" )
+          .append( "<div>" + item.label + ", <span>" + (item.hasOwnProperty("locationName") ? item.locationName : item.countryName) + "</span></div>" )
+          .appendTo( ul );
+      };
       $( "#aviaArr_Place" ).autocomplete({
-        minLength: 1,
         source: function(request, response) {
-          var results = $.ui.autocomplete.filter(self.aviaCities, request.term);
-          response(results.slice(0, maxLimit));
+          if(request.term.length > 2){
+            self.aviaLoadAutoComplete (request.term, function(err, data) {
+              response(data);
+            });
+          }
         },
+        minLength: 1,
+        // source: function(request, response) {
+        //   var results = $.ui.autocomplete.filter(self.aviaCities, request.term);
+        //   response(results.slice(0, maxLimit));
+        // },
         select: function( event, ui ) {
           let el = document.getElementById('aviaArr_Place');
           el.style.border = '1px solid #e5e6e7';
           el.value =  ui.item.label;
           self.aviaArr_Place = ui.item.label;
-          self.aviaArr_IATA = ui.item.value;
+          self.aviaArr_IATA = ui.item.iata;
 
           let data = {
             "layerName": "aviaDep_Place",
@@ -247,7 +264,11 @@
           BusEvent.$emit('zoomTo',data.geojson);
           return false;
         }
-      })
+      }).autocomplete( "instance" )._renderItem = function( ul, item ) {
+        return $( "<li>" )
+          .append( "<div>" + item.label + ", <span>" + (item.hasOwnProperty("locationName") ? item.locationName : item.countryName) + "</span></div>" )
+          .appendTo( ul );
+      };
 
       // set dropdown width like input
       jQuery.ui.autocomplete.prototype._resizeMenu = function () {
@@ -437,34 +458,24 @@
         });
       },
 
-      aviaLoadAutoComplete(str){
+      aviaLoadAutoComplete(str, callback){
+
+        if(str.length < 3) return {};
+
         let obj = {
-          str: str,
-          locale: this.locale,
-          type: 'city,country'
+          "query": str,
+          "lang": this.locale,
+          "lookFor": "city", // city (города и острова), hotel (отели), both (все объекты, значение по умолчанию).
+          "limit": 5,
+          "convertCase": 1,
         }
+
         this.$http.post('http://127.0.0.1:8081/getAutoComplete', obj)
         .then(response => {
-          if(response.status == 200){
-            console.log(response.data)
-            if(response.data != null){ 
-              let data = JSON.parse(response.data);         
-              let newArr= [];
-              data.forEach((item) => {
-                if(item.hasOwnProperty('type')){
-                  newArr.push({
-                    "value": item.code,
-                    "label": item.name + ", " + item.country_name,
-                    "geometry": turf.point([item.coordinates.lat, item.coordinates.lon]),
-                  })
-                }
-              })
-              console.log(newArr)
-              return newArr
-            }else{
-              console.log('autocomplete not found');
-            }
+          if(response.status == 200 && response.data != null){
+            callback(null, response.data);
           }else{
+            callback(response.status, null);
             console.log("Server error: "+ response.status);
           }
         });
@@ -535,7 +546,9 @@
       aviaSubmit() {
         this.focused = false;
         let queryObj = this.validObj();
-        this.aviaUUID(queryObj);
+        if(queryObj != null){
+          this.aviaUUID(queryObj);
+        }
       },
 
       aviaUUID(obj){
@@ -746,18 +759,18 @@
 
   body > .ui-menu .ui-state-hover {
     font-family: 'Comfortaa', cursive, sans-serif;
-    background-color: #F09A24;
-    border: 0.5px solid #F09A24;
+    background-color: #E3E3E3;
+    border: 0.5px solid #E3E3E3;
     border-radius: 0px 0px 3px 3px;
-    color: white;
+    color: #000;
     font-size: 12px;
     transition: background-color 0.1s, border 0.1s;
   }
   body > .ui-menu .ui-state-default, body > .ui-menu .ui-state-active, .ui-state-hover {
-    background-color: #F09A24;
-    border: 0.5px solid #F09A24;
+    background-color: #E3E3E3;
+    border: 0.5px solid #E3E3E3;
     border-radius: 0px 0px 3px 3px;
-    color: white;
+    color: #000;
     transition: background-color 0.1s, border 0.1s;
   }
   body > .ui-widget.ui-widget-content{

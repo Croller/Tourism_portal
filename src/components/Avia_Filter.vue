@@ -239,7 +239,6 @@
         this.sliderStopDuration(this.propertiesFiltr.stop_duration);
       }, 100);
       
-      console.log( this.propertiesFiltr.stops_airports.filter(x=>x.city_code == this.propertiesFiltr.segments[0].origin)[0].city)
     },
     computed: {
 

@@ -4,9 +4,14 @@
       <div class="row">
         <div :id='"photoCarousel_"+ hotel.id' class="carousel carousel-fade slide" data-ride="carousel" data-interval="false">
           <div class="carousel-inner">
-            <div :class='"carousel-item " + (index == 0 ? "active" : "")' v-for="(id, index) in hotel.photoIDs" v-if="hotel.photoIDs.length > 0">
+            <!-- <div :class='"carousel-item " + (index == 0 ? "active" : "")' v-for="(id, index) in hotel.photoIDs" v-if="hotel.photoIDs.length > 0">
               <img class="img-fluid rounded" :src='"https://photo.hotellook.com/image_v2/limit/"+ ( id.length != 0 ? id : "h1743427074_31_110") +"/710/600.auto"' alt="">
+            </div> -->
+
+            <div class="carousel-item active" v-if="hotel.photoIDs.length > 0">
+              <img class="img-fluid rounded" ref="imgHotel" :src='"https://photo.hotellook.com/image_v2/limit/"+ ( hotel.photoIDs[0].length != 0 ? hotel.photoIDs[0] : "h1743427074_31_110") +"/268/251.auto"' alt="">
             </div>
+
             <div class="carousel-item active" v-if="hotel.photoIDs.length == 0">
               <img class="img-fluid rounded" src="https://fakeimg.pl/650x600/?text=Img" alt="">
             </div>
@@ -63,13 +68,13 @@
 
            <ul class="options list-inline" style="margin-top: 10px;">
               <li class="list-inline-item" v-for="(amen, index) in hotel.amenities" v-if="amenities[amen] != undefined && index <= 4" >
-                <span class="far fa-check-circle"></span> {{ amenities[amen].name }}
+                <span class="far fa-check-circle"></span> {{ amenities[amen] }}
               </li>
             </ul>
 
             <ul class="options list-inline collapse" :class="'handl_'+ hotel.id" aria-labelledby="headingThree" data-parent="#accordion">
               <li class="list-inline-item" v-for="(amen, index) in hotel.amenities" v-if="amenities[amen] != undefined && index > 4" >
-                <span class="far fa-check-circle"></span> {{ amenities[amen].name }}
+                <span class="far fa-check-circle"></span> {{ amenities[amen] }}
               </li>
             </ul>
           </ul>
@@ -82,19 +87,22 @@
       </div>
     </div>
 
-    <div id="priceInfo" class="col-12 col-sm-4 col-md-4 col-lg-4 order-2 order-sm-2 order-md-2 order-lg-1">
+    <div id="priceInfo" class="col-12 col-sm-4 col-md-4 col-lg-4 order-2 order-sm-2 order-md-2 order-lg-1" v-if="this.hotel.rooms.length > 0">
       <div class="row">
         <div class="col-12 text-center">
           <!-- <p class="text-center text-extra-small">
             осталось 5 билетов
           </p> -->
           <div id="priceCard" :style='"margin-top:" + 10 + "%"'>
-            <span class="text-extra-small" style="color:#595959;">Цена за {{ countNight() }} ночей:</span>
+            <span class="text-extra-small" style="color:#595959;">Цена за {{ countNight() }} {{declension(countNight(), ['ночь','ночи','ночей'])}}:</span>
             <div id="price">
-              {{ hotel.minPriceTotal }} руб.
+              {{ price }}
             </div>
             <button class="btn btn-primary collapsed" data-toggle="collapse" :data-target="'.handl_' + hotel.id" aria-expanded="false" :aria-controls="'handl_' + hotel.id" ref="collapseBtn" @click="(hide == true ? hide = false : hide = true)" v-if="hide">
               Подробнее...
+            </button>
+            <button class="btn btn-primary" @click="hide=true" v-if="!hide" data-toggle="collapse" :data-target="'.handl_' + hotel.id" aria-expanded="false" :aria-controls="'handl_' + hotel.id" ref="collapseBtn">
+              Свернуть...
             </button>
           </div>
           
@@ -104,6 +112,16 @@
           <!-- <a class="text-center text-extra-small" target="_blank" :href=salesInfo(ticket.terms).site> {{ salesInfo(ticket.terms).name }} </a> -->
         </div>
 
+      </div>
+    </div>
+    <div id="priceLoader" class="col-12 col-sm-4 col-md-4 col-lg-4 order-2 order-sm-2 order-md-2 order-lg-1" v-if="this.hotel.rooms.length == 0">
+      <div class="row">
+        <div class="col-12 text-center">
+          <div id="priceCard" :style='"margin-top:" + 10 + "%"'>
+            <Loader :color=color style="height: 50px; padding-bottom: 60px; padding-top: 40px;"></Loader>
+            Ищем лучшие цены...
+          </div>
+        </div>
       </div>
     </div>
 
@@ -128,12 +146,16 @@
   import '../../node_modules/toastr/build/toastr.css';
 
   import Hotel_Room_Item from './Hotel_Room_Item.vue';
+  import Loader from './Loader.vue';
+
 
 
   export default {
     name: 'Hotel_Item',
     components: {
       'Hotel_Room_Item': Hotel_Room_Item,
+
+      'Loader': Loader,
     },
     props:{
       hotel: Object,
@@ -145,9 +167,18 @@
       return {
         countHotelPhoto: 1,
         hide: true,
+
+        color: "#55B533",
       }
     },
     computed: {
+      price: function(){
+        var price = parseInt(this.hotel.minPriceTotal).toString();
+        price = price.replace(/./g, function(c, i, a) {
+          return i && c !== "." && ((a.length - i) % 3 === 0) ? ' ' + c : c;
+        });
+        return price +" руб." ;
+      },
     },
     created: function() {
 
@@ -168,23 +199,24 @@
       // console.log(this.$parent.$options)
     },
     methods: {
-      // declension(num, expressions) {
-      //   var result;
-      //   var count = num % 100;
-      //   if (count >= 5 && count <= 20) {
-      //       result = expressions['2'];
-      //   } else {
-      //       count = count % 10;
-      //       if (count == 1) {
-      //           result = expressions['0'];
-      //       } else if (count >= 2 && count <= 4) {
-      //           result = expressions['1'];
-      //       } else {
-      //           result = expressions['2'];
-      //       }
-      //   }
-      //   return result;
-      // },
+      declension(num, expressions) {
+        var result;
+        var count = num % 100;
+        if (count >= 5 && count <= 20) {
+            result = expressions['2'];
+        } else {
+            count = count % 10;
+            if (count == 1) {
+                result = expressions['0'];
+            } else if (count >= 2 && count <= 4) {
+                result = expressions['1'];
+            } else {
+                result = expressions['2'];
+            }
+        }
+        return result;
+      },
+
       fullScreenPhoto(){
         let self = this;
         let arr = [];
@@ -221,6 +253,7 @@
       },
 
       countNight(){
+        if(this.hotel.rooms.length > 0){}
         let checkIn = Moment(this.hotel.rooms[0].fullBookingURL.split('checkIn=')[1].split('&')[0], "YYYY-MM-DD");
         let checkOut = Moment(this.hotel.rooms[0].fullBookingURL.split('checkOut=')[1].split('&')[0], "YYYY-MM-DD");
         return checkOut.diff(checkIn, 'days')
@@ -251,6 +284,7 @@
         if(nVal > this.hotel.photoIDs.length){
           this.countHotelPhoto = 1;
         }
+        this.$refs.imgHotel.src = "https://photo.hotellook.com/image_v2/limit/"+ ( this.hotel.photoIDs[this.countHotelPhoto].length != 0 ? this.hotel.photoIDs[this.countHotelPhoto] : "h1743427074_31_110") +"/268/251.auto";
       }
     },
   }
@@ -489,6 +523,19 @@ box-shadow: 0px 0px 15px 0px rgba(189,189,189,1)
     opacity: 0;
     transition-duration: .6s;
     transition-property: opacity;
+  }
+
+  .carousel-fade .carousel-item img{
+    zoom: 2;  //increase if you have very small images
+
+    display: block;
+    margin: auto;
+
+    height: auto;
+    max-height: 100%;
+
+    width: auto;
+    max-width: 100%;
   }
 
   .carousel-fade  .carousel-item.active,
