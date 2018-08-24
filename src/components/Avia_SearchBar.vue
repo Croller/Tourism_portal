@@ -93,7 +93,7 @@
     data () {
       return {
         //ip
-        pathData: document.location.href.indexOf("8080") != -1 ? document.location.href.split(":").slice(0,2).join(":")+":8081" : document.location.href.split(":").slice(0,2).join(":")+":5000",
+        pathData: document.location.href.indexOf("8080") != -1 ? document.location.href.split(":").slice(0,2).join(":")+":8081" : document.location.href.split("/").slice(0,3).join("/"),
         
         aviaCities: [],     //cities
 
@@ -150,24 +150,27 @@
 
       // set data from route params
       // console.log(this.$route.params.objQuery)
-      let rParams = this.$route.params.searchBar;
-      let uuid = this.$route.params.uuid;
-      if(rParams != undefined && this.$route.name == 'Search' && Object.keys(rParams).length != 0){
 
-        this.locale = rParams.locale;
-        this.aviaTripClass = rParams.aviaTripClass;
-        this.aviaDep_Place = rParams.aviaDep_Place;
-        this.aviaDep_IATA = rParams.aviaDep_IATA;
-        this.aviaArr_Place = rParams.aviaArr_Place;
-        this.aviaArr_IATA = rParams.aviaArr_IATA;
-        this.aviaDep_Date = rParams.aviaDep_Date;
-        this.aviaArr_Date = rParams.aviaArr_Date;
-        this.aviaAdults = rParams.aviaAdults;
-        this.aviaChildren = rParams.aviaChildren;
-        this.aviaInfants = rParams.aviaInfants;
+      if(this.$route.params.hasOwnProperty("avia") && this.$route.name == 'Search'){
 
-        BusEvent.$emit('getTicket', uuid);
+        if(Object.keys(this.$route.params.avia).length > 0){
+          let rParams = this.$route.params.avia.searchBar;
+          let uuid = this.$route.params.avia.uuid;
 
+          this.locale = rParams.locale;
+          this.aviaTripClass = rParams.aviaTripClass;
+          this.aviaDep_Place = rParams.aviaDep_Place;
+          this.aviaDep_IATA = rParams.aviaDep_IATA;
+          this.aviaArr_Place = rParams.aviaArr_Place;
+          this.aviaArr_IATA = rParams.aviaArr_IATA;
+          this.aviaDep_Date = rParams.aviaDep_Date;
+          this.aviaArr_Date = rParams.aviaArr_Date;
+          this.aviaAdults = rParams.aviaAdults;
+          this.aviaChildren = rParams.aviaChildren;
+          this.aviaInfants = rParams.aviaInfants;
+
+          BusEvent.$emit('getTicket', uuid);
+        }
       }else{
         // check cookie
         // BusEvent.$emit('getTicket', uuid);
@@ -580,7 +583,7 @@
           'aviaInfants': this.aviaInfants,
         }
         this.uuid = uuid;
-        this.$router.push({ name: 'Search', params: {uuid: this.uuid, searchBar: searchBarData }});
+        this.$router.push({ name: 'Search', params: { avia:{ uuid: this.uuid, searchBar: searchBarData }, hotels: (this.$route.params.hasOwnProperty("hotels") ? this.$route.params.hotels : {}), }});
         BusEvent.$emit('getTicket', this.uuid);
       },
 

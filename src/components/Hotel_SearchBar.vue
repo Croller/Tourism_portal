@@ -83,7 +83,7 @@
     data () {
       return {
         //ip
-        pathData: document.location.href.indexOf("8080") != -1 ? document.location.href.split(":").slice(0,2).join(":")+":8081" : document.location.href.split(":").slice(0,2).join(":")+":5000",
+        pathData: document.location.href.indexOf("8080") != -1 ? document.location.href.split(":").slice(0,2).join(":")+":8081" : document.location.href.split("/").slice(0,3).join("/"),
         // language
         locale:         "ru",       //search on language
         hotelArr_HotelID:  "",
@@ -122,18 +122,40 @@
 
       let self = this;
 
+      console.log(this.$route)
+      // set data from route params
+      // console.log(this.$route.params.objQuery)
+      
+      if(this.$route.params.hasOwnProperty("hotels") && this.$route.name == 'Search' ){
 
-      // self.hotelArr_IATA  ="";
-      // self.hotelArr_CityID = 1416741;
-      // self.hotelArr_Place = "город Обнинск";
-      // self.hotelArr_Date  ="20.09.2018";
-      // self.hotelDep_Date  ="29.09.2018";
+        if(Object.keys(this.$route.params.hotels).length > 0){
+          let rParams = this.$route.params.hotels.searchBar;
+          let queryObj = this.$route.params.hotels.queryObj;
+
+          this.locale = rParams.locale;
+          this.hotelArr_HotelID = rParams.hotelArr_HotelID;
+          this.hotelArr_IATA = rParams.hotelArr_IATA;
+          this.hotelArr_CityID = rParams.hotelArr_CityID;
+          this.hotelArr_Place = rParams.hotelArr_Place;
+          this.hotelArr_Date = rParams.hotelArr_Date;
+          this.hotelDep_Date = rParams.hotelDep_Date;
+
+          this.hotelAdults = rParams.hotelAdults;
+          this.hotelChildren = rParams.hotelChildren;
+          this.childAgeObj = rParams.childAgeObj;
+
+          BusEvent.$emit('getHotels', {'queryObj': queryObj, 'cityId': this.hotelArr_CityID});
+        }
+      }else{
+        // check cookie
+        // BusEvent.$emit('getTicket', uuid);
+      }
 
 
       //reload data after time out
-      // BusEvent.$on('reloadTicket', function() {
-      //   self.aviaSubmit();
-      // });
+      BusEvent.$on('reloadHotels', function() {
+        self.hotelSubmit();
+      });
 
       $( "#hotelArr_Place" ).autocomplete({
         source: function(request, response) {
@@ -414,8 +436,7 @@
           this.alertMsg('Дата заезда','введена не верно','warning');
           return null;
         }
-
-        if(this.hotelDep_Date <= this.hotelArr_Date || this.hotelDep_Date.length == 0 || this.hotelDep_Date == 'Ivalid date'){
+        if(this.hotelDep_Date > this.hotelArr_Date || this.hotelDep_Date == 'Ivalid date'){
           document.getElementById('hotelDep_Date').style.border = '1px solid #FF5C1C';
           this.alertMsg('Дата выезда','введена не верно','warning');
           return null;
@@ -455,10 +476,23 @@
         if(typeof queryObj == 'number'){
           this.queryObj = {
             "searchId": queryObj,
+            // "cityId": this.hotelArr_CityID,
           };
         }
-        
-        // this.$router.push({ name: 'Search', params: {queryObj: this.queryObj, searchBar: searchBarData }});
+        let searchBarData = {
+          "locale": this.locale,
+          "hotelArr_HotelID": this.hotelArr_HotelID,
+          "hotelArr_IATA": this.hotelArr_IATA,
+          "hotelArr_CityID": this.hotelArr_CityID,
+          "hotelArr_Place": this.hotelArr_Place,
+          "hotelArr_Date": this.hotelArr_Date,
+          "hotelDep_Date": this.hotelDep_Date,
+
+          "hotelAdults": this.hotelAdults,
+          "hotelChildren": this.hotelChildren,  
+          "childAgeObj": this.childAgeObj,
+        }
+        this.$router.push({ name: 'Search', params: { hotels: {queryObj: this.queryObj, searchBar: searchBarData }, avia: (this.$route.params.hasOwnProperty("avia") ? this.$route.params.avia : {}), }});
         BusEvent.$emit('getHotels', {'queryObj': this.queryObj, 'cityId': this.hotelArr_CityID});
 
       },

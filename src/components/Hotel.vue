@@ -5,19 +5,8 @@
       <Hotel_SearchBar></Hotel_SearchBar>
     </div>
 
-    <div id="infoBlock" class="col-12">
-      <div class="shadow">
-        
-      
-        <div id="infoPanel" class="col-12">
-
-        </div>
-        
-        <div id="progressSearch" class="progress" v-if="progressPerc > 0">
-          <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" :style="'width: ' + progressPerc +'%'" aria-valuenow="25" aria-valuemin="3" aria-valuemax="100"></div>
-        </div>
-
-      </div>
+    <div class="col-12">
+      <MultiResultsBar :progressPerc="progressPerc"></MultiResultsBar>
     </div>
 
     <div id="filterBlock" class="col-md-3 col-lg-3 d-none d-sm-none d-md-block d-lg-block">
@@ -50,7 +39,7 @@
         <!-- <Hotel_Item v-bind:hotel=hotel v-bind:airlines=airlines v-bind:airports=airports v-bind:airplane=airplane v-bind:sales=sales v-for="(hotel, index) in hotels" v-bind:statTimeOut=statTimeOut :key="index" v-if="hotels.length > 0"></Hotel_Item> -->
 
 
-        <div id="errorBlock" class="row shadow" v-if="(hotelsNoSort.length == 0 && progressPerc == 100) || hotelsExtraSort.length == 0" style="margin-bottom: 100px;">
+        <div id="errorBlock" class="row shadow" v-if="(hotelsNoSort.length == 0 && progressPerc.hotels == 100) || hotelsExtraSort.length == 0" style="margin-bottom: 100px;">
           <div class="container">
             <h3 class="display-6 text-center">Нет гостиниц :(</h3>
             <p class="h6 text-center" v-if="hotelsNoSort.length == 0">Совет: попробуйте изменить дату заезда.</p>
@@ -74,6 +63,7 @@
   import BusEvent from './BusEvent.vue';
 
   import Hotel_SearchBar from './Hotel_SearchBar.vue';
+  import MultiResultsBar from './MultiResultsBar.vue';
   import Hotel_Item from './Hotel_Item.vue';
   import Hotel_Filter from './Hotel_Filter.vue';
   import Loader from './Loader.vue';
@@ -82,6 +72,7 @@
     name: 'Hotel',
     components: {
       'Hotel_SearchBar': Hotel_SearchBar,
+      'MultiResultsBar': MultiResultsBar,
       'Hotel_Item': Hotel_Item,
       'Hotel_Filter': Hotel_Filter,
 
@@ -95,7 +86,7 @@
     data() {
       return {
         // ip
-        pathData: document.location.href.indexOf("8080") != -1 ? document.location.href.split(":").slice(0,2).join(":")+":8081" : document.location.href.split(":").slice(0,2).join(":")+":5000",
+        pathData: document.location.href.indexOf("8080") != -1 ? document.location.href.split(":").slice(0,2).join(":")+":8081" : document.location.href.split("/").slice(0,3).join("/"),
         // language
         locale: "ru",
         color: "#55B533",
@@ -115,7 +106,10 @@
         roomTypes: {},
 
         // stats
-        progressPerc: 0,
+        progressPerc: {
+          avia: 0,
+          hotels: 0,
+        },
 
         // filter parmmetrs
         extraFiltrData: {},
@@ -140,7 +134,7 @@
 
       //get hotel
       BusEvent.$on('getHotels', function(obj) {
-        self.progressPerc = 5;
+        self.progressPerc["hotels"] = 5;
         self.hotelsNoSort = ['0'];
         self.hotelsExtraSort = ['0'];
         self.hotels = [];
@@ -210,9 +204,9 @@
         let self = this;
         let cityId = obj.cityId;
 
-        document.getElementById("progressSearch").children[0].classList.add('progress-bar-animated');
+  
 
-        self.progressPerc = 20;
+        self.progressPerc["hotels"] = 20;
 
         // document.getElementById("progressSearch").children[0].classList.add('progress-bar-animated');
 
@@ -226,17 +220,17 @@
             self.pois = response.data.pois;
             self.hotelTypes = response.data.hotelTypes;
             self.hotelsNoSort = response.data.hotelsNoSort;
-            self.progressPerc = 40;
+            self.progressPerc["hotels"] = 40;
             self.getPhoto(self.hotelsNoSort.slice(0, 20), function(err, data) {
               // self.hotelsNoSort = data;
               self.hotels = data;
-              self.progressPerc = 50;
+              self.progressPerc["hotels"] = 50;
             // get price
             });
             self.getHotels(obj)
           }else{
             self.hotelsNoSort = [];
-            self.progressPerc = 100;
+            self.progressPerc["hotels"] = 100;
           }
         });
       },
@@ -257,7 +251,7 @@
             self.roomTypes = data.roomTypes;
             self.pois = data.pois;
 
-            self.progressPerc = 60;
+            self.progressPerc["hotels"] = 60;
             if(data.hotelsNoSort.length > 0){
 
               // load all hotel
@@ -265,7 +259,7 @@
 
                 self.hotelsNoSort = data.hotelsNoSort;
 
-                self.progressPerc = 80;
+                self.progressPerc["hotels"] = 80;
                 self.queryObj.queryObj["limit"] = 0;
                 self.queryObj.queryObj["offset"] = 50;
                 self.getHotels(self.queryObj);
@@ -273,9 +267,7 @@
               }else{
 
                 self.hotelsNoSort = data.hotelsNoSort;
-
-                document.getElementById("progressSearch").children[0].classList.remove('progress-bar-animated');
-                self.progressPerc = 100;
+                self.progressPerc["hotels"] = 100;
               }
               self.mainFiltr();
               self.setPropertyFilter();
@@ -283,10 +275,10 @@
             }
             
           }else{
-            self.progressPerc = self.progressPerc + 5;
+            self.progressPerc["hotels"] = self.progressPerc["hotels"] + 5;
             setTimeout(() => {
               if(self.progressPerc <= 100){
-                self.getHotels(obj);
+                self.getHotels(self.queryObj);
               }
             }, 3500);
           }
@@ -311,7 +303,7 @@
             self.amenities = response.data.amenities;
             self.roomTypes = response.data.roomTypes;
             
-            self.progressPerc = 100;
+            self.progressPerc["hotels"] = 100;
 
             self.getPhoto(data, function(err, data) {
               self.hotelsNoSort = data;
@@ -408,7 +400,7 @@
         
         // load all hotel
         // if(self.hotelsNoSort.length == 50){
-        //   self.progressPerc = 80;
+        //   self.progressPerc["hotels"] = 80;
         //   self.queryObj.queryObj["limit"] = 0;
         //   self.queryObj.queryObj["offset"] = 50;
         //   self.getHotels(self.queryObj);
@@ -548,24 +540,6 @@
   }
   #hotel #defaultFilter .scrollmenu::-webkit-scrollbar {
     display: none;
-  }
-
-  
-
-  #hotel #infoBlock{
-    margin-top: 20px;
-  }
-  #hotel #infoPanel{
-    width: 100%;
-    height: 60px;
-  }
-  #hotel #infoBlock .progress{
-    height: 0.5rem;
-    background-color: white;
-    border-radius: 0px 0px 3px 3px;
-  }
-  #hotel #infoBlock .progress .bg-success{
-    background-color: #A5DB93 !important;
   }
 
   #hotel #filterBlock{

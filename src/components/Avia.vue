@@ -6,20 +6,15 @@
       <Avia_SearchBar v-bind:style="{position: positionSearchBar}" ></Avia_SearchBar>
     </div>
     
+    <div class="col-12">
+      <MultiResultsBar :progressPerc="progressPerc"></MultiResultsBar>
+    </div>
 
-    <div id="infoBlock" class="col-12">
+    <!-- <div id="infoBlock" class="col-12">
       <div class="shadow">
         
       
         <div id="infoPanel" class="col-12">
-          
-          <!-- <div class="row" style="background-color:red; width: 100%" >
-            <div class="col-12 ">
-              {{ progressPerc }}
-            </div>
-            
-          </div> -->
-          
           
         </div>
         
@@ -28,7 +23,7 @@
         </div>
 
       </div>
-    </div>
+    </div> -->
 
 
 
@@ -60,7 +55,7 @@
         <Avia_Item v-bind:ticket=ticket v-bind:airlines=airlines v-bind:airports=airports v-bind:airplane=airplane v-bind:sales=sales v-for="(ticket, index) in tickets" v-bind:statTimeOut=statTimeOut :key="index" v-if="tickets.length > 0"></Avia_Item>
 
 
-        <div id="errorBlock" class="row shadow" v-if="(ticketsNoSort.length == 0 && progressPerc == 100) || ticketsExtraSort.length == 0" style="margin-bottom: 100px;">
+        <div id="errorBlock" class="row shadow" v-if="ticketsNoSort.length == 0 && progressPerc.avia == 100" style="margin-bottom: 100px;">
           <div class="container">
             <h3 class="display-6 text-center">Мы не нашли билетов :(</h3>
             <p class="h6 text-center" v-if="ticketsNoSort.length == 0">Совет: попробуйте изменить даты вылета и/или прилета.</p>
@@ -68,7 +63,7 @@
           </div>
         </div>
         
-        <Loader  v-if="tickets.length == 0" style="margin-bottom: 100px;" :color=color></Loader>
+        <Loader  v-if="progressPerc.avia < 100 && progressPerc.avia > 0" style="margin-bottom: 100px;" :color=color></Loader>
 
       </div>
     </div>
@@ -79,6 +74,7 @@
 <script>
 
   import Avia_SearchBar from './Avia_SearchBar.vue'
+  import MultiResultsBar from './MultiResultsBar.vue';
   import Avia_Item from './Avia_Item.vue'
   import Avia_Filter from './Avia_Filter.vue'
   import Loader from './Loader.vue'
@@ -92,6 +88,7 @@
     name: 'Avia',
     components: {
       'Avia_SearchBar': Avia_SearchBar,
+      'MultiResultsBar': MultiResultsBar,
       'Avia_Item': Avia_Item,
       'Avia_Filter': Avia_Filter,
       'Loader': Loader,
@@ -103,7 +100,7 @@
     data () {
       return {
         //ip
-        pathData: document.location.href.indexOf("8080") != -1 ? document.location.href.split(":").slice(0,2).join(":")+":8081" : document.location.href.split(":").slice(0,2).join(":")+":5000",
+        pathData: document.location.href.indexOf("8080") != -1 ? document.location.href.split(":").slice(0,2).join(":")+":8081" : document.location.href.split("/").slice(0,3).join("/"),
 
         // language
         locale: "ru",
@@ -113,8 +110,8 @@
         geojson: {},
 
         // data tickets
-        ticketsNoSort: ['0'], 
-        ticketsExtraSort: ['0'], 
+        ticketsNoSort: [], 
+        ticketsExtraSort: [], 
         tickets: [],
 
         // time out search results
@@ -130,7 +127,11 @@
         // stats
         positionSearchBar : "static", // set position searchBar
         // searchCount: 0,
-        progressPerc: 0,
+        // stats
+        progressPerc: {
+          avia: 0,
+          hotels: 0,
+        },
 
         // filter parmmetrs
         extraFiltrData: {},
@@ -186,7 +187,7 @@
       //get avia ticket
       BusEvent.$on('getTicket', function(uuid) {
         // clear data before
-        self.progressPerc = 5; 
+        self.progressPerc["avia"] = 0; 
         // self.searchCount = 0;
         self.ticketsNoSort = ['0'];
         self.ticketsExtraSort = ['0'];
@@ -239,8 +240,6 @@
             // Success
             console.log('///////////////')
             console.log('get ticket - loaded')
-
-            document.getElementById("progressSearch").children[0].classList.add('progress-bar-animated');
             
             let data = response.data;
             // if(this.searchCount != 40){
@@ -264,8 +263,7 @@
                 self.mainFiltr();
               }
             }else{
-              document.getElementById("progressSearch").children[0].classList.remove('progress-bar-animated');
-              this.progressPerc = 100;
+              this.progressPerc["avia"] = 100;
               this.timeOutSearch();
               return;
             }
@@ -273,13 +271,13 @@
             // repeat request tickets
 
             setTimeout(() => {
-              if(this.progressPerc <= 100 && data != null){
+              if(this.progressPerc["avia"] <= 100 && data != null){
                 this.getAviaTickets(obj);
               }
             }, 2500);
 
-            if(this.progressPerc < 80){
-              this.progressPerc = this.progressPerc + 15;
+            if(this.progressPerc["avia"] < 80){
+              this.progressPerc["avia"] = this.progressPerc["avia"] + 15;
             }
 
         });
@@ -615,24 +613,6 @@
   }
   #avia #defaultFilter .scrollmenu::-webkit-scrollbar {
     display: none;
-  }
-
-  
-
-  #avia #infoBlock{
-    margin-top: 20px;
-  }
-  #avia #infoPanel{
-    width: 100%;
-    height: 60px;
-  }
-  #avia #infoBlock .progress{
-    height: 0.5rem;
-    background-color: white;
-    border-radius: 0px 0px 3px 3px;
-  }
-  #avia #infoBlock .progress .bg-success{
-    background-color: #A5DB93 !important;
   }
 
   #avia #filterBlock{
