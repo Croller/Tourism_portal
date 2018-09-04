@@ -1,6 +1,22 @@
 # Tourism Portal
 Purchase of air tickets, hotel booking, life hack, wiki, and more.
 
+
+[www.triptrick.ru](http://www.triptrick.ru)
+
+### ToDo
+
+1. Avia Tickets - Done,
+2. Hotels - Done,
+3. Excursion - Soon,
+4. Map - Soon,
+5. Weather - Soon,
+6. Transfer/Taxi - Soon,
+7. Blog - Soon,
+8. Account - Soon,
+9. Bot - Soon.
+
+
 ### Description
 
 Using Vue JS + Node JS

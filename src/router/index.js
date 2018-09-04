@@ -24,6 +24,10 @@ export default new Router({
         return  route.query || {}
       }
     },
+    // { 
+    //   path: '*', 
+    //   component: Index 
+    // }
     // {
     //   path: '/search/:uuid',
     //   name: 'Search',

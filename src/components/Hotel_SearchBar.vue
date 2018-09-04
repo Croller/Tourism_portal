@@ -2,26 +2,26 @@
   
   <div id="hotelSearchBar" class="container" >
     <div class="row justify-content-center">
-      <div class="form-group col-10 col-sm-10 col-md-10 col-lg-4">
+      <div class="form-group col-12 col-sm-12 col-md-10 col-lg-4">
         <!-- <label class="d-sm-block d-md-none d-lg-none">Example label</label> -->
         <span class="fas fa-bars"></span>
         <input type="text" class="form-control" id="hotelArr_Place" placeholder="Куда" v-model="hotelArr_Place" autocomplete="off" v-on:click="focused = false">
         <span class="far fa-times-circle" v-on:click="clearSpan($event)"></span>
       </div>
-      <div class="form-group col-5 col-sm-5 col-md-5 col-lg-2">
+      <div class="form-group col-6 col-sm-6 col-md-5 col-lg-2">
         <!-- <label class="d-sm-block d-md-none d-lg-none">Example label</label> -->
         <span class="far fa-calendar-alt"></span>
         <input type="text" class="form-control datepicker-here" id="hotelArr_Date" placeholder="Заезд" v-model="hotelArr_Date" autocomplete="off" data-mask="99-99-9999" data-range="false" v-on:click="focused = false">
         <span class="far fa-times-circle" v-on:click="clearSpan($event)" ></span>
       </div>
-      <div class="form-group col-5 col-sm-5 col-md-5 col-lg-2">
+      <div class="form-group col-6 col-sm-6 col-md-5 col-lg-2">
         <!-- <label class="d-sm-block d-md-none d-lg-none">Example label</label> -->
         <span class="far fa-calendar-alt"></span>
         <input type="text" class="form-control datepicker-here" id="hotelDep_Date" placeholder="Выезд" v-model="hotelDep_Date" autocomplete="off" data-mask="99-99-9999" data-range="false" v-on:click="focused = false">
         <span class="far fa-times-circle" v-on:click="clearSpan($event)"></span>
       </div>
       
-      <div class="form-group col-10 col-sm-10 col-md-5 col-lg-2">
+      <div class="form-group col-12 col-sm-12 col-md-5 col-lg-2">
         <!-- <label class="d-sm-block d-md-none d-lg-none">Example label</label> -->
         <span class="fas fa-male"></span>
         <input type="text" class="form-control" placeholder="Гости"  autocomplete="off" v-on:click="focused = true" v-model="totalGuests" readonly="readonly" style="padding-left: 20px;">
@@ -56,7 +56,7 @@
           </ul>
         </div>
       </div>
-      <div class="form-group col-10 col-sm-10 col-md-5 col-lg-2">
+      <div class="form-group col-12 col-sm-12 col-md-5 col-lg-2">
         <span class="fas fa-search"></span> 
         <!-- <router-link to="/search"> -->
           <!-- <router-link :to="{ name: 'Search', params: this.validObj}"> -->
@@ -122,7 +122,6 @@
 
       let self = this;
 
-      console.log(this.$route)
       // set data from route params
       // console.log(this.$route.params.objQuery)
       
@@ -436,7 +435,8 @@
           this.alertMsg('Дата заезда','введена не верно','warning');
           return null;
         }
-        if(this.hotelDep_Date > this.hotelArr_Date || this.hotelDep_Date == 'Ivalid date'){
+
+        if(Moment.utc(this.hotelDep_Date, "DD.MM.YYYY").valueOf() < Moment.utc(this.hotelArr_Date, "DD.MM.YYYY").valueOf()){
           document.getElementById('hotelDep_Date').style.border = '1px solid #FF5C1C';
           this.alertMsg('Дата выезда','введена не верно','warning');
           return null;
@@ -492,7 +492,7 @@
           "hotelChildren": this.hotelChildren,  
           "childAgeObj": this.childAgeObj,
         }
-        this.$router.push({ name: 'Search', params: { hotels: {queryObj: this.queryObj, searchBar: searchBarData }, avia: (this.$route.params.hasOwnProperty("avia") ? this.$route.params.avia : {}), }});
+        this.$router.push({ name: 'Search', params: { hotels: {queryObj: this.queryObj, searchBar: searchBarData }, avia: (this.$route.params.hasOwnProperty("avia") ? this.$route.params.avia : {}), show: "hotelTab"}});
         BusEvent.$emit('getHotels', {'queryObj': this.queryObj, 'cityId': this.hotelArr_CityID});
 
       },

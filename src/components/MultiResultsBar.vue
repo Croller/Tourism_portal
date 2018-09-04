@@ -24,7 +24,10 @@
     name: 'MultiResultsBar',
     components: {},
     props:{
-      progressPerc: Object,
+      progressPerc: {
+        avia: Number,
+        hotels: Number,
+      },
     },
     data() {
       return {}
@@ -33,16 +36,24 @@
     created: function() {},
     mounted() {},
     methods: {},
-    // watch: {
-    //   'progressPerc.hotels': function(nVal, oVal){
-    //     if(nVal > 0 && nVal < 100){
-    //       console.log(document.getElementById("progressSearchHotels"))
-    //       document.getElementById("progressSearchHotels").children[0].classList.add('progress-bar-animated');
-    //     }else{
-    //       document.getElementById("progressSearchHotels").children[0].classList.remove('progress-bar-animated');
-    //     }
-    //   }
-    // },
+    watch: {
+      'progressPerc.avia': function(nVal, oVal){
+        let aviaBar = document.getElementById("aviaProgress");
+        if(nVal > 0 && nVal < 100 && aviaBar.hasOwnProperty('classList') ){
+          aviaBar.classList.add('progress-bar-animated');
+        }else{
+          aviaBar.classList.remove('progress-bar-animated');
+        }
+      },
+      'progressPerc.hotels': function(nVal, oVal){
+        let hotelsBar = document.getElementById("hotelProgress");
+        if(nVal > 0 && nVal < 100){
+          hotelsBar.classList.add('progress-bar-animated');
+        }else{
+          hotelsBar.classList.remove('progress-bar-animated');
+        }
+      },
+    },
   }
 </script>
 

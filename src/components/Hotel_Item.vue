@@ -98,11 +98,14 @@
             <div id="price">
               {{ price }}
             </div>
-            <button class="btn btn-primary collapsed" data-toggle="collapse" :data-target="'.handl_' + hotel.id" aria-expanded="false" :aria-controls="'handl_' + hotel.id" ref="collapseBtn" @click="(hide == true ? hide = false : hide = true)" v-if="hide">
+            <button class="btn btn-primary collapsed" data-toggle="collapse" :data-target="'.handl_' + hotel.id" aria-expanded="false" :aria-controls="'handl_' + hotel.id" ref="collapseBtn" @click="(hide == true ? hide = false : hide = true)" v-if="hide && !statTimeOut">
               Подробнее...
             </button>
-            <button class="btn btn-primary" @click="hide=true" v-if="!hide" data-toggle="collapse" :data-target="'.handl_' + hotel.id" aria-expanded="false" :aria-controls="'handl_' + hotel.id" ref="collapseBtn">
+            <button class="btn btn-primary" @click="hide=true" v-if="!hide && !statTimeOut" data-toggle="collapse" :data-target="'.handl_' + hotel.id" aria-expanded="false" :aria-controls="'handl_' + hotel.id" ref="collapseBtn">
               Свернуть...
+            </button>
+            <button class="btn btn-primary" @click="reloadHotels" v-if="statTimeOut">
+              Обновить
             </button>
           </div>
           
@@ -127,7 +130,7 @@
 
     <div id="roomList" class="col-12 order-1 order-sm-1 order-md-1 order-lg-2 collapse" :class="'handl_'+ hotel.id" aria-labelledby="headingThree" data-parent="#accordion">
       <div class="groupRoom" v-for="groupRoom in sortObjList(groupObjVal(this.hotel.rooms, 'internalTypeId'), 'total')"> 
-        <Hotel_Room_Item :groupRoom="groupRoom" :roomTypes="roomTypes" :hotelID="hotel.id" :photoLen="photoLen(groupRoom)" ></Hotel_Room_Item>
+        <Hotel_Room_Item :groupRoom="groupRoom" :roomTypes="roomTypes" :hotelID="hotel.id" :photoLen="photoLen(groupRoom)" :statTimeOut="statTimeOut" ></Hotel_Room_Item>
       </div> 
       <div id="descShowRoom" class="col-12 text-center" data-toggle="collapse" :data-target="'.handl_' + hotel.id" aria-expanded="false" :aria-controls="'handl_' + hotel.id" >
         <span class="fas fa-chevron-circle-up" @click="hide=true"></span>
@@ -162,6 +165,8 @@
       hotelTypes: Object,
       amenities: Object,
       roomTypes: Object,
+
+      statTimeOut: Boolean,
     },
     data() {
       return {
@@ -215,6 +220,11 @@
             }
         }
         return result;
+      },
+
+      // reload hotels
+      reloadHotels(){
+        BusEvent.$emit('reloadHotels');
       },
 
       fullScreenPhoto(){

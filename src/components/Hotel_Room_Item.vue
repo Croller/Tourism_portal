@@ -94,11 +94,11 @@
               {{ price }}
             </div>
             <span class="priceDesc" v-if="groupRoom[0].options.refundable"> Бесплатная отмена </span>
-            <button class="btn btn-primary" @click="submit">
+            <button class="btn btn-primary" @click="submit" v-if="!statTimeOut">
               Бронировать
             </button>
 
-            <button class="btn btn-primary" @click="reloadTicket" v-if="statTimeOut">
+            <button class="btn btn-primary" @click="reloadHotels" v-if="statTimeOut">
               Обновить
             </button>
 
@@ -125,13 +125,13 @@
       hotelID: Number,
       photoLen: Number,
       roomTypes: Object,
+
+      statTimeOut: Boolean,
     },
     data() {
       return {
         countHotelPhoto: 1,
 
-        // time out search results
-        statTimeOut: false,
       }
     },
     computed: {
@@ -148,6 +148,11 @@
 
     },
     methods: {
+
+      // reload hotels
+      reloadHotels(){
+        BusEvent.$emit('reloadHotels');
+      },
 
       fullScreenPhoto(){
         let self = this;
@@ -185,21 +190,6 @@
         let checkIn = Moment(this.groupRoom[0].fullBookingURL.split('checkIn=')[1].split('&')[0], "YYYY-MM-DD");
         let checkOut = Moment(this.groupRoom[0].fullBookingURL.split('checkOut=')[1].split('&')[0], "YYYY-MM-DD");
         return checkOut.diff(checkIn, 'days')
-      },
-
-      // check time out avia results
-      timeOutSearch(){
-        setTimeout( () => {
-          if(!this.statTimeOut){
-            // this.alertMsg('Время истекло','Результат поиска устарел','warning');
-            this.statTimeOut = true;
-          }
-        },850000);
-      },
-
-      // reload ticket
-      reloadTicket(){
-        BusEvent.$emit('reloadTicket');
       },
 
       submit(){

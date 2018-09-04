@@ -5,9 +5,9 @@
     
     <!-- <Main_Carousel></Main_Carousel> -->
 
-    <Map :params="mapParams" ></Map>
+    <Map :params="mapParams" v-if="!detectmob()" ></Map>
 
-    <div id="search" class="container mx-auto" v-bind:style="{ 'margin-top': topSearchBar + 'px' }">
+    <div id="searchBlock" class="container mx-auto" v-bind:style="{ 'margin-top': topSearchBar , 'position': positionSearchBar} ">
 
 
       <!-- <ViewProperty></ViewProperty> -->
@@ -103,23 +103,32 @@
         userLocation: {},
         
 
-        positionSearchBar : "absolute", // set position searchBar
-        topSearchBar: - window.innerHeight  / 2  - 50,
+        positionSearchBar : "relative", // set position searchBar
+        // topSearchBar: - window.innerHeight  / 2  - 80,
         mapParams: {},
       }
     },
     computed:{
+      topSearchBar: function(){
+        if(this.detectmob()){
+          return 45 + "%";
+        }else{
+          this.positionSearchBar = "relative";
+          return (- window.innerHeight  / 2  - 80) + "px";
+        }
+      },
+
     },
     mounted() {
 
       this.searchResize();
       window.addEventListener('resize', this.searchResize)
+      $('body').css('overflow-y','scroll');
+
       // update positionSearchBar by width windwos
       // if(window.innerWidth <= 767){
       //   this.positionSearchBar = 'static';
       // }
-
-
 
 
       //this.loadCitiesTrP();
@@ -130,6 +139,22 @@
       // this.$router.push({ path:'/search', params: { messageId: 'bar' } })
     },
     methods: {
+
+      detectmob() { 
+        if( navigator.userAgent.match(/Android/i)
+          || navigator.userAgent.match(/webOS/i)
+          || navigator.userAgent.match(/iPhone/i)
+          || navigator.userAgent.match(/iPad/i)
+          || navigator.userAgent.match(/iPod/i)
+          || navigator.userAgent.match(/BlackBerry/i)
+          || navigator.userAgent.match(/Windows Phone/i)
+        ){
+          return true;
+        }
+        else {
+          return false;
+        }
+      },
 
       searchResize() { 
         // let width = window.innerWidth;
@@ -314,7 +339,7 @@
 
 <style>
 
-  #index #search #mapBlock{
+  #index #searchBlock #mapBlock{
     height: 400px; 
     padding-top:3px; 
     padding-bottom:3px; 
@@ -325,8 +350,8 @@
     /*margin-top: -25%;*/
   }
 
-  #index #search .nav{
-    margin-top: 25px;
+  #index #searchBlock .nav{
+    /*margin-top: 25px;*/
     font-size: 12px;
     font-family: 'Comfortaa', sans-serif;
     background-color: #FAFAFA;
@@ -337,18 +362,18 @@
     font-weight: 400;
   }
 
-  #index #search .nav .active{
+  #index #searchBlock .nav .active{
     background-color: #FF9F1C;
     border-radius: 3px;
     color: white;
   }
-  #index #search .nav li{
+  #index #searchBlock .nav li{
     border-right: 1.2px dashed #e5e6e7;
   }
-  #index #search .nav li:last-child{
+  #index #searchBlock .nav li:last-child{
     border-right: 0px dashed #e5e6e7;
   }
-  #index #search .nav li:hover{
+  #index #searchBlock .nav li:hover{
     background-color: white;
   }
   #index #searchCategory a {
@@ -356,10 +381,10 @@
     background-color: transparent;
     color: #888;
   }
-  #search #searchCategory .nav a[href$=avia].active{
+  #searchBlock #searchCategory .nav a[href$=avia].active{
     background-color: #FF9F1C;
   }
-  #search #searchCategory .nav a[href$=hotel].active{
+  #searchBlock #searchCategory .nav a[href$=hotel].active{
     background-color: #55B533;
   }
   #index #searchCategory {

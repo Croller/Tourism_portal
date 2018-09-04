@@ -1,85 +1,84 @@
 <template>
-  
   <footer>
-    <div class="container">
-      <div class="row  justify-content-sm-center fadeInOnScroll">
-        <div id="info" class="col-md-6 col-lg-3 col-xl-4 order-lg-1 text-center text-sm-center text-md-center text-lg-left">
-          <router-link to="/">
-            <img src="../../src/assets/img/logo.png" alt="" style="height:60px; color: red">
-          </router-link>
-          <!-- <a href="./" class="text-big text-black">Brand</a> -->
-          <p class="text-extra-small" style="margin-top: 16px;">
-            Турестический информационный портал. <br> Все новости и события мировых культурных столиц, обзоры и лайфхаки, а так же билеты на самолеты, бронирование отелей и все что необходимо.
-          </p>
-        </div>
+  <div id="footer" class="container">
+    <div class="row  justify-content-sm-center fadeInOnScroll">
+      <div id="info" class="col-md-6 col-lg-3 col-xl-4 order-lg-1 text-center text-sm-center text-md-center text-lg-left">
+        <router-link to="/">
+          <img src="../../src/assets/img/logo.png" alt="" style="height:60px; color: red">
+        </router-link>
+        <!-- <a href="./" class="text-big text-black">Brand</a> -->
+        <p class="text-extra-small" style="margin-top: 16px;">
+          Туристический информационный портал. <br> Все новости и события мировых культурных столиц, обзоры и лайфхаки, а так же билеты на самолеты, бронирование отелей и все что необходимо.
+        </p>
+      </div>
 
-        <div id="subscribe" class="col-md-6 col-lg-3 col-xl-2 order-lg-4 text-center text-sm-center text-md-center text-lg-left">
-          <!-- <p class="text-big text-black">Мы</p> -->
-          <ul id="social" class="list-inline">
-            <li class="list-inline-item">
-              <a href="./" class="fab fa-instagram icon icon-square icon-fill text-gray"></a>
-            </li>
-            <li class="list-inline-item">
-              <a href="./" class="fab fa-instagram icon icon-square icon-fill text-gray"></a>
-            </li>
-            <li class="list-inline-item">
-              <a href="./" class="fab fa-instagram icon icon-square icon-fill text-gray"></a>
-            </li>
-            <li class="list-inline-item">
-              <a href="./" class="fab fa-instagram icon icon-square icon-fill text-gray"></a>
-            </li>
-          </ul>
-          <button class="btn btn-primary shadow" type="button" data-toggle="modal" data-target="#subscribe">Подписка</button>
-        </div>
+      <div id="subscribe" class="col-md-6 col-lg-3 col-xl-2 order-lg-4 text-center text-sm-center text-md-center text-lg-left">
+        <!-- <p class="text-big text-black">Мы</p> -->
+        <ul id="social" class="list-inline">
+          <li class="list-inline-item">
+            <a href="./" class="fab fa-instagram icon icon-square icon-fill text-gray"></a>
+          </li>
+          <li class="list-inline-item">
+            <a href="./" class="fab fa-instagram icon icon-square icon-fill text-gray"></a>
+          </li>
+          <li class="list-inline-item">
+            <a href="./" class="fab fa-instagram icon icon-square icon-fill text-gray"></a>
+          </li>
+          <li class="list-inline-item">
+            <a href="./" class="fab fa-instagram icon icon-square icon-fill text-gray"></a>
+          </li>
+        </ul>
+        <button class="btn btn-primary shadow" type="button" data-toggle="modal" data-target="#subscribe">Подписка</button>
+      </div>
 
-        <div id="service" class="col-sm-12 col-md-12 col-lg-6 order-lg-2 text-center">
-          <p class="text-big text-black">Сервисы</p>
-          <address>
-            <div class="row">
-              <div class="col-6 col-sm-6 col-md-6">
-                <p class="d-block text-small">Авиабилеты</p>
-                <p class="d-block text-small">Отели</p>
-                <p class="d-block text-small">Трансфер</p>
-                <p class="d-block text-small">Экскурсии</p>
-                <p class="d-block text-small">ЧатБот</p>
-              </div>
-              <div class="col-6 col-sm-6 col-md-6">
-                <p class="d-block text-small">Блог</p>
-                <p class="d-block text-small">Фотогаллерея</p>
-                <p class="d-block text-small">Контакты</p>
-              </div>
+      <div id="service" class="col-sm-12 col-md-12 col-lg-6 order-lg-2 text-center">
+        <p class="text-big text-black">Сервисы</p>
+        <address>
+          <div class="row">
+            <div class="col-6 col-sm-6 col-md-6">
+              <p class="d-block text-small">Авиабилеты</p>
+              <p class="d-block text-small">Отели</p>
+              <p class="d-block text-small">Трансфер</p>
+              <p class="d-block text-small">Экскурсии</p>
+              <p class="d-block text-small">ЧатБот</p>
             </div>
-          </address>
-        </div>
+            <div class="col-6 col-sm-6 col-md-6">
+              <p class="d-block text-small">Блог</p>
+              <p class="d-block text-small">Фотогаллерея</p>
+              <p class="d-block text-small">Контакты</p>
+            </div>
+          </div>
+        </address>
       </div>
-
-      <div class="space-block"></div>
-
-      <div class="row justify-content-sm-center justify-content-md-between">
-        <div class="col-md-5 col-lg-4 col-xl-4 text-center text-sm-center text-md-left text-lg-left text-xl-left" >
-          <p class="text-extra-small">
-            Copyright 
-            <span class="copyright-year"></span>
-            <a href="./" class="text-gray">Comp</a> 
-            All Rights Reserved.
-          </p>
-        </div>
-        <div class="col-md-6 col-lg-4 col-xl-5  text-center text-sm-center text-md-right text-lg-right text-xl-right">
-          <ul class="list-inline text-extra-small">
-              <li class="list-inline-item">
-                <a href="./">Контакты</a>
-              </li>
-              <li class="list-inline-item">
-                <a href="./">Условия эксплуатации</a>
-              </li>
-              <li class="list-inline-item">
-                <a href="./">Конфиденциальность</a>
-              </li>
-          </ul>
-        </div>
-      </div>
-
     </div>
+
+    <div class="space-block"></div>
+
+    <div class="row justify-content-sm-center justify-content-md-between">
+      <div class="col-md-5 col-lg-4 col-xl-4 text-center text-sm-center text-md-left text-lg-left text-xl-left" >
+        <p class="text-extra-small">
+          Copyright 
+          <span class="copyright-year"></span>
+          <a href="./" class="text-gray">Comp</a> 
+          All Rights Reserved.
+        </p>
+      </div>
+      <div class="col-md-6 col-lg-4 col-xl-5  text-center text-sm-center text-md-right text-lg-right text-xl-right">
+        <ul class="list-inline text-extra-small">
+            <li class="list-inline-item">
+              <a href="./">Контакты</a>
+            </li>
+            <li class="list-inline-item">
+              <a href="./">Условия эксплуатации</a>
+            </li>
+            <li class="list-inline-item">
+              <a href="./">Конфиденциальность</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
   </footer>
     
 </template>
@@ -134,13 +133,10 @@
 
 
 <style>
-
+  
   footer {
-    /*padding-top: 80px; */
+    position: relative;
     background-color: white;
-    /*height: 100px;*/
-    /*text-decoration: none;*/
-
   }
 
   a {
@@ -160,15 +156,15 @@
   }
 
 
-  footer #info, footer #service, footer #subscribe{
+  #footer #info, #footer #service, #footer #subscribe{
     margin-top: 55px;
   }
 
-  footer #info p{
+  #footer #info p{
     line-height: 1.5;
   }
 
-  footer #service .col-md-6{
+  #footer #service .col-md-6{
     line-height: 1.2;
   }
 
@@ -204,7 +200,7 @@
 
   
 
-  footer .btn {
+  #footer .btn {
     font-family: 'Comfortaa', cursive, sans-serif;
     width: 160px;
     border-radius: 3px;
@@ -219,13 +215,13 @@
     transition: .3s ease-out;
   }
 
-  footer .btn-primary {
+  #footer .btn-primary {
     color: #fff;
     background-color: #ff9f1c;
     border-color: #ff9f1c;
   }
 
-  footer .btn-primary:hover {
+  #footer .btn-primary:hover {
     background-color: #EB921A;
     border-color: #EB921A;
   }

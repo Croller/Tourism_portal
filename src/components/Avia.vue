@@ -230,7 +230,7 @@
             // this.alertMsg('Время истекло','Результат поиска устарел','warning');
             this.statTimeOut = true;
           }
-        },850000);
+        },600000);
       },
       
       // get data by uuid ------

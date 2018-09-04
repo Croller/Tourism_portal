@@ -35,7 +35,7 @@
         </div>
       </div>
       <div id="hotelItems" class="col-12" >
-        <Hotel_Item v-bind:hotel=hotel v-bind:hotelTypes=hotelTypes v-bind:amenities=amenities v-bind:roomTypes=roomTypes  v-for="(hotel, index) in hotels"  :key="index" v-if="hotels.length > 0" ></Hotel_Item>
+        <Hotel_Item v-bind:hotel=hotel v-bind:hotelTypes=hotelTypes v-bind:amenities=amenities v-bind:roomTypes=roomTypes  v-for="(hotel, index) in hotels" v-bind:statTimeOut=statTimeOut :key="index" v-if="hotels.length > 0" ></Hotel_Item>
         <!-- <Hotel_Item v-bind:hotel=hotel v-bind:airlines=airlines v-bind:airports=airports v-bind:airplane=airplane v-bind:sales=sales v-for="(hotel, index) in hotels" v-bind:statTimeOut=statTimeOut :key="index" v-if="hotels.length > 0"></Hotel_Item> -->
 
 
@@ -100,6 +100,9 @@
         hotelsExtraSort: ['0'], 
         hotels: [],
 
+        // time out search results
+        statTimeOut: false,
+
         // dictionary
         hotelTypes: {},
         amenities: {},
@@ -138,6 +141,7 @@
         self.hotelsNoSort = ['0'];
         self.hotelsExtraSort = ['0'];
         self.hotels = [];
+        self.statTimeOut = false;
 
         setTimeout(() => {
           self.getHotelsInfo(obj);
@@ -169,6 +173,15 @@
           // el.children[0].click();
           this.defaultFiltrData = el.children[0].value;
         }
+      },
+      // check time out avia results
+      timeOutSearch(){
+        setTimeout( () => {
+          if(!this.statTimeOut && this.hotelsNoSort.length > 0){
+            // this.alertMsg('Время истекло','Результат поиска устарел','warning');
+            this.statTimeOut = true;
+          }
+        },600000);
       },
 
       getPhoto(arr, callback){
@@ -226,8 +239,9 @@
               self.hotels = data;
               self.progressPerc["hotels"] = 50;
             // get price
+              self.getHotels(obj)
             });
-            self.getHotels(obj)
+            
           }else{
             self.hotelsNoSort = [];
             self.progressPerc["hotels"] = 100;
@@ -265,25 +279,23 @@
                 self.getHotels(self.queryObj);
 
               }else{
-
                 self.hotelsNoSort = data.hotelsNoSort;
                 self.progressPerc["hotels"] = 100;
+                this.timeOutSearch();
               }
               self.mainFiltr();
               self.setPropertyFilter();
 
             }
             
-          }else{
-            self.progressPerc["hotels"] = self.progressPerc["hotels"] + 5;
-            setTimeout(() => {
-              if(self.progressPerc <= 100){
-                self.getHotels(self.queryObj);
-              }
-            }, 3500);
           }
 
-          
+          setTimeout(() => {
+            if(data.hasOwnProperty('errorCode')){
+              self.progressPerc["hotels"] = self.progressPerc["hotels"] + 5;
+              self.getHotels(self.queryObj);
+            }
+          }, 3000);
           
           
         });

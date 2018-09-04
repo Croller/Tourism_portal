@@ -524,7 +524,7 @@
         // alert
         this.alertMsg('Готовьтесь :)','Мы перенаправляем вас, на сайт для покупки билета', 'success');
         // get search id from router
-        let uuid = this.$route.params.uuid;
+        let uuid = this.$route.params.avia.uuid;
         let obj = {
           'url': url,
           'uuid': uuid,
@@ -536,9 +536,9 @@
           if(response.status == 200){
             if(response.data != null){
               let obj = JSON.parse(response.data);
-              setTimeout(() => {
+              // setTimeout(() => {
                 window.open(obj.url, '_blank');
-              }, 3000)
+              // }, 3000)
               
             }else{
               this.alertMsg('Ошибка','Что-то не так на сервере, простите!', 'error');

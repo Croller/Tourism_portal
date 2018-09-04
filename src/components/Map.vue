@@ -387,7 +387,7 @@
             .setLngLat(event.lngLat)
             .setHTML(popUpHTML)
             .addTo(this.map);
-        }, 100)
+        }, 10)
 
       },
 
@@ -452,7 +452,7 @@
           this.map.addSource(layerName,{
             type: 'raster',
             tiles: ['http://tile.openweathermap.org/map/' + layerName + '/{z}/{x}/{y}.png?appid='+ this.openWeatherMapToken],
-            tileSize: 256
+            tileSize: 256,
           });
           this.map.addLayer({
             'id': layerName + '_layer',
@@ -460,7 +460,9 @@
             'source': layerName,
             'layout': {
               'visibility': 'visible'
-            }
+            },
+            'minzoom': 0.1,
+            'maxzoom': 2,
           }, 'place-city-sm');
         }
 

@@ -1,23 +1,23 @@
 <template>
-
+  <div>
   <div id="search">
     <LightBoxGallery></LightBoxGallery>
     <!-- <div id="mapBlock"> -->
-      <Map :geojson="geojson" :params="mapParams"></Map>
+      <Map :geojson="geojson" :params="mapParams" v-if="!detectmob()"></Map>
     <!-- </div> -->
 
-    <div id="searchBlock" class="container" v-bind:style="{ 'margin-top': topSearchBar+'%' }">
+    <div id="searchBlock" class="container mx-auto" v-bind:style="{ 'margin-top': topSearchBar , 'position': positionSearchBar}">
       <div class="row">
         <div id="searchCategory" class="col-10 col-sm-10 col-md-8 col-lg-6 col-xl-6  justify-content-center align-items-center mx-auto">
           <ul class="nav shadow scrollmenu">
             <li class="nav-item">
-              <a class="nav-link active" data-toggle="tab" href="#avia" role="tab"  aria-selected="true">Авиабилеты</a>
+              <a class="nav-link active" ref="aviaTab" data-toggle="tab" href="#avia" role="tab"  aria-selected="true">Авиабилеты</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" href="#hotel" role="tab"  aria-selected="true">Отели</a>
+              <a class="nav-link" ref="hotelTab" data-toggle="tab" href="#hotel" role="tab"  aria-selected="true">Отели</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" href="#transfer" role="tab"  aria-selected="true">Трансфер</a>
+              <a class="nav-link" ref="transferTab" data-toggle="tab" href="#transfer" role="tab"  aria-selected="true">Трансфер</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" data-toggle="tab" href="#tourism" role="tab"  aria-selected="true">Экскурсии</a>
@@ -56,10 +56,10 @@
 
     </div>
 
-    
-    <Footer></Footer>
   </div>
-
+  
+  <Footer></Footer>
+  </div>
 </template>
 
 <script>
@@ -84,23 +84,56 @@
         geojson: {},
         mapParams: {},
 
-        topSearchBar: -25,
+        // topSearchBar: -25,
       }
     },
     created: function() {
       
     },
     computed: {
+      topSearchBar: function(){
+        if(this.detectmob()){
+          return 45 + "%";
+        }else{
+          this.positionSearchBar = "relative";
+          return (- window.innerHeight  / 2  - 80) + "px";
+        }
+      },
     },
     mounted () {
       console.log('///////////////')
       console.log('search - loaded')
 
+      let self = this;
+
       this.searchResize();
       window.addEventListener('resize', this.searchResize)
       $('body').css('overflow-y','scroll');
+
+      //open current tab search
+      let tab;
+      if(this.$route.params.hasOwnProperty("show")){
+        tab = this.$route.params.show;
+        this.$refs[tab].click();
+      }
     },
-    methods: {      
+    methods: {   
+      detectmob() { 
+        if( navigator.userAgent.match(/Android/i)
+          || navigator.userAgent.match(/webOS/i)
+          || navigator.userAgent.match(/iPhone/i)
+          || navigator.userAgent.match(/iPad/i)
+          || navigator.userAgent.match(/iPod/i)
+          || navigator.userAgent.match(/BlackBerry/i)
+          || navigator.userAgent.match(/Windows Phone/i)
+        ){
+          return true;
+        }
+        else {
+          return false;
+        }
+      },
+
       searchResize() { 
         let width = window.innerWidth;
         if(width <= 576){
@@ -236,10 +269,10 @@
   
 
 
-  @media (max-width: 600px){
+  /*@media (max-width: 600px){
     #search #searchBlock{
       position: relative;
       margin-top: -450px;
     }
-  }
+  }*/
 </style>
