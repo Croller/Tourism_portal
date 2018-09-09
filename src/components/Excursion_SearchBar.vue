@@ -1,26 +1,18 @@
 <template>
   
-  <div id="hotelSearchBar" class="container" >
+  <div id="excurSearchBar" class="container" >
     <div class="row justify-content-center">
-      <div class="form-group col-12 col-sm-12 col-md-10 col-lg-4">
+      <div class="form-group col-12 col-sm-12 col-md-10 col-lg-8">
         <!-- <label class="d-sm-block d-md-none d-lg-none">Example label</label> -->
         <span class="fas fa-bars"></span>
-        <input type="text" class="form-control" id="hotelArr_Place" placeholder="Куда" v-model="hotelArr_Place" autocomplete="off" v-on:click="focused = false">
+        <input type="text" class="form-control" id="excur_Place" placeholder="Где прогуляемся?" v-model="excur_Place" autocomplete="off" v-on:click="focused = false">
         <span class="far fa-times-circle" v-on:click="clearSpan($event)"></span>
       </div>
-      <div class="form-group col-6 col-sm-6 col-md-5 col-lg-2">
-        <!-- <label class="d-sm-block d-md-none d-lg-none">Example label</label> -->
+      <!-- <div class="form-group col-12 col-sm-12 col-md-10 col-lg-3">
         <span class="far fa-calendar-alt"></span>
-        <input type="text" class="form-control datepicker-here" id="hotelArr_Date" placeholder="Заезд" v-model="hotelArr_Date" autocomplete="off" data-mask="99-99-9999" data-range="false" v-on:click="focused = false">
+        <input type="text" data-range="true" data-multiple-dates-separator=" - " class="form-control datepicker-here" id="excurArr_Date" placeholder="Когда" v-model="excurDate" autocomplete="off" data-mask="99-99-9999" v-on:click="focused = false">
         <span class="far fa-times-circle" v-on:click="clearSpan($event)" ></span>
-      </div>
-      <div class="form-group col-6 col-sm-6 col-md-5 col-lg-2">
-        <!-- <label class="d-sm-block d-md-none d-lg-none">Example label</label> -->
-        <span class="far fa-calendar-alt"></span>
-        <input type="text" class="form-control datepicker-here" id="hotelDep_Date" placeholder="Выезд" v-model="hotelDep_Date" autocomplete="off" data-mask="99-99-9999" data-range="false" v-on:click="focused = false">
-        <span class="far fa-times-circle" v-on:click="clearSpan($event)"></span>
-      </div>
-      
+      </div> -->
       <div class="form-group col-12 col-sm-12 col-md-5 col-lg-2">
         <!-- <label class="d-sm-block d-md-none d-lg-none">Example label</label> -->
         <span class="fas fa-male"></span>
@@ -31,28 +23,10 @@
               <a>Взрослые :</a>
               <div>
                 <span class="far fa-minus-square" v-on:click="minusOne($event)"></span>
-                <input id="hotelAdults" type="text" name="" class="form-control" value="1" v-model="hotelAdults" readonly="readonly"> 
+                <input id="excurAdults" type="text" name="" class="form-control" value="1" v-model="excurAdults" readonly="readonly"> 
                 <span class="far fa-plus-square" v-on:click="plusOne($event)"></span>
               </div>
-            </li>
-            <li id="children">
-              <a>Дети :</a>
-              <div>
-                <span class="far fa-minus-square" v-on:click="minusOne($event)"></span>
-                <input id="hotelChildren" type="text" name="" class="form-control" value="0" v-model="hotelChildren" readonly="readonly">
-                <span class="far fa-plus-square" v-on:click="plusOne($event)"></span>
-              </div>
-            </li>
-            <ul class="list-group list-unstyled text-extra-small" v-if="parseInt(hotelChildren) > 0">
-              <li v-for="(n,index) in parseInt(hotelChildren)">
-                <a>Возраст :</a>
-                <div>
-                  <span class="far fa-minus-square" v-on:click="minusOne($event)"></span>
-                  <input :id='"childAge" + n' type="text" name="" class="form-control" value="1" readonly="readonly">
-                  <span class="far fa-plus-square" v-on:click="plusOne($event)"></span>
-                </div>
-              </li>
-            </ul>         
+            </li>        
           </ul>
         </div>
       </div>
@@ -60,7 +34,7 @@
         <span class="fas fa-search"></span> 
         <!-- <router-link to="/search"> -->
           <!-- <router-link :to="{ name: 'Search', params: this.validObj}"> -->
-          <button class="btn btn-primary" v-on:click="hotelSubmit">Поиск</button>
+          <button class="btn btn-primary" v-on:click="excurSubmit">Поиск</button>
         <!-- </router-link>    -->
       </div>
     </div>
@@ -79,23 +53,19 @@
   import ClickOutside from 'vue-click-outside';
 
   export default {
-    name: 'Hotel_SearchBar',
+    name: 'Excursion_SearchBar',
     data () {
       return {
         //ip
         pathData: document.location.href.indexOf("8080") != -1 ? document.location.href.split(":").slice(0,2).join(":")+":8081" : document.location.href.split("/").slice(0,3).join("/"),
         // language
         locale:         "ru",       //search on language
-        hotelArr_HotelID:  "",
-        hotelArr_IATA:  "",
-        hotelArr_CityID: "",
-        hotelArr_Place: "",
-        hotelArr_Date:  "",
-        hotelDep_Date:  "",
+        excur_IATA:  "",
+        excur_CityID: "",
+        excur_Place: "",
+        excur_ExcursionID:  "",
 
-        hotelAdults:    1,
-        hotelChildren:  0,  // childern count <= 3, age <= 17, default age = 1 
-        childAgeObj:    {},
+        excurAdults:    1,
 
         queryObj:           666,
 
@@ -107,9 +77,12 @@
       
     },
     computed: {
+      // excurDate: function() {
+      //   return this.excurArr_Date + " - " + this.excurDep_Date;
+      // },
       totalGuests: function() {
-        var total = parseInt(this.hotelAdults) + (parseInt(this.hotelChildren) <= 3 ? parseInt(this.hotelChildren) : parseInt(this.hotelChildren));
-        return total + "  " + this.declension(total, ['Гость', 'Гостя', 'Гостей']);
+        var total = parseInt(this.excurAdults);
+        return total + "  " + this.declension(total, ['Персона', 'Персоны', 'Персон']);
       },
 
     },
@@ -118,32 +91,27 @@
     },
     mounted () {
       console.log('///////////////')
-      console.log('hotel search bar - loaded')
+      console.log('excur search bar - loaded')
 
       let self = this;
 
       // set data from route params
       // console.log(this.$route.params.objQuery)
       
-      if(this.$route.params.hasOwnProperty("hotels") && this.$route.name == 'Search' ){
+      if(this.$route.params.hasOwnProperty("excurs") && this.$route.name == 'Search' ){
 
-        if(Object.keys(this.$route.params.hotels).length > 0){
-          let rParams = this.$route.params.hotels.searchBar;
-          let queryObj = this.$route.params.hotels.queryObj;
+        if(Object.keys(this.$route.params.excurs).length > 0){
+          let rParams = this.$route.params.excurs.searchBar;
+          let queryObj = this.$route.params.excurs.queryObj;
 
           this.locale = rParams.locale;
-          this.hotelArr_HotelID = rParams.hotelArr_HotelID;
-          this.hotelArr_IATA = rParams.hotelArr_IATA;
-          this.hotelArr_CityID = rParams.hotelArr_CityID;
-          this.hotelArr_Place = rParams.hotelArr_Place;
-          this.hotelArr_Date = rParams.hotelArr_Date;
-          this.hotelDep_Date = rParams.hotelDep_Date;
+          this.excur_IATA = rParams.excur_IATA;
+          this.excur_CityID = rParams.excur_CityID;
+          this.excur_Place = rParams.excur_Place;
 
-          this.hotelAdults = rParams.hotelAdults;
-          this.hotelChildren = rParams.hotelChildren;
-          this.childAgeObj = rParams.childAgeObj;
+          this.excurAdults = rParams.excurAdults;
 
-          BusEvent.$emit('getHotels', {'queryObj': queryObj, 'cityId': this.hotelArr_CityID});
+          BusEvent.$emit('getExcursions', queryObj);
         }
       }else{
         // check cookie
@@ -152,43 +120,42 @@
 
 
       //reload data after time out
-      BusEvent.$on('reloadHotels', function() {
-        self.hotelSubmit();
+      BusEvent.$on('reloadExcursions', function() {
+        self.excurSubmit();
       });
 
-      $( "#hotelArr_Place" ).autocomplete({
+      $( "#excur_Place" ).autocomplete({
         source: function(request, response) {
           if(request.term.length > 2){
-            self.hotelLoadAutoComplete (request.term, function(err, data) {
+            self.excurLoadAutoComplete (request.term, function(err, data) {
               response(data);
             });
           }
         },
         minLength: 1,
         focus: function( event, ui ) {
-          let el = document.getElementById('hotelArr_Place');
+          let el = document.getElementById('excur_Place');
           el.value =  ui.item.label;
           return false;
         },
         select: function( event, ui ) {
-          let el = document.getElementById('hotelArr_Place');
+          let el = document.getElementById('excur_Place');
           // el.style.border = '1px solid #e5e6e7';
           el.value =  ui.item.label;
-          self.hotelArr_Place = ui.item.label;
+          self.excur_Place = ui.item.label;
           if(ui.item.hasOwnProperty('iata')){
-            self.hotelArr_IATA = ui.item.iata;
-            self.hotelArr_CityID = parseInt(ui.item.value);
+            self.excur_IATA = ui.item.iata;
+            self.excur_CityID = parseInt(ui.item.value);
           }else{
-            self.hotelArr_CityID = parseInt(ui.item.value);
+            self.excur_CityID = parseInt(ui.item.value);
           }
-          if(ui.item.hasOwnProperty('hotelId')){
-            self.hotelArr_HotelID = parseInt(ui.item.hotelId);
-            self.hotelArr_CityID = parseInt(ui.item.locationId);
+          if(ui.item.hasOwnProperty('excurId')){
+            self.excur_CityID = parseInt(ui.item.locationId);
           }
           //console.log(ui.item)
 
           let data = {
-            "layerName": "hotelArr_Place",
+            "layerName": "excur_Place",
             "geojson": {
               "type": "Feature",
               "properties": {
@@ -208,58 +175,39 @@
       };
 
       // init date picker
-      $('#hotelArr_Date').datepicker({
+      $('#excurArr_Date').datepicker({
         minDate: new Date(),
         position: "bottom left",
         autoClose: true,
         todayButton: true,
+        toggleSelected: false,
         range: true,
         offset: 8,
         onShow: function(dp, animationCompleted){
           // if (!animationCompleted) {
-            var newWidth = $('#hotelArr_Date').css('width');
-            newWidth = 2*(parseInt(newWidth.replace('px','')));
+            var newWidth = $('#excurArr_Date').css('width');
+            newWidth = (parseInt(newWidth.replace('px','')));
             $('#datepickers-container > div').css('width', newWidth);            
           // }
         },
         onSelect: function(formattedDate, date, inst){
-          // console.log(date)
-          if (date.length > 1) {
-            self.hotelArr_Date = Moment(date[1]).format("DD.MM.YYYY");
-            self.hotelDep_Date = Moment(date[0]).format("DD.MM.YYYY");
-            $('#hotelDep_Date').data('datepicker').minDate =  Moment(date[1], "DD.MM.YYYY").add(1, 'days')._d;
-
-          }else{
-            self.hotelArr_Date = Moment(date).format("DD.MM.YYYY");
-            // set new date if dep date selected
-            $('#hotelDep_Date').data('datepicker').minDate = Moment(date, "DD.MM.YYYY").add(1, 'days')._d;
-          }
+          console.log(date)
+          // if (date.length > 1) {
+          self.excurArr_Date = Moment(inst.minRange).format("DD.MM.YYYY");
+          self.excurDep_Date = Moment(inst.maxRange).format("DD.MM.YYYY");
+          // if (date.length > 1) {
+          //   self.excurArr_Date = Moment(date[0]).format("DD.MM.YYYY");
+          //   self.excurDep_Date = Moment(date[1]).format("DD.MM.YYYY");
+          // }else{
+          //   self.excurArr_Date = Moment(date[0]).format("DD.MM.YYYY");
+          // }
         },
       });
-      $('#hotelDep_Date').datepicker({
-        minDate: new Date(),
-        position: "bottom right",
-        autoClose: true,
-        todayButton: true,
-        offset: 8,
-        onShow: function(dp, animationCompleted){
-          if (!animationCompleted) {
-            // set style
-            var newWidth = $('#hotelArr_Date').css('width');
-            var newWidth = $('#hotelArr_Date').css('left', );
-            newWidth = 2*(parseInt(newWidth.replace('px','')));
-            $('#datepickers-container > div').css('width', newWidth);
-          }
-        },
-        onSelect: function(formattedDate, date, inst){
-          self.hotelDep_Date = Moment(date).format("DD.MM.YYYY");
-        },
-      })
+      
 
       // set input mask for date
-      var dateMask = new InputMask("99.99.9999");
-      dateMask.mask(document.getElementById('hotelArr_Date'));
-      dateMask.mask(document.getElementById('hotelDep_Date'));
+      // var dateMask = new InputMask("99.99.9999 - 99.99.9999");
+      // dateMask.mask(document.getElementById('excurArr_Date'));
 
       // init vue-click-outside
       this.popupItem = this.$el;
@@ -317,11 +265,12 @@
             var id = list_el[i].id.split('_')[0] ;
             if(list_el[i].id.indexOf('Place') != -1){
               self[id + '_Place'] = "" ;       
-              self[id + '_HotelID'] = "" ;  
+              self[id + '_ExcursionID'] = "" ;  
               self[id + '_IATA'] = "" ;  
               self[id + '_CityID'] = "" ;  
             }else{
-              self[id + '_Date'] = "" ; 
+              self['excurArr_Date'] = "" ;
+              self['excurDep_Date'] = "" ;
             }     
           }
         }
@@ -335,10 +284,10 @@
           if (list_el[i].type == 'text') {
             list_el[i].value = parseInt(list_el[i].value) + 1;
             self[list_el[i].id] = parseInt(list_el[i].value);  
-            if( list_el[i].id == 'hotelChildren' && list_el[i].value > 3){
+            if( list_el[i].id == 'excurChildren' && list_el[i].value > 3){
               self[list_el[i].id] = 3;
             } 
-            if( list_el[i].id == 'hotelChildren' && list_el[i].value <= 3){
+            if( list_el[i].id == 'excurChildren' && list_el[i].value <= 3){
               self.childAgeObj['childAge' + list_el[i].value] = 1;
             }
             if( list_el[i].id.indexOf('childAge') != -1){
@@ -360,10 +309,10 @@
           if (list_el[i].type == 'text' && parseInt(list_el[i].value) != 0) {
             list_el[i].value = parseInt(list_el[i].value) - 1;
             self[list_el[i].id] = parseInt(list_el[i].value);
-            if( list_el[i].id == 'hotelAdults' && list_el[i].value == 0){
+            if( list_el[i].id == 'excurAdults' && list_el[i].value == 0){
               self[list_el[i].id] = 1;
             }
-            if( list_el[i].id == 'hotelChildren' && list_el[i].value <= 3){
+            if( list_el[i].id == 'excurChildren' && list_el[i].value <= 3){
               delete self.childAgeObj['childAge' + (parseInt(list_el[i].value) + 1)];
             }
             if( list_el[i].id.indexOf('childAge') != -1){
@@ -381,14 +330,14 @@
         this.focused = false;
       },
 
-      hotelLoadAutoComplete(str, callback){
+      excurLoadAutoComplete(str, callback){
 
         if(str.length < 3) return {};
 
         let obj = {
           "query": str,
           "lang": this.locale,
-          "lookFor": "both", // city (города и острова), hotel (отели), both (все объекты, значение по умолчанию).
+          "lookFor": "city", // city (города и острова), excur (отели), both (все объекты, значение по умолчанию).
           "limit": 5,
           "convertCase": 1,
         }
@@ -406,94 +355,40 @@
       // validation data
       validObj(){
         var obj = {
-          "checkIn": Moment(this.hotelArr_Date, "DD.MM.YYYY").format("YYYY-MM-DD"),
-          "checkOut": Moment(this.hotelDep_Date, "DD.MM.YYYY").format("YYYY-MM-DD"),
-          "adultsCount": this.hotelAdults,
-          "childrenCount": this.hotelChildren,
+          "checkIn": Moment(this.excurArr_Date, "DD.MM.YYYY").format("YYYY-MM-DD"),
+          "checkOut": Moment(this.excurDep_Date, "DD.MM.YYYY").format("YYYY-MM-DD"),
+          "adultsCount": this.excurAdults,
           "lang": this.locale,
           "currency": 'RUB',
-          "cityId": this.hotelArr_CityID,
-          "waitForResult": 0, // if 1 then results in get UUID if 0 results in get Hotels
+          "cityId": this.excur_CityID,
+          "waitForResult": 0, // if 1 then results in get UUID if 0 results in get Excursions
         }
 
-        if (this.hotelArr_IATA.length != 0) {
-          obj["iata"] = this.hotelArr_IATA;
-        }
-        if(this.hotelArr_HotelID.length != 0){
-          obj["hotelId"] = this.hotelArr_HotelID;
-        }
-   
-
-        if(this.hotelArr_IATA.length == 0 && this.hotelArr_HotelID.length == 0 && this.hotelArr_CityID.length == 0 ){
-          document.getElementById('hotelArr_Place').style.border = '1px solid #FF5C1C';
-          this.alertMsg('Город или Отель', 'введен не верно','warning');
-          return null;
-        }
-        
-        if(this.hotelArr_Date.length == 0 || this.hotelArr_Date == 'Ivalid date') {
-          document.getElementById('hotelArr_Date').style.border = '1px solid #FF5C1C';
-          this.alertMsg('Дата заезда','введена не верно','warning');
-          return null;
-        }
-
-        if(Moment.utc(this.hotelDep_Date, "DD.MM.YYYY").valueOf() < Moment.utc(this.hotelArr_Date, "DD.MM.YYYY").valueOf()){
-          document.getElementById('hotelDep_Date').style.border = '1px solid #FF5C1C';
-          this.alertMsg('Дата выезда','введена не верно','warning');
-          return null;
-        }
-
-        for (var i = 0; i < Object.keys(this.childAgeObj).length; i++) {
-          let key = Object.keys(this.childAgeObj)[i];
-          obj[key] = this.childAgeObj[key];
+        if (this.excur_IATA.length != 0) {
+          obj["iata"] = this.excur_IATA;
         }
 
         return obj;
       },
 
-      hotelSubmit(){
-        this.focused = false;
-        let queryObj = this.validObj();
-        if(queryObj != null){
-          this.hotelUUID(queryObj);
-        }
+      excurSubmit(){
+        this.mainLogic()
       },
 
-      hotelUUID(obj){
-        let self = this;
-        this.$http.post(self.pathData + '/getHotelUUID', obj).then(function (response) {
-          console.log('///////////////')
-          console.log('get obj query')
-          if(response.data != null && !response.data.hasOwnProperty('errorCode')){
-            self.mainLogic(response.data)
-          }else{
-            console.log('query not good:', response.data);
-          }
-        });
-      },
-
-      mainLogic(queryObj){
-        this.queryObj = queryObj;
-        if(typeof queryObj == 'number'){
-          this.queryObj = {
-            "searchId": queryObj,
-            // "cityId": this.hotelArr_CityID,
-          };
-        }
+      mainLogic(){
+        this.queryObj = {
+          "cityIATA": this.excur_IATA,
+        };
+        
         let searchBarData = {
           "locale": this.locale,
-          "hotelArr_HotelID": this.hotelArr_HotelID,
-          "hotelArr_IATA": this.hotelArr_IATA,
-          "hotelArr_CityID": this.hotelArr_CityID,
-          "hotelArr_Place": this.hotelArr_Place,
-          "hotelArr_Date": this.hotelArr_Date,
-          "hotelDep_Date": this.hotelDep_Date,
-
-          "hotelAdults": this.hotelAdults,
-          "hotelChildren": this.hotelChildren,  
-          "childAgeObj": this.childAgeObj,
+          "excur_ExcursionID": this.excur_ExcursionID,
+          "excur_IATA": this.excur_IATA,
+          "excur_CityID": this.excur_CityID,
+          "excur_Place": this.excur_Place,
         }
-        this.$router.push({ name: 'Search', params: { hotels: {queryObj: this.queryObj, searchBar: searchBarData }, avia: (this.$route.params.hasOwnProperty("avia") ? this.$route.params.avia : {}), show: "hotels"}});
-        BusEvent.$emit('getHotels', {'queryObj': this.queryObj, 'cityId': this.hotelArr_CityID});
+        this.$router.push({ name: 'Search', params: { excurs: {queryObj: this.queryObj, searchBar: searchBarData }, avia: (this.$route.params.hasOwnProperty("avia") ? this.$route.params.avia : {}), hotels: (this.$route.params.hasOwnProperty("hotels") ? this.$route.params.hotels : {}), show: "excursions"}});
+        BusEvent.$emit('getExcursions', this.queryObj);
 
       },
     },
@@ -505,8 +400,9 @@
 
     watch: {
      
-     hotelArr_Place: function (val, oldVal) {
-        var el = document.getElementById('hotelArr_Place')
+      excur_Place: function (val, oldVal) {
+        let self = this;
+        var el = document.getElementById('excur_Place')
         if(val.length != 0){
           el.parentNode.children[2].style.display = 'block';
         }else{
@@ -517,15 +413,16 @@
         }
       },
 
-      hotelArr_Date: function (val, oldVal) {
-        let self = this;
-        $('#aviaArr_Date').datepicker({
-          minDate: this.hotelArr_Date.length != 0 ? new Date(Moment.utc(this.hotelArr_Date, "DD.MM.YYYY").valueOf()) : new Date()});
-       // $('#arrDate')datepicker.update('minDate', new Date())
-        $('#aviaArr_Date').datepicker({
-          minDate: this.hotelArr_Date.length != 0 ? new Date(Moment.utc(this.hotelArr_Date, "DD.MM.YYYY").valueOf()) : new Date()
-        })
-        var el = document.getElementById('hotelArr_Date')
+      excurArr_Date: function (val, oldVal) {
+        // console.log($('#aviaArr_Date').datepicker());
+       //  let self = this;
+       //  $('#aviaArr_Date').datepicker({
+       //    minDate: this.aviaDep_Date.length != 0 ? new Date(Moment.utc(this.aviaDep_Date, "DD.MM.YYYY").valueOf()) : new Date()});
+       // // $('#arrDate')datepicker.update('minDate', new Date())
+       //  $('#aviaArr_Date').datepicker({
+       //    minDate: this.aviaDep_Date.length != 0 ? new Date(Moment.utc(this.aviaDep_Date, "DD.MM.YYYY").valueOf()) : new Date()
+       //  })
+        var el = document.getElementById('excurArr_Date')
         if(val.length != 0){
           el.parentNode.children[2].style.display = 'block';
         }else{
@@ -533,14 +430,6 @@
         }
       },
 
-      hotelDep_Date: function (val, oldVal) {
-        var el = document.getElementById('hotelDep_Date')
-        if(val.length != 0){
-          el.parentNode.children[2].style.display = 'block';
-        }else{
-          el.parentNode.children[2].style.display = 'none';
-        }
-      },
 
 
     },
@@ -551,7 +440,7 @@
 
 <style>
 
-  /*#hotelSearchBar{
+  /*#excurSearchBar{
     position: absolute; 
     left: 0; 
     right: 0; 
@@ -561,27 +450,27 @@
     top: 70%;
   }*/
 
-  /*#hotelSearchBar.container {
+  /*#excurSearchBar.container {
     max-width: 70%;
   }*/
 
-  #hotelSearchBar {
+  #excurSearchBar {
     border-radius: 3px;
     /*background-color: white;*/
     -webkit-box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1);
     box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1);
   }
 
-  #hotelSearchBar .row {
+  #excurSearchBar .row {
     text-align: center;
   }
 
-  #hotelSearchBar .form-group {
+  #excurSearchBar .form-group {
     padding: 0px;
     margin: 0px;
   }
 
-  #hotelSearchBar .form-control {
+  #excurSearchBar .form-control {
     background-color: #FFFFFF;
     background-image: none;
     border: 1px solid #e5e6e7;
@@ -604,30 +493,30 @@
     box-sizing: border-box;
     outline: none;
   }
-  #hotelSearchBar > .form-control:last-child{
+  #excurSearchBar > .form-control:last-child{
     padding-left: 25px;
   }
-  #hotelSearchBar  .form-control:focus {
+  #excurSearchBar  .form-control:focus {
     -webkit-box-shadow: none;
     box-shadow: none;
-    border: 1px solid #55B533;
+    border: 1px solid #02A9E0;
   }
-  #hotelSearchBar  .form-control + span.fa-times-circle{
+  #excurSearchBar  .form-control + span.fa-times-circle{
     display: none;
   }
-/*  #hotelSearchBar  .form-control:focus + span.fa-times-circle{
+/*  #excurSearchBar  .form-control:focus + span.fa-times-circle{
     display: block;
   }*/
 
 
-  #hotelSearchBar > div > .form-group > span:first-child {
+  #excurSearchBar > div > .form-group > span:first-child {
     position:absolute;
     left:8px;
     top:8px;
     font-size: 16px;
     line-height: 32px;
   }
-  #hotelSearchBar > div > .form-group > span:last-child {
+  #excurSearchBar > div > .form-group > span:last-child {
     position:absolute;
     right:5px;
     top:8px;
@@ -635,8 +524,8 @@
     line-height: 32px;
     cursor: pointer;
   }
-  #hotelSearchBar > div > .form-group > span:last-child:hover {
-    color: #55B533;
+  #excurSearchBar > div > .form-group > span:last-child:hover {
+    color: #02A9E0;
     transition: color 0.2s;
   }
 
@@ -696,13 +585,13 @@
 
 
 
-  /*#hotelSearchBar .row .form-group:first-child input{
+  /*#excurSearchBar .row .form-group:first-child input{
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
   }
 */
   
-  #hotelSearchBar #guestDesc{
+  #excurSearchBar #guestDesc{
     position:absolute;
     width: 100%;
     right: 0; 
@@ -721,7 +610,7 @@
     margin-right: auto; 
     font-weight: 700;
   }
-  #hotelSearchBar #guestDesc .form-control{
+  #excurSearchBar #guestDesc .form-control{
     background-color: #FFFFFF;
     background-image: none;
     border: 1px dashed #e5e6e7;
@@ -742,28 +631,28 @@
     letter-spacing: -0.5px;
     font-weight: 700;
   }
-  #hotelSearchBar #guestDesc li:last-child{
+  #excurSearchBar #guestDesc li:last-child{
     margin-bottom: 10px;
   }
-  #hotelSearchBar #guestDesc div span{
+  #excurSearchBar #guestDesc div span{
     position: absolute;
     font-size: 17px;
     cursor: pointer;
   }
-  #hotelSearchBar #guestDesc div span:hover{
-    color: #55B533;
+  #excurSearchBar #guestDesc div span:hover{
+    color: #02A9E0;
     transition: color 0.15s;
   }
-  #hotelSearchBar #guestDesc span:first-child{
+  #excurSearchBar #guestDesc span:first-child{
     left: 10px;
     margin-top: 8px;
   }
-  #hotelSearchBar #guestDesc span:last-child{
+  #excurSearchBar #guestDesc span:last-child{
     right: 10px;
     margin-top: -27px;
   }
-  #hotelSearchBar #guestDesc #tripClass{
-    background-color: #55B533;
+  #excurSearchBar #guestDesc #tripClass{
+    background-color: #02A9E0;
     color: white;
     /*color: #000;*/
     padding-top: 5px;
@@ -771,21 +660,21 @@
     line-height:2;
     font-weight: 500;
     border-radius: 0px 0px 3px 3px;
-    border-right: 1px solid #55B533;
+    border-right: 1px solid #02A9E0;
   }
-  #hotelSearchBar #guestDesc #tripClass label{
+  #excurSearchBar #guestDesc #tripClass label{
     margin-bottom: 0px;
     cursor: pointer;
   }
 
 
 
-  #hotelSearchBar .btn {
+  #excurSearchBar .btn {
     width: 100%;
-    border: 1px solid #55B533;
+    border: 1px solid #02A9E0;
     /*border: none;*/
     border-radius: 0px;
-    background-color: #55B533;
+    background-color: #02A9E0;
 
     /*font-family: 'Lato', sans-serif;*/
     /*line-height: 30px;
@@ -800,23 +689,23 @@
     font-weight: 400;
   }
 
-  #hotelSearchBar  .btn:focus {
+  #excurSearchBar  .btn:focus {
     -webkit-box-shadow: none;
     box-shadow: none;
-    border: 1px solid #55B533;
+    border: 1px solid #02A9E0;
   }
 
-  #hotelSearchBar  .btn:hover{
-    background-color: #53AD32;
+  #excurSearchBar  .btn:hover{
+    background-color: #189CC7;
   }
   
 
-  #hotelSearchBar .fa-search{
+  #excurSearchBar .fa-search{
     color: white;
     text-align: center;
   }
 
- /* #hotelSearchBar .errorHelp{
+ /* #excurSearchBar .errorHelp{
     position: absolute;
     left:8px;
     top:8px;
@@ -844,9 +733,9 @@
     filter: alpha(opacity=90);
   }
  
-  #hotelSearchBar #datepickers-container {}
-  #hotelSearchBar #datepickers-container .datepicker--cell.-current- {
-    background-color: #55B533;
+  #excurSearchBar #datepickers-container {}
+  #excurSearchBar #datepickers-container .datepicker--cell.-current- {
+    background-color: #02A9E0;
   }
 
   .datepicker--nav{
@@ -859,7 +748,7 @@
     height: 23px;
   }
   @media (max-width: 989px){
-    #hotelSearchBar{
+    #excurSearchBar{
       position: relative;
       border-radius: 4px;
       -webkit-box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1);
@@ -870,7 +759,7 @@
       transition: .3s all ease;
     }
 
-    #hotelSearchBar {
+    #excurSearchBar {
       /*background-color: white;*/
       /*padding: 15px; */
       /*padding-top: 20px;*/
@@ -878,20 +767,20 @@
       /*margin-bottom: 15px; */
     }
 
-    #hotelSearchBar .form-group {
+    #excurSearchBar .form-group {
       padding: 0px;
       /*margin-bottom: 10px;*/
       /*margin-left: 10px;*/
       /*margin-right: 10px;*/
     }
-    #hotelSearchBar .row .form-group input{
+    #excurSearchBar .row .form-group input{
       /*border-top-left-radius: 0px;*/
       /*border-bottom-left-radius: 0px;*/
       border-radius: 3px;
     }
 
 
-    #hotelSearchBar .btn{
+    #excurSearchBar .btn{
       /*border-top-right-radius: 0px;*/
       /*border-bottom-right-radius: 0px;*/
       border-radius: 3px;
@@ -904,13 +793,13 @@
 
   @media (min-width: 990px){
 
-    #hotelSearchBar .row .form-group:first-child input{
+    #excurSearchBar .row .form-group:first-child input{
       border-top-left-radius: 3px;
       border-bottom-left-radius: 3px;
       box-shadow: none;
     }
 
-    #hotelSearchBar .btn{
+    #excurSearchBar .btn{
       border-top-right-radius: 3px;
       border-bottom-right-radius: 3px;
     }
@@ -918,14 +807,14 @@
   }
 
   @media (max-width: 990px){ 
-    #hotelSearchBar{
+    #excurSearchBar{
       box-shadow: none;
     }
   }
 
   @media (max-width: 575px){
 
-    #hotelSearchBar{
+    #excurSearchBar{
       box-shadow: none;
     }
 

@@ -66,7 +66,7 @@
             <li class="list-item">Цена: <span>{{ hotel.minPriceTotal }} </span> - <span>{{ hotel.maxPrice }} руб</span></li>
             <li class="list-item">Центр: <span>{{ hotel.distance }} км</span></li>
 
-           <ul class="options list-inline" style="margin-top: 10px;">
+            <ul class="options list-inline" style="margin-top: 10px;">
               <li class="list-inline-item" v-for="(amen, index) in hotel.amenities" v-if="amenities[amen] != undefined && index <= 4" >
                 <span class="far fa-check-circle"></span> {{ amenities[amen] }}
               </li>

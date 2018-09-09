@@ -131,6 +131,7 @@
         progressPerc: {
           avia: 0,
           hotels: 0,
+          excurs: 0,
         },
 
         // filter parmmetrs

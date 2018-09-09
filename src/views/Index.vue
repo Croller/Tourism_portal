@@ -25,10 +25,10 @@
               <a class="nav-link" data-toggle="tab" href="#transfer" role="tab"  aria-selected="true">Трансфер</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" href="#tourism" role="tab"  aria-selected="true">Экскурсии</a>
+              <a class="nav-link" data-toggle="tab" href="#excursion" role="tab"  aria-selected="true">Экскурсии</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" href="#tourism" role="tab"  aria-selected="true">Wiki</a>
+              <a class="nav-link" data-toggle="tab" href="#wiki" role="tab"  aria-selected="true">Wiki</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" data-toggle="tab" href="#chats" role="tab"  aria-selected="true">ЧатБот</a>
@@ -48,11 +48,14 @@
           <div id="transfer" class="tab-pane fade show" role="tabpanel">
             3
           </div>
-          <div id="tourism" class="tab-pane fade show" role="tabpanel">
-            4
+          <div id="excursion" class="tab-pane fade show" role="tabpanel">
+            <Excursion_SearchBar ></Excursion_SearchBar>
+          </div>
+          <div id="wiki" class="tab-pane fade show" role="tabpanel">
+            5
           </div>
           <div id="chats" class="tab-pane fade show" role="tabpanel">
-            5
+            6
           </div>
         </div>
       </div>
@@ -81,6 +84,7 @@
   import Map from '../components/Map.vue'
   import Avia_SearchBar from '../components/Avia_SearchBar.vue'  
   import Hotel_SearchBar from '../components/Hotel_SearchBar.vue'
+  import Excursion_SearchBar from '../components/Excursion_SearchBar.vue'
 
   import Footer from '../components/Footer.vue'
 
@@ -92,6 +96,7 @@
       'Map': Map,
       'Avia_SearchBar': Avia_SearchBar,
       'Hotel_SearchBar': Hotel_SearchBar,
+      'Excursion_SearchBar': Excursion_SearchBar,
       'Footer': Footer
     },
     data () {
@@ -386,6 +391,18 @@
   }
   #searchBlock #searchCategory .nav a[href$=hotel].active{
     background-color: #55B533;
+  }
+  #searchBlock #searchCategory .nav a[href$=transfer].active{
+    background-color: #E3C500;
+  }  
+  #searchBlock #searchCategory .nav a[href$=excursion].active{
+    background-color: #02A9E0;
+  }
+  #searchBlock #searchCategory .nav a[href$=wiki].active{
+    background-color: #E675B1;
+  }
+  #searchBlock #searchCategory .nav a[href$=chats].active{
+    background-color: #F25555;
   }
   #index #searchCategory {
     /*margin-bottom: 20px;*/

@@ -11,6 +11,8 @@
           <div id="aviaProgress" class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" :style="'width: ' + progressPerc.avia +'%'" aria-valuenow="25" aria-valuemin="3" aria-valuemax="100" v-if="progressPerc.avia > 0"></div>
 
           <div id="hotelProgress" class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" :style="'width: ' + progressPerc.hotels +'%'" aria-valuenow="25" aria-valuemin="3" aria-valuemax="100" v-if="progressPerc.hotels > 0"></div>
+
+          <div id="excurProgress" class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" :style="'width: ' + progressPerc.excurs +'%'" aria-valuenow="25" aria-valuemin="3" aria-valuemax="100" v-if="progressPerc.excurs > 0"></div>
         </div>
 
 
@@ -27,6 +29,7 @@
       progressPerc: {
         avia: Number,
         hotels: Number,
+        excurs: Number,
       },
     },
     data() {
@@ -38,20 +41,34 @@
     methods: {},
     watch: {
       'progressPerc.avia': function(nVal, oVal){
-        let aviaBar = document.getElementById("aviaProgress");
-        if(nVal > 0 && nVal < 100 && aviaBar.hasOwnProperty('classList') ){
-          aviaBar.classList.add('progress-bar-animated');
-        }else{
-          aviaBar.classList.remove('progress-bar-animated');
-        }
+        setTimeout(() => {
+          let aviaBar = document.getElementById("aviaProgress");
+          if(nVal > 0 && nVal < 100 ){
+            aviaBar.classList.add('progress-bar-animated');
+          }else{
+            aviaBar.classList.remove('progress-bar-animated');
+          }
+        }, 100);
       },
       'progressPerc.hotels': function(nVal, oVal){
-        let hotelsBar = document.getElementById("hotelProgress");
-        if(nVal > 0 && nVal < 100){
-          hotelsBar.classList.add('progress-bar-animated');
-        }else{
-          hotelsBar.classList.remove('progress-bar-animated');
-        }
+        setTimeout(() => {
+          let hotelsBar = document.getElementById("hotelProgress");
+          if(nVal > 0 && nVal < 100){
+            hotelsBar.classList.add('progress-bar-animated');
+          }else{
+            hotelsBar.classList.remove('progress-bar-animated');
+          }
+        }, 100);
+      },
+      'progressPerc.excurs': function(nVal, oVal){
+        setTimeout(() => {
+          let excursBar = document.getElementById("excurProgress");
+          if(nVal > 0 && nVal < 100){
+            excursBar.classList.add('progress-bar-animated');
+          }else{
+            excursBar.classList.remove('progress-bar-animated');
+          }
+        }, 100);
       },
     },
   }
@@ -76,7 +93,9 @@
   #infoBlock .progress #hotelProgress{
     background-color: #A5DB93 !important;
   }
-
+  #infoBlock .progress #excurProgress{
+    background-color: #02A9E0 !important;
+  }
 
 </style>
 

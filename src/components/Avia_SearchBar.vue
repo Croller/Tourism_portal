@@ -203,6 +203,9 @@
         //   //   response(self.aviaLoadAutoComplete(request.term));
         //   // }
         // },
+        focus: function( event, ui ) {
+          self.aviaDep_Place = ui.item.label;
+        },
         select: function( event, ui ) {
           let el = document.getElementById('aviaDep_Place');
           el.style.border = '1px solid #e5e6e7';
@@ -246,6 +249,9 @@
         //   var results = $.ui.autocomplete.filter(self.aviaCities, request.term);
         //   response(results.slice(0, maxLimit));
         // },
+        focus: function( event, ui ) {
+          self.aviaArr_Place = ui.item.label;
+        },
         select: function( event, ui ) {
           let el = document.getElementById('aviaArr_Place');
           el.style.border = '1px solid #e5e6e7';

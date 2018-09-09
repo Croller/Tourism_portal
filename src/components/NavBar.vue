@@ -20,7 +20,10 @@
               <router-link class="nav-link" to="/search">Билеты</router-link>
             </li> -->
             <li class="nav-item">
-              <a class="nav-link" href="#index">Сервисы</a>
+              <a class="nav-link" href="#index">Туризм</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#index">КешБэк</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Блог</a>

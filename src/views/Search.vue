@@ -8,28 +8,27 @@
 
     <div id="searchBlock" class="container mx-auto" v-bind:style="{ 'margin-top': topSearchBar , 'position': positionSearchBar}">
       <div class="row">
-        <div id="searchCategory" class="col-10 col-sm-10 col-md-8 col-lg-6 col-xl-6  justify-content-center align-items-center mx-auto">
+        <div id="searchCategory" class="col-10 col-sm-10 col-md-8 col-lg-6 col-xl-6 justify-content-center align-items-center mx-auto">
           <ul class="nav shadow scrollmenu">
             <li class="nav-item">
-              <a class="nav-link active" ref="aviaTab" data-toggle="tab" href="#avia" role="tab"  aria-selected="true">Авиабилеты</a>
+              <a class="nav-link active" data-toggle="tab" href="#avia" ref="avia" role="tab"  aria-selected="true">Авиабилеты</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" ref="hotelTab" data-toggle="tab" href="#hotel" role="tab"  aria-selected="true">Отели</a>
+              <a class="nav-link" data-toggle="tab" href="#hotels" ref="hotels" role="tab"  aria-selected="true">Отели</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" ref="transferTab" data-toggle="tab" href="#transfer" role="tab"  aria-selected="true">Трансфер</a>
+              <a class="nav-link" data-toggle="tab" href="#transfer" role="tab"  aria-selected="true">Трансфер</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" href="#tourism" role="tab"  aria-selected="true">Экскурсии</a>
+              <a class="nav-link" data-toggle="tab" href="#excursions" ref="excursions" role="tab"  aria-selected="true">Экскурсии</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" href="#tourism" role="tab"  aria-selected="true">Wiki</a>
+              <a class="nav-link" data-toggle="tab" href="#wiki" role="tab"  aria-selected="true">Wiki</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" data-toggle="tab" href="#chats" role="tab"  aria-selected="true">ЧатБот</a>
             </li>
           </ul>
-         
         </div>
       </div>
 
@@ -38,21 +37,23 @@
           <div id="avia" class="tab-pane fade show active" role="tabpanel">
             <Avia></Avia>
           </div>
-          <div id="hotel" class="tab-pane fade show" role="tabpanel">
+          <div id="hotels" class="tab-pane fade show" role="tabpanel">
             <Hotel></Hotel>
           </div>
           <div id="transfer" class="tab-pane fade show" role="tabpanel">
             3
           </div>
-          <div id="tourism" class="tab-pane fade show" role="tabpanel">
-            4
+          <div id="excursions" class="tab-pane fade show" role="tabpanel">
+            <Excursion></Excursion>
+          </div>
+          <div id="wiki" class="tab-pane fade show" role="tabpanel">
+            5
           </div>
           <div id="chats" class="tab-pane fade show" role="tabpanel">
-            5
+            6
           </div>
         </div>
       </div>
-
 
     </div>
 
@@ -68,6 +69,7 @@
   import Map from '../components/Map.vue'
   import Avia from '../components/Avia.vue'
   import Hotel from '../components/Hotel.vue'
+  import Excursion from '../components/Excursion.vue'
   import Footer from '../components/Footer.vue'
 
   export default {
@@ -77,6 +79,7 @@
       'Map': Map,
       'Avia': Avia,
       'Hotel': Hotel,
+      'Excursion': Excursion,
       'Footer': Footer,
     },
     data () {
@@ -98,6 +101,7 @@
           this.positionSearchBar = "relative";
           return (- window.innerHeight  / 2  - 80) + "px";
         }
+        return "0px"
       },
     },
     mounted () {
@@ -111,11 +115,15 @@
       $('body').css('overflow-y','scroll');
 
       //open current tab search
-      let tab;
-      if(this.$route.params.hasOwnProperty("show")){
-        tab = this.$route.params.show;
-        this.$refs[tab].click();
-      }
+      setTimeout(() => {
+        let tab;
+        if(this.$route.params.hasOwnProperty("show")){
+          tab = this.$route.params.show;
+          // console.log(tab)
+          this.$refs[tab].click();
+        }
+      }, 100)
+      
     },
     methods: {   
       detectmob() { 
@@ -135,18 +143,18 @@
       },
 
       searchResize() { 
-        let width = window.innerWidth;
-        if(width <= 576){
-          this.topSearchBar = -130;
-        }else if(width >= 577 && width <= 766){
-          this.topSearchBar = -100;
-        }else if(width >= 767 && width <= 991){
-          this.topSearchBar = -55;
-        }else if(width >= 992 && width <= 1200){
-          this.topSearchBar = -28;
-        }else{
-          this.topSearchBar = -20;
-        }
+        // let width = window.innerWidth;
+        // if(width <= 576){
+        //   this.topSearchBar = -130;
+        // }else if(width >= 577 && width <= 766){
+        //   this.topSearchBar = -100;
+        // }else if(width >= 767 && width <= 991){
+        //   this.topSearchBar = -55;
+        // }else if(width >= 992 && width <= 1200){
+        //   this.topSearchBar = -28;
+        // }else{
+        //   this.topSearchBar = -20;
+        // }
 
         this.mapParams.width = window.innerWidth - 10 + 'px';
         this.mapParams.height = window.innerHeight  + 'px';
@@ -205,11 +213,23 @@
     background-color: transparent;
     color: #888;
   }
-  #search #searchCategory .nav a[href$=avia].active{
+  #searchBlock #searchCategory .nav a[href$=avia].active{
     background-color: #FF9F1C;
   }
-  #search #searchCategory .nav a[href$=hotel].active{
+  #searchBlock #searchCategory .nav a[href$=hotels].active{
     background-color: #55B533;
+  }
+  #searchBlock #searchCategory .nav a[href$=transfer].active{
+    background-color: #E3C500;
+  }  
+  #searchBlock #searchCategory .nav a[href$=excursions].active{
+    background-color: #02A9E0;
+  }
+  #searchBlock #searchCategory .nav a[href$=wiki].active{
+    background-color: #E675B1;
+  }
+  #searchBlock #searchCategory .nav a[href$=chats].active{
+    background-color: #F25555;
   }
   #search #searchCategory .scrollmenu {
     overflow-x: auto;
