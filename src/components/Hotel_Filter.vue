@@ -245,9 +245,7 @@
         this.sliderDistance(this.propertiesFiltr.distance);
         this.sliderGuestScore(this.propertiesFiltr.guestScore);
         this.sliderPopularity(this.propertiesFiltr.popularity);
-
-
-      }, 1500);
+      }, 100);
     },
     methods: {
 
@@ -408,7 +406,7 @@
             this.sliderDistance(val.distance);
             this.sliderGuestScore(val.guestScore);
             this.sliderPopularity(val.popularity);
-          }, 10);
+          }, 100);
         }
       },
       'userFiltr.stars': function (val, oldVal){

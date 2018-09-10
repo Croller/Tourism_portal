@@ -103,6 +103,7 @@
         // time out search results
         statTimeOut: false,
 
+        // dictionary
 
         // stats
         progressPerc: {
@@ -116,13 +117,11 @@
         defaultFiltrData: "0",
 
         propertiesFiltr: {
-          stars: [],
-          propertyType: [],
-          price: [],
-          guestScore: [],
-          distance: [],
-          popularity: [],
-          amenities: [],
+          rating: [],
+          tags: [],
+          full_price_local: [],
+          duration: [],
+          review_count: [],
         },
 
         queryObj: {},
@@ -140,6 +139,14 @@
         self.excurs = [];
         self.statTimeOut = false;
 
+        self.propertiesFiltr = {
+          rating: [],
+          tags: [],
+          full_price_local: [],
+          duration: [],
+          review_count: [],
+        }
+        
         setTimeout(() => {
           self.getExcursions(obj);
         }, 600)
@@ -174,9 +181,11 @@
 
           let data = response.data;
           if(data != null){
-            self.excurNoSort = data.experiences;
-            self.excurs = data.experiences;
+            self.excurNoSort = data.excurNoSort;
+            self.tags = data.tags;
             self.currency = data.currency;
+            self.mainFiltr();
+            self.setPropertyFilter();
           }else{
             self.excurNoSort = [];
             self.excurs = [];
@@ -190,7 +199,67 @@
 
 
       mainFiltr(filtrObj, offset = 0) {
+        let self = this;
+        var countExcurs = 15;
+        var groupExcursArr = [];
         
+        this.extraFiltrData = filtrObj;
+
+        if( typeof filtrObj == "object"){
+          let excurs = self.excurNoSort;
+
+          for (var f = 0; f < Object.keys(filtrObj).length; f++) {
+            let key = Object.keys(filtrObj)[f];
+            let params = filtrObj[Object.keys(filtrObj)[f]];
+
+            // filtr by value from avia_filter
+            switch (key) {
+              case "rating":
+                for (var i = 0; i < params.length; i++) {
+                  let param = params[i];
+                  if(param.length > 0 && param != undefined){
+                    excurs = excurs.filter(excur => excur[key] != param );
+                  }
+                }
+                break;
+              case "tags":
+                for (var i = 0; i < params.length; i++) {
+                  let param = params[i];
+                  if(param != undefined){
+                    excurs = excurs.filter(tag => tag[key].filter( t => t == param.name ).length == 0 );
+                  }
+                }
+                break;
+              default:
+                if(params.length > 0 && params != undefined && params[0] != undefined && params[1] != undefined){
+                  excurs = excurs.filter(excur => excur[key] >= params[0] && excur[key] <= params[1]);
+                }
+                break;
+            }
+          }
+          this.exrucExtraSort = excurs;
+
+        }else{
+          this.exrucExtraSort  = self.excurNoSort;
+        }
+
+
+        switch (this.defaultFiltrData) {
+          case "0":
+            groupExcursArr = this.sortObjVal( 'full_price_local', this.exrucExtraSort );
+            break;
+          case "1":
+            groupExcursArr = this.sortObjVal( 'rating', this.exrucExtraSort ).reverse();
+            break;
+          case "2":
+            groupExcursArr = this.sortObjVal( 'rating', this.exrucExtraSort );
+            break;
+          case "3":
+            groupExcursArr = this.sortObjVal('duration', this.exrucExtraSort).reverse();
+            break;
+        }
+
+        self.excurs = groupExcursArr.slice(offset, countExcurs + offset);
       },
 
       extraFiltr(val){
@@ -202,7 +271,22 @@
       },
 
       setPropertyFilter(){
-        
+        this.propertiesFiltr = {
+          rating: Object.keys(this.groupObjVal(this.excurNoSort, 'rating')),
+          tags: this.tags,
+          full_price_local: [
+            this.sortObjVal('',Object.keys(this.groupObjVal(this.excurNoSort, 'full_price_local')))[0],
+            this.sortObjVal('',Object.keys(this.groupObjVal(this.excurNoSort, 'full_price_local'))).reverse()[0]
+          ],
+          duration: [
+            this.sortObjVal('',Object.keys(this.groupObjVal(this.excurNoSort, 'duration')))[0],
+            this.sortObjVal('',Object.keys(this.groupObjVal(this.excurNoSort, 'duration'))).reverse()[0]
+          ],
+          review_count: [
+            this.sortObjVal('',Object.keys(this.groupObjVal(this.excurNoSort, 'review_count')))[0],
+            this.sortObjVal('',Object.keys(this.groupObjVal(this.excurNoSort, 'review_count'))).reverse()[0]
+          ],
+        }
         
       },
 
@@ -210,6 +294,7 @@
       // help function ----------
 
       groupObjVal(arr, filtr){
+        let self = this;
         return arr.reduce(function(rv, x) {
           if(rv[x[filtr]] = rv[x[filtr]] || []){
             rv[x[filtr]].push(x)
@@ -220,10 +305,19 @@
       
       sortObjVal(key = 0 , obj){
         if( obj.length > 0 && key != 0){
-          obj.sort(function(a,b) {
-            return a[key] - b[key];
-          });
-          return obj;
+          switch (key) {
+            case "title":
+              obj.sort(function(a,b) {
+                return a[key][0].toUpperCase() > b[key][0].toUpperCase();
+              });
+              return obj;
+              break;
+            default:
+              obj.sort(function(a,b) {
+                return a[key] - b[key];
+              });
+              return obj;
+          }
         }else{
           obj.sort(function(a,b) {
             return a - b;
@@ -231,6 +325,19 @@
           return obj;
         }
       },
+
+      objToArrSort(key, obj){
+        let newArr = [];
+        let keyArr = Object.keys(obj);
+        for (var b = 0; b < keyArr.length; b++) {
+          let gSort = this.sortObjVal(key, obj[keyArr[b]])
+          for (var i = 0; i < gSort.length; i++) {
+            newArr.push(gSort[i])
+          }
+        }
+        return newArr;
+      },
+
       // obj to arr, key of obj to id in self obj
       reCollectArr(arr){
         let newArr = [];

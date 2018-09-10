@@ -143,6 +143,16 @@
         self.hotels = [];
         self.statTimeOut = false;
 
+        self.propertiesFiltr= {
+          stars: [],
+          propertyType: [],
+          price: [],
+          guestScore: [],
+          distance: [],
+          popularity: [],
+          amenities: [],
+        }
+
         setTimeout(() => {
           self.getHotelsInfo(obj);
         }, 600)

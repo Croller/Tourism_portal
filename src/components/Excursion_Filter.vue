@@ -2,46 +2,19 @@
   <div id="excurfilterPanel" class="col-12 shadow">
 
     <div class="searchFiltrs text-small">
-      <div class="headFiltr" data-toggle="collapse" data-target="#price" aria-expanded="true" aria-controls="price">
+      <div class="headFiltr" data-toggle="collapse" data-target="#rating" aria-expanded="true" aria-controls="rating">
         <span class="fas fa-caret-down"></span>
         <span class="fas fa-caret-right"></span>
         <a>Рейтинг</a>
       </div>
-      <div id="price" class="descFiltr collapse show" aria-labelledby="headingThree" data-parent="#accordion" v-if="propertiesFiltr.price.length != 0">
-        <ul class="list-group list-unstyled">
-          <li class="list-item">
-           
-            <div class="titleRange text-center text-extra-small">
-              <span class="float-left flex-child">Мин.</span>
-              <span class="text-center fas fa-chart-bar"></span>
-              <span class="float-right flex-child">Макс.</span>
-            </div>
-            <div id="price_Range" style="margin-top:3px"></div>
-            <div class="text-extra-small float-left">
-              <span id="price_Min">от {{ parseInt(propertiesFiltr.price[0]).toLocaleString('ru') }}</span> <span class="fas fa-ruble-sign" style="font-size:12px; color: #8C8C8C"></span>
-            </div>
-            <div class="text-extra-small float-right">
-              <span id="price_Max">до {{ parseInt(propertiesFiltr.price[1]).toLocaleString('ru') }}</span> <span class="fas fa-ruble-sign" style="font-size:12px; color: #8C8C8C"></span>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-    
-    <div class="searchFiltrs text-small">
-      <div class="headFiltr" data-toggle="collapse" data-target="#stars" aria-expanded="true" aria-controls="stars">
-        <span class="fas fa-caret-down"></span>
-        <span class="fas fa-caret-right"></span>
-        <a>Категории</a>
-      </div>
-      <div id="stars" class="descFiltr collapsed" aria-labelledby="headingThree" data-parent="#accordion" v-if="propertiesFiltr.stars.length != 0">
+      <div id="rating" class="descFiltr collapse show" aria-labelledby="headingThree" data-parent="#accordion" v-if="propertiesFiltr.rating.length != 0">
         <ul class="list-group list-unstyled" >
           <li class="list-item" v-on:click="changeAllSpan($event)">
-            <span id="stars_group" :class="'far ' + (userFiltr.stars.length == 0 ? 'fa-check-circle' : 'fa-circle')"></span>&nbsp&nbspВсе
+            <span id="rating_group" :class="'far ' + (userFiltr.rating.length == 0 ? 'fa-check-circle' : 'fa-circle')"></span>&nbsp&nbspВсе
           </li>
-          <li class="list-item" v-on:click="changeSpan($event)" v-for="item in propertiesFiltr.stars">
+          <li class="list-item" v-on:click="changeSpan($event)" v-for="item in propertiesFiltr.rating">
             <span class="far fa-check-circle"></span>
-            <input type="checkbox" :value=item v-model="userFiltr.stars" style="display:none">
+            <input type="checkbox" :value=item v-model="userFiltr.rating" style="display:none">
             &nbsp
             <span class="fas fa-star" v-if="parseInt(item) == 0"></span>
             <span class="fas fa-star" style="color: #FF9F1C;" v-for="star in parseInt(item)" v-if="parseInt(item) > 0"></span>
@@ -51,54 +24,86 @@
     </div>
 
     <div class="searchFiltrs text-small">
-      <div class="headFiltr" data-toggle="collapse" data-target="#propertyType" aria-expanded="true" aria-controls="propertyType">
+      <div class="headFiltr" data-toggle="collapse" data-target="#tags" aria-expanded="true" aria-controls="tags">
+        <span class="fas fa-caret-down"></span>
+        <span class="fas fa-caret-right"></span>
+        <a>Категории</a>
+      </div>
+      <div id="tags" class="descFiltr collaps show" aria-labelledby="headingThree" data-parent="#accordion"  v-if="propertiesFiltr.tags.length != 0">
+        <ul class="list-group list-unstyled" >
+          <li class="list-item" v-on:click="changeAllSpan($event)">
+            <span id="stars_group" :class="'far ' + (userFiltr.tags.length == 0 ? 'fa-check-circle' : 'fa-circle')"></span>&nbsp&nbspВсе
+          </li>
+          <li class="list-item" v-on:click="changeSpan($event)" v-for="item in propertiesFiltr.tags">
+            <span class="far fa-check-circle"></span>
+            <input type="checkbox" :value=item v-model="userFiltr.tags" style="display:none">
+            &nbsp&nbsp{{item.name}}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="searchFiltrs text-small">
+      <div class="headFiltr" data-toggle="collapse" data-target="#price" aria-expanded="true" aria-controls="price">
         <span class="fas fa-caret-down"></span>
         <span class="fas fa-caret-right"></span>
         <a>Цена</a>
       </div>
-      <div id="propertyType" class="descFiltr collapsed" aria-labelledby="headingThree" data-parent="#accordion"  v-if="propertiesFiltr.propertyType.length != 0">
-        <ul class="list-group list-unstyled" >
-          <li class="list-item" v-on:click="changeAllSpan($event)">
-            <span id="stars_group" :class="'far ' + (userFiltr.propertyType.length == 0 ? 'fa-check-circle' : 'fa-circle')"></span>&nbsp&nbspВсе
-          </li>
-          <li class="list-item" v-on:click="changeSpan($event)" v-for="item in propertiesFiltr.propertyType">
-            <span class="far fa-check-circle"></span>
-            <input type="checkbox" :value=item v-model="userFiltr.propertyType" style="display:none">
-            &nbsp&nbsp{{item.name}}
+      <div id="price" class="descFiltr collapse show" aria-labelledby="headingThree" data-parent="#accordion" v-if="propertiesFiltr.full_price_local.length != 0">
+        <ul class="list-group list-unstyled">
+          <li class="list-item">
+           
+            <div class="titleRange text-center text-extra-small">
+              <span class="float-left flex-child">Мин.</span>
+              <span class="text-center far fa-credit-card"></span>
+              <span class="float-right flex-child">Макс.</span>
+            </div>
+            <div id="price_Range" style="margin-top:3px"></div>
+            <div class="text-extra-small float-left">
+              <span id="price_Min">от {{ parseInt(propertiesFiltr.full_price_local[0]).toLocaleString('ru') }}</span> <span class="fas fa-ruble-sign" style="font-size:12px; color: #8C8C8C"></span>
+            </div>
+            <div class="text-extra-small float-right">
+              <span id="price_Max">до {{ parseInt(propertiesFiltr.full_price_local[1]).toLocaleString('ru') }}</span> <span class="fas fa-ruble-sign" style="font-size:12px; color: #8C8C8C"></span>
+            </div>
           </li>
         </ul>
       </div>
     </div>
 
     <div class="searchFiltrs text-small">
-      <div class="headFiltr" data-toggle="collapse" data-target="#propertyType" aria-expanded="true" aria-controls="propertyType">
+      <div class="headFiltr" data-toggle="collapse" data-target="#duration" aria-expanded="false" aria-controls="duration">
         <span class="fas fa-caret-down"></span>
         <span class="fas fa-caret-right"></span>
         <a>По времени</a>
       </div>
-      <div id="propertyType" class="descFiltr collapsed" aria-labelledby="headingThree" data-parent="#accordion"  v-if="propertiesFiltr.propertyType.length != 0">
-        <ul class="list-group list-unstyled" >
-          <li class="list-item" v-on:click="changeAllSpan($event)">
-            <span id="stars_group" :class="'far ' + (userFiltr.propertyType.length == 0 ? 'fa-check-circle' : 'fa-circle')"></span>&nbsp&nbspВсе
-          </li>
-          <li class="list-item" v-on:click="changeSpan($event)" v-for="item in propertiesFiltr.propertyType">
-            <span class="far fa-check-circle"></span>
-            <input type="checkbox" :value=item v-model="userFiltr.propertyType" style="display:none">
-            &nbsp&nbsp{{item.name}}
+      <div id="duration" class="descFiltr collapse" aria-labelledby="headingThree" data-parent="#accordion" v-if="propertiesFiltr.duration.length != 0">
+        <ul class="list-group list-unstyled">
+          <li class="list-item">
+           
+            <div class="titleRange text-center text-extra-small">
+              <span class="float-left flex-child">Мин.</span>
+              <span class="text-center far fa-clock"></span>
+              <span class="float-right flex-child">Макс.</span>
+            </div>
+            <div id="duration_Range" style="margin-top:3px"></div>
+            <div class="text-extra-small float-left">
+              <span id="duration_Min">от {{ parseInt(propertiesFiltr.duration[0]).toLocaleString('ru') }}</span> ч
+            </div>
+            <div class="text-extra-small float-right">
+              <span id="duration_Max">до {{ parseInt(propertiesFiltr.duration[1]).toLocaleString('ru') }}</span> ч
+            </div>
           </li>
         </ul>
       </div>
     </div>
 
-    
-
     <div class="searchFiltrs text-small">
-      <div class="headFiltr" data-toggle="collapse" data-target="#distance" aria-expanded="true" aria-controls="distance">
+      <div class="headFiltr" data-toggle="collapse" data-target="#review" aria-expanded="false" aria-controls="review">
         <span class="fas fa-caret-down"></span>
         <span class="fas fa-caret-right"></span>
-        <a>Кол-во отзывов</a>
+        <a>Отзывы</a>
       </div>
-      <div id="distance" class="descFiltr collapsed" aria-labelledby="headingThree" data-parent="#accordion" v-if="propertiesFiltr.distance.length != 0">
+      <div id="review" class="descFiltr collapse" aria-labelledby="headingThree" data-parent="#accordion" v-if="propertiesFiltr.review_count.length != 0">
         <ul class="list-group list-unstyled">
           <li class="list-item">
            
@@ -107,19 +112,18 @@
               <span class="text-center fas fa-pencil-alt"></span>
               <span class="float-right flex-child">Макс.</span>
             </div>
-            <div id="distance_Range" style="margin-top:3px"></div>
+            <div id="review_Range" style="margin-top:3px"></div>
             <div class="text-extra-small float-left">
-              <span id="distance_Min">от {{ parseInt(propertiesFiltr.distance[0]).toLocaleString('ru') }}</span> км</span>
+              <span id="review_Min">от {{ parseInt(propertiesFiltr.review_count[0]).toLocaleString('ru') }}</span>
             </div>
             <div class="text-extra-small float-right">
-              <span id="distance_Max">до {{ parseInt(propertiesFiltr.distance[1]).toLocaleString('ru') }}</span> км</span>
+              <span id="review_Max">до {{ parseInt(propertiesFiltr.review_count[1]).toLocaleString('ru') }}</span>
             </div>
           </li>
         </ul>
       </div>
     </div>
 
-    
     
   </div>
 </template>
@@ -138,13 +142,11 @@
     data() {
       return {
         userFiltr: {
-          stars: [],
-          propertyType: [],
-          price: [],
-          distance: [],
-          guestScore: [],
-          popularity: [],
-          amenities: [],
+          rating: [],
+          tags: [],
+          full_price_local: [],
+          duration: [],
+          review_count: [],
         }, 
       }
     },
@@ -155,13 +157,10 @@
       console.log('excur filter - loaded')
 
       setTimeout(() => {
-        this.sliderPrice(this.propertiesFiltr.price);
-        this.sliderDistance(this.propertiesFiltr.distance);
-        this.sliderGuestScore(this.propertiesFiltr.guestScore);
-        this.sliderPopularity(this.propertiesFiltr.popularity);
-
-
-      }, 1500);
+        this.sliderPrice(this.propertiesFiltr.full_price_local);
+        this.sliderDuration(this.propertiesFiltr.duration);
+        this.sliderReview(this.propertiesFiltr.review_count);
+      }, 100);
     },
     methods: {
 
@@ -243,72 +242,54 @@
 
       sliderPrice(price){
         let self = this;
-        $("#hotel #price_Range").slider({
+        $("#excur #price_Range").slider({
           range: true,
           min: parseInt(price[0]) ,
           max:  parseInt(price[1]) ,
           values: [ parseInt(price[0]) , parseInt(price[1])  ],
           slide: function( event, ui ) {
-            $("#hotel #price_Min").html("от " + ui.values[ 0 ].toLocaleString('ru'));
-            $("#hotel #price_Max").html("до " + ui.values[ 1 ].toLocaleString('ru'));
+            $("#excur #price_Min").html("от " + ui.values[ 0 ].toLocaleString('ru'));
+            $("#excur #price_Max").html("до " + ui.values[ 1 ].toLocaleString('ru'));
           },
           stop: function ( event, ui ) {
-            self.userFiltr.price[0] = ui.values[ 0 ];
-            self.userFiltr.price[1] = ui.values[ 1 ];
+            self.userFiltr.full_price_local[0] = ui.values[ 0 ];
+            self.userFiltr.full_price_local[1] = ui.values[ 1 ];
             self.$emit('getExtraFiltr', self.userFiltr);
           }
         });
       },
-      sliderDistance(distance){
+      sliderDuration(duration){
         let self = this;
-        $("#hotel #distance_Range").slider({
+        $("#excur #duration_Range").slider({
           range: true,
-          min: parseInt(distance[0]) ,
-          max:  parseInt(distance[1]) ,
-          values: [ parseInt(distance[0]) , parseInt(distance[1])  ],
+          min: parseInt(duration[0]) ,
+          max:  parseInt(duration[1]) ,
+          values: [ parseInt(duration[0]) , parseInt(duration[1])  ],
           slide: function( event, ui ) {
-            $("#hotel #distance_Min").html("от " + ui.values[ 0 ].toLocaleString('ru'));
-            $("#hotel #distance_Max").html("до " + ui.values[ 1 ].toLocaleString('ru'));
+            $("#excur #duration_Min").html("от " + ui.values[ 0 ].toLocaleString('ru'));
+            $("#excur #duration_Max").html("до " + ui.values[ 1 ].toLocaleString('ru'));
           },
           stop: function ( event, ui ) {
-            self.userFiltr.distance[0] = ui.values[ 0 ];
-            self.userFiltr.distance[1] = ui.values[ 1 ];
+            self.userFiltr.duration[0] = ui.values[ 0 ];
+            self.userFiltr.duration[1] = ui.values[ 1 ];
             self.$emit('getExtraFiltr', self.userFiltr);
           }
         });
       },
-      sliderGuestScore(guestScore){
+      sliderReview(review){
         let self = this;
-        $("#hotel #guestScore_Range").slider({
+        $("#excur #review_Range").slider({
           range: true,
-          min: parseInt(guestScore[0]) ,
-          max:  parseInt(guestScore[1]) ,
-          values: [ parseInt(guestScore[0]) , parseInt(guestScore[1])  ],
+          min: parseInt(review[0]) ,
+          max:  parseInt(review[1]) ,
+          values: [ parseInt(review[0]) , parseInt(review[1])  ],
           slide: function( event, ui ) {
-            $("#hotel #guestScore_Min").html("от " + ui.values[ 0 ].toLocaleString('ru'));
-            $("#hotel #guestScore_Max").html("до " + ui.values[ 1 ].toLocaleString('ru'));
+            $("#excur #review_Min").html("от " + ui.values[ 0 ].toLocaleString('ru'));
+            $("#excur #review_Max").html("до " + ui.values[ 1 ].toLocaleString('ru'));
           },
           stop: function ( event, ui ) {
-            self.userFiltr.guestScore[0] = ui.values[ 0 ];
-            self.userFiltr.guestScore[1] = ui.values[ 1 ];
-            self.$emit('getExtraFiltr', self.userFiltr);
-          }
-        });
-      },
-      sliderPopularity(popularity){
-        let self = this;
-        $("#hotel #popularity_Range").slider({
-          range: true,
-          min: parseInt(popularity[0]) ,
-          max:  parseInt(popularity[1]) ,
-          values: [ parseInt(popularity[0]) , parseInt(popularity[1])  ],
-          slide: function( event, ui ) {
-            $("#hotel #popularity_Min").html("от " + ui.values[ 0 ].toLocaleString('ru'));
-            $("#hotel #popularity_Max").html("до " + ui.values[ 1 ].toLocaleString('ru'));
-          },
-          stop: function ( event, ui ) {
-            self.userFiltr.popularity[0] = ui.values[ 0 ];
-            self.userFiltr.popularity[1] = ui.values[ 1 ];
+            self.userFiltr.review_count[0] = ui.values[ 0 ];
+            self.userFiltr.review_count[1] = ui.values[ 1 ];
             self.$emit('getExtraFiltr', self.userFiltr);
           }
         });
@@ -318,20 +299,16 @@
       propertiesFiltr: function (val, oldVal) {
         if(val != undefined){
           setTimeout(() => {
-            this.sliderPrice(val.price);
-            this.sliderDistance(val.distance);
-            this.sliderGuestScore(val.guestScore);
-            this.sliderPopularity(val.popularity);
-          }, 10);
+            this.sliderPrice(val.full_price_local);
+            this.sliderDuration(val.duration);
+            this.sliderReview(val.review_count);
+          }, 100);
         }
       },
-      'userFiltr.stars': function (val, oldVal){
+      'userFiltr.rating': function (val, oldVal){
         this.$emit('getExtraFiltr', this.userFiltr)
       },
-      'userFiltr.propertyType': function (val, oldVal){
-        this.$emit('getExtraFiltr', this.userFiltr)
-      },
-      'userFiltr.amenities': function (val, oldVal){
+      'userFiltr.tags': function (val, oldVal){
         this.$emit('getExtraFiltr', this.userFiltr)
       },
     },

@@ -193,6 +193,19 @@
         self.ticketsNoSort = ['0'];
         self.ticketsExtraSort = ['0'];
         self.statTimeOut = false;
+
+        self.propertiesFiltr = {
+          max_stops: [],
+          total_duration: [],
+          price: [],
+          segment_durations: [],
+          segments_time: [],
+          stop_duration: [],
+          sales: [],
+          airlines: [],
+          stops_airports: [],
+          segments: [],
+        }
         // get new data
         self.getAviaTickets({'uuid': uuid});
         // test data
