@@ -8,7 +8,7 @@ Purchase of air tickets, hotel booking, life hack, wiki, and more.
 
 1. Avia Tickets - Done,
 2. Hotels - Done,
-3. Excursion - Soon,
+3. Excursion - Done,
 4. Map - Soon,
 5. Weather - Soon,
 6. Transfer/Taxi - Soon,
