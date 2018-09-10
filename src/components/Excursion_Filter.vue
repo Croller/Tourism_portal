@@ -1,6 +1,5 @@
 <template>
   <div id="excurfilterPanel" class="col-12 shadow">
-
     <div class="searchFiltrs text-small">
       <div class="headFiltr" data-toggle="collapse" data-target="#rating" aria-expanded="true" aria-controls="rating">
         <span class="fas fa-caret-down"></span>
@@ -60,10 +59,10 @@
             </div>
             <div id="price_Range" style="margin-top:3px"></div>
             <div class="text-extra-small float-left">
-              <span id="price_Min">от {{ parseInt(propertiesFiltr.full_price_local[0]).toLocaleString('ru') }}</span> <span class="fas fa-ruble-sign" style="font-size:12px; color: #8C8C8C"></span>
+              <span id="price_Min">от {{ parseInt(propertiesFiltr.full_price_local[0]).toLocaleString('ru') }}</span> <span :class="iconCurr" style="font-size:12px; color: #8C8C8C"></span>
             </div>
             <div class="text-extra-small float-right">
-              <span id="price_Max">до {{ parseInt(propertiesFiltr.full_price_local[1]).toLocaleString('ru') }}</span> <span class="fas fa-ruble-sign" style="font-size:12px; color: #8C8C8C"></span>
+              <span id="price_Max">до {{ parseInt(propertiesFiltr.full_price_local[1]).toLocaleString('ru') }}</span> <span :class="iconCurr" style="font-size:12px; color: #8C8C8C"></span>
             </div>
           </li>
         </ul>
@@ -138,6 +137,7 @@
     components: {},
     props:{
       propertiesFiltr: Object,
+      currency: String,
     },
     data() {
       return {
@@ -150,7 +150,18 @@
         }, 
       }
     },
-    computed: {},
+    computed: {
+      iconCurr: function(){
+        switch(this.currency){
+          case "RUB":
+            return 'fas fa-ruble-sign';
+          case "EUR":
+            return 'fas fa-euro-sign';
+          case "USD":
+            return 'fas fa-dollar-sign';
+        }
+      },
+    },
     created: function() {},
     mounted() {
       console.log('///////////////')
@@ -163,7 +174,6 @@
       }, 100);
     },
     methods: {
-
       declension(num, expressions) {
         var result;
         var count = num % 100;

@@ -36,7 +36,7 @@
             </ul>
 
             <div class="excurPrice">
-              <span class="far fa-credit-card"></span><span class="price"> {{ excur.full_price_local }}</span>  <span :class="iconCurr" style="color: #000; font-size: 18px;"></span> {{ excur.price_for }}
+              <span class="far fa-credit-card"></span><span class="price"> {{ excur.full_price_local }}</span>  <span :class="iconCurr" style="color: #000; font-size: 18px;"></span> / {{ excur.price_for.substring(0, 6) }}.
             </div>
           </div>
           <div class="excurDesc col-12 collapse" :class="'excur_' + excur.url.split('/')[4]" aria-labelledby="headingThree" data-parent="#accordion">

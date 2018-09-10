@@ -10,7 +10,7 @@
     </div>
 
     <div id="filterBlock" class="col-md-3 col-lg-3 d-none d-sm-none d-md-block d-lg-block">
-      <Excursion_Filter v-bind:propertiesFiltr=propertiesFiltr v-on:getExtraFiltr="mainFiltr"></Excursion_Filter>                
+      <Excursion_Filter v-bind:propertiesFiltr=propertiesFiltr v-bind:currency=currency v-on:getExtraFiltr="mainFiltr"></Excursion_Filter>                
     </div>
 
     <div id="resultsBlock" class="col-12 col-sm-12 col-md-9 col-lg-9">
@@ -146,7 +146,7 @@
           duration: [],
           review_count: [],
         }
-        
+
         setTimeout(() => {
           self.getExcursions(obj);
         }, 600)

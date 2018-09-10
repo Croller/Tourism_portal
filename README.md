@@ -47,4 +47,5 @@ npm run build --report
 ![alt text](https://dl.dropboxusercontent.com/s/deukf50mt9fsmj1/Screenshot_7.png?dl=0)
 #### Hotel Page
 ![alt text](https://dl.dropboxusercontent.com/s/e3m8l3a6bwun5ub/Screenshot_8.png?dl=0)
-
+#### Excursion Page
+![alt text](https://dl.dropboxusercontent.com/s/vdv3kreei9i1r2j/Screenshot_9.png?dl=0)
