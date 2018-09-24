@@ -503,7 +503,7 @@
           },
           "segments": []
         }
-
+        // console.log(this.aviaDep_IATA)
         if(this.aviaDep_IATA.length == 3){
           if(this.aviaArr_IATA.length == 3){
             if(this.aviaDep_Date.length != 0 && this.aviaDep_Date != 'Ivalid date'){
@@ -527,6 +527,11 @@
           this.alertMsg('Город отправления', 'введен не верно','warning');
           return null;
         }
+
+        if(this.aviaDep_IATA.length > 3){
+          document.getElementById('aviaDep_Place').style.border = '1px solid #e5e6e7';
+          document.getElementById('aviaArr_Place').style.border = '1px solid #e5e6e7';
+        }
         
         if(this.aviaArr_Date.length != 0) {
           if(this.aviaArr_Date != 'Ivalid date'){
@@ -540,12 +545,16 @@
             this.alertMsg('Дата обратного билета','введена не верно','warning');
             return null;
           }
+        }else{
+          document.getElementById('aviaArr_Date').style.border = '1px solid #e5e6e7';
         }
 
         if(this.aviaDep_IATA == this.aviaArr_IATA){
           this.alertMsg('Совпадение','Город вылета не может быть и городом прибытия','warning');
           return null;
         }
+        
+        document.getElementById('aviaDep_Date').style.border = '1px solid #e5e6e7';
 
         return obj;
       },

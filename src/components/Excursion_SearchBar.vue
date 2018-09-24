@@ -352,25 +352,6 @@
         });
       },
 
-      // validation data
-      validObj(){
-        var obj = {
-          "checkIn": Moment(this.excurArr_Date, "DD.MM.YYYY").format("YYYY-MM-DD"),
-          "checkOut": Moment(this.excurDep_Date, "DD.MM.YYYY").format("YYYY-MM-DD"),
-          "adultsCount": this.excurAdults,
-          "lang": this.locale,
-          "currency": 'RUB',
-          "cityId": this.excur_CityID,
-          "waitForResult": 0, // if 1 then results in get UUID if 0 results in get Excursions
-        }
-
-        if (this.excur_IATA.length != 0) {
-          obj["iata"] = this.excur_IATA;
-        }
-
-        return obj;
-      },
-
       excurSubmit(){
         this.mainLogic()
       },
@@ -386,6 +367,7 @@
           "excur_IATA": this.excur_IATA,
           "excur_CityID": this.excur_CityID,
           "excur_Place": this.excur_Place,
+          "excurAdults": this.excurAdults
         }
         this.$router.push({ name: 'Search', params: { excurs: {queryObj: this.queryObj, searchBar: searchBarData }, avia: (this.$route.params.hasOwnProperty("avia") ? this.$route.params.avia : {}), hotels: (this.$route.params.hasOwnProperty("hotels") ? this.$route.params.hotels : {}), show: "excursions"}});
         BusEvent.$emit('getExcursions', this.queryObj);

@@ -18,7 +18,8 @@
     "vue-click-outside": "^1.0.7",
     "vue-moment": "^3.2.0",
     "vue-resource": "^1.5.1",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vue-yandex-metrika": "^1.7.2"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

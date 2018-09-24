@@ -55,7 +55,7 @@
         <Avia_Item v-bind:ticket=ticket v-bind:airlines=airlines v-bind:airports=airports v-bind:airplane=airplane v-bind:sales=sales v-for="(ticket, index) in tickets" v-bind:statTimeOut=statTimeOut :key="index" v-if="tickets.length > 0"></Avia_Item>
 
 
-        <div id="errorBlock" class="row shadow" v-if="ticketsNoSort.length == 0 && progressPerc.avia == 100" style="margin-bottom: 100px;">
+        <div id="errorBlock" class="row shadow" v-if="tickets.length == 0 && progressPerc.avia == 100" style="margin-bottom: 100px;">
           <div class="container">
             <h3 class="display-6 text-center">Мы не нашли билетов :(</h3>
             <p class="h6 text-center" v-if="ticketsNoSort.length == 0">Совет: попробуйте изменить даты вылета и/или прилета.</p>

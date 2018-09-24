@@ -47,7 +47,7 @@
           </div>
         </div>
         
-        <Loader  v-if="progressPerc < 100" style="margin-bottom: 100px;" :color=color></Loader>
+        <Loader  v-if="progressPerc.hotels < 100 && progressPerc.hotels > 0" style="margin-bottom: 100px;" :color=color></Loader>
 
       </div>
     </div>
@@ -112,6 +112,7 @@
         progressPerc: {
           avia: 0,
           hotels: 0,
+          excurs: 0,
         },
 
         // filter parmmetrs

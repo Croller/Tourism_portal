@@ -47,7 +47,7 @@
           </div>
         </div>
         
-        <Loader  v-if="progressPerc < 100" style="margin-bottom: 100px;" :color=color></Loader>
+        <Loader  v-if="progressPerc.excurs < 100 && progressPerc.excurs > 0" style="margin-bottom: 100px;" :color=color></Loader>
 
       </div>
     </div>

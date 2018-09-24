@@ -107,8 +107,13 @@
     mounted () {
       console.log('///////////////')
       console.log('search - loaded')
-
       let self = this;
+
+      if(document.location.href.indexOf("8080") == -1){
+        this.$metrika.hit("Search");
+      }
+      
+
 
       this.searchResize();
       window.addEventListener('resize', this.searchResize)

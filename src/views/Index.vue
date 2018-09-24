@@ -125,6 +125,9 @@
 
     },
     mounted() {
+      if(document.location.href.indexOf("8080") == -1){
+        this.$metrika.hit("Index");
+      }
 
       this.searchResize();
       window.addEventListener('resize', this.searchResize)

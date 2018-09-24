@@ -428,18 +428,25 @@
           document.getElementById('hotelArr_Place').style.border = '1px solid #FF5C1C';
           this.alertMsg('Город или Отель', 'введен не верно','warning');
           return null;
+        }else{
+          document.getElementById('hotelArr_Place').style.border = '1px solid #e5e6e7';
+          
         }
         
         if(this.hotelArr_Date.length == 0 || this.hotelArr_Date == 'Ivalid date') {
           document.getElementById('hotelArr_Date').style.border = '1px solid #FF5C1C';
           this.alertMsg('Дата заезда','введена не верно','warning');
           return null;
+        }else{
+          document.getElementById('hotelArr_Date').style.border = '1px solid #e5e6e7';
         }
 
-        if(Moment.utc(this.hotelDep_Date, "DD.MM.YYYY").valueOf() < Moment.utc(this.hotelArr_Date, "DD.MM.YYYY").valueOf()){
+        if(this.hotelDep_Date.length == 0 || Moment.utc(this.hotelDep_Date, "DD.MM.YYYY").valueOf() < Moment.utc(this.hotelArr_Date, "DD.MM.YYYY").valueOf()){
           document.getElementById('hotelDep_Date').style.border = '1px solid #FF5C1C';
           this.alertMsg('Дата выезда','введена не верно','warning');
           return null;
+        }else{
+          document.getElementById('hotelDep_Date').style.border = '1px solid #e5e6e7';
         }
 
         for (var i = 0; i < Object.keys(this.childAgeObj).length; i++) {
