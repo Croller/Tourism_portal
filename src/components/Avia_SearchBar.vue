@@ -598,10 +598,10 @@
           'aviaInfants': this.aviaInfants,
         }
         this.uuid = uuid;
+        this.$router.push({ name: 'Search', params: { avia:{ uuid: uuid, searchBar: searchBarData }, hotels: (this.$route.params.hasOwnProperty("hotels") ? this.$route.params.hotels : {}), show: "avia"}});
         // if same route same, need update route
         this.$route.params.avia = { uuid: uuid, searchBar: searchBarData };
         
-        this.$router.push({ name: 'Search', params: { avia:{ uuid: uuid, searchBar: searchBarData }, hotels: (this.$route.params.hasOwnProperty("hotels") ? this.$route.params.hotels : {}), show: "avia"}});
         BusEvent.$emit('getTicket', this.uuid);
       },
 
