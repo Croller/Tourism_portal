@@ -23,12 +23,15 @@
 
 <script>
 
-  import BusEvent from './BusEvent.vue'
+  import BusEvent from './BusEvent.vue';
 
-  import Map_InfoCard from './Map_InfoCard.vue'
-  import Map_RightControl from './Map_RightControl.vue'
-  import Map_LeftControl from './Map_LeftControl.vue'
-  import Loader from './Loader.vue'
+  import MapGL from 'mapbox-gl'
+  import Map_InfoCard from './Map_InfoCard.vue';
+  import Map_RightControl from './Map_RightControl.vue';
+  import Map_LeftControl from './Map_LeftControl.vue';
+  import Loader from './Loader.vue';
+
+  // import '../../node_modules/@turf/turf/turf.js';
 
 
   export default {
@@ -50,6 +53,9 @@
     },
     data () {
       return {
+        //ip
+        pathData: document.location.href.indexOf("8080") != -1 ? document.location.href.split(":").slice(0,2).join(":")+":8081" : document.location.href.split("/").slice(0,3).join("/"),
+        // language
         locale: "ru",
         // MapBox GL
         mapToken: 'pk.eyJ1IjoiY3JvbGxlciIsImEiOiJWX0ZXZF9zIn0.lIjITIfJ3v62baoHVIqtqQ',
@@ -132,9 +138,9 @@
         //   .setView([40, -74.50], 9);
         // L.mapbox.styleLayer('mapbox://styles/mapbox/emerald-v8').addTo(map);
 
-        mapboxgl.accessToken = this.mapToken;
+        MapGL.accessToken = this.mapToken;
 
-        const map = new mapboxgl.Map({
+        const map = new MapGL.Map({
           container: 'map',
           style: 'mapbox://styles/croller/cjj8xkmu73qh32snzotqzhsdj',
           center: [15.057,25.885],
@@ -148,7 +154,7 @@
           noWrap: true
         });
 
-        var nav = new mapboxgl.NavigationControl();
+        var nav = new MapGL.NavigationControl();
 
         // map.addControl(nav, 'top-right');
 
@@ -164,7 +170,7 @@
         var coordinates = geom.geometry.coordinates[0];
         var bounds = coordinates.reduce(function (bounds, coord) {
             return bounds.extend(coord);
-        }, new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]));
+        }, new MapGL.LngLatBounds(coordinates[0], coordinates[0]));
 
         map.fitBounds(bounds, {
             padding: 20
@@ -219,7 +225,7 @@
           let objs = this.map.queryRenderedFeatures(e.point);
           console.log(objs);
 
-          this.openPopUp(e);
+          // this.openPopUp(e);
         });
         map.on('render', function() {
           if(map.loaded()) {
@@ -377,7 +383,7 @@
             popUpHTML = document.getElementById("mapInfoCard").innerHTML ;
           }
           // this.$refs.Map_InfoCard.$el.innerHTML
-          this.popUpCard = new mapboxgl
+          this.popUpCard = new MapGL
             .Popup({
               anchor: 'bottom',
               offset: {
@@ -387,7 +393,7 @@
             .setLngLat(event.lngLat)
             .setHTML(popUpHTML)
             .addTo(this.map);
-        }, 10)
+        }, 100)
 
       },
 
@@ -406,7 +412,7 @@
         }
 
         if(this.map.getSource(layerName) == undefined && this.map.getLayer(layerName + '_layer') == undefined){
-          this.$http.post('http://127.0.0.1:8081/getWeatherByBbox', 
+          this.$http.post(pathData + '/getWeatherByBbox', 
             {
               locale: self.locale,
               bbox: turf.bbox(turf.polygon([[[-163.828125,-56.94497418085159],[189.84375,-56.94497418085159],[189.84375,83.7539108491127],[-163.828125,83.7539108491127],[-163.828125,-56.94497418085159]]]))

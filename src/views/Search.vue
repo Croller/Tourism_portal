@@ -41,7 +41,7 @@
             <Hotel></Hotel>
           </div>
           <div id="transfer" class="tab-pane fade show" role="tabpanel">
-            3
+            <Transfer></Transfer>
           </div>
           <div id="excursions" class="tab-pane fade show" role="tabpanel">
             <Excursion></Excursion>
@@ -69,6 +69,7 @@
   import Map from '../components/Map.vue'
   import Avia from '../components/Avia.vue'
   import Hotel from '../components/Hotel.vue'
+  import Transfer from '../components/Transfer.vue'
   import Excursion from '../components/Excursion.vue'
   import Footer from '../components/Footer.vue'
 
@@ -79,6 +80,7 @@
       'Map': Map,
       'Avia': Avia,
       'Hotel': Hotel,
+      'Transfer': Transfer,
       'Excursion': Excursion,
       'Footer': Footer,
     },

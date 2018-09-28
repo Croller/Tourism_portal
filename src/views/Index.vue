@@ -46,7 +46,7 @@
             <Hotel_SearchBar ></Hotel_SearchBar>
           </div>
           <div id="transfer" class="tab-pane fade show" role="tabpanel">
-            3
+            <Transfer_SearchBar ></Transfer_SearchBar>
           </div>
           <div id="excursion" class="tab-pane fade show" role="tabpanel">
             <Excursion_SearchBar ></Excursion_SearchBar>
@@ -84,6 +84,7 @@
   import Map from '../components/Map.vue'
   import Avia_SearchBar from '../components/Avia_SearchBar.vue'  
   import Hotel_SearchBar from '../components/Hotel_SearchBar.vue'
+  import Transfer_SearchBar from '../components/Transfer_SearchBar.vue'
   import Excursion_SearchBar from '../components/Excursion_SearchBar.vue'
 
   import Footer from '../components/Footer.vue'
@@ -96,6 +97,7 @@
       'Map': Map,
       'Avia_SearchBar': Avia_SearchBar,
       'Hotel_SearchBar': Hotel_SearchBar,
+      'Transfer_SearchBar': Transfer_SearchBar,
       'Excursion_SearchBar': Excursion_SearchBar,
       'Footer': Footer
     },

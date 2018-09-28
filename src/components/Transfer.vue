@@ -3,7 +3,7 @@
   <div id="avia" class="row">
 
     <div class="col-12">
-      <Avia_SearchBar v-bind:style="{position: positionSearchBar}" ></Avia_SearchBar>
+      <Transfer_SearchBar v-bind:style="{position: positionSearchBar}" ></Transfer_SearchBar>
     </div>
     
     <div class="col-12">
@@ -28,7 +28,7 @@
 
 
     <div id="filterBlock" class="col-md-3 col-lg-3 d-none d-sm-none d-md-block d-lg-block">
-      <Avia_Filter v-bind:propertiesFiltr=propertiesFiltr v-on:getExtraFiltr="mainFiltr"></Avia_Filter>                
+      <!-- <Avia_Filter v-bind:propertiesFiltr=propertiesFiltr v-on:getExtraFiltr="mainFiltr"></Avia_Filter>                 -->
     </div>
 
     <div id="resultsBlock" class="col-12 col-sm-12 col-md-9 col-lg-9">
@@ -52,7 +52,7 @@
       </div>
       <div id="aviaItems" class="col-12" >
 
-        <Avia_Item v-bind:ticket=ticket v-bind:airlines=airlines v-bind:airports=airports v-bind:airplane=airplane v-bind:sales=sales v-for="(ticket, index) in tickets" v-bind:statTimeOut=statTimeOut :key="index" v-if="tickets.length > 0"></Avia_Item>
+        <!-- <Avia_Item v-bind:ticket=ticket v-bind:airlines=airlines v-bind:airports=airports v-bind:airplane=airplane v-bind:sales=sales v-for="(ticket, index) in tickets" v-bind:statTimeOut=statTimeOut :key="index" v-if="tickets.length > 0"></Avia_Item> -->
 
 
         <div id="errorBlock" class="row shadow" v-if="tickets.length == 0 && progressPerc.avia == 100" style="margin-bottom: 100px;">
@@ -73,10 +73,10 @@
 
 <script>
 
-  import Avia_SearchBar from './Avia_SearchBar.vue'
+  import Transfer_SearchBar from './Transfer_SearchBar.vue'
   import MultiResultsBar from './MultiResultsBar.vue';
-  import Avia_Item from './Avia_Item.vue'
-  import Avia_Filter from './Avia_Filter.vue'
+  // import Avia_Item from './Avia_Item.vue'
+  // import Avia_Filter from './Avia_Filter.vue'
   import Loader from './Loader.vue'
 
   import Moment from 'moment';
@@ -85,12 +85,12 @@
   import BusEvent from './BusEvent.vue'
 
   export default {
-    name: 'Avia',
+    name: 'Transfer',
     components: {
-      'Avia_SearchBar': Avia_SearchBar,
+      'Transfer_SearchBar': Transfer_SearchBar,
       'MultiResultsBar': MultiResultsBar,
-      'Avia_Item': Avia_Item,
-      'Avia_Filter': Avia_Filter,
+      // 'Avia_Item': Avia_Item,
+      // 'Avia_Filter': Avia_Filter,
       'Loader': Loader,
     },
     http: {
@@ -132,6 +132,7 @@
           avia: 0,
           hotels: 0,
           excurs: 0,
+          transfer: 0,
         },
 
         // filter parmmetrs
@@ -186,47 +187,39 @@
       let self = this;
 
       //get avia ticket
-      BusEvent.$on('getTicket', function(uuid) {
+      BusEvent.$on('getTransfer', function(obj) {
         // clear data before
-        self.progressPerc["avia"] = 5; 
-        // self.searchCount = 0;
-        self.ticketsNoSort = ['0'];
-        self.ticketsExtraSort = ['0'];
-        self.statTimeOut = false;
+        self.progressPerc["transfer"] = 0; 
+        // // self.searchCount = 0;
+        // self.ticketsNoSort = ['0'];
+        // self.ticketsExtraSort = ['0'];
+        // self.statTimeOut = false;
 
-        self.propertiesFiltr = {
-          max_stops: [],
-          total_duration: [],
-          price: [],
-          segment_durations: [],
-          segments_time: [],
-          stop_duration: [],
-          sales: [],
-          airlines: [],
-          stops_airports: [],
-          segments: [],
-        }
+        // self.propertiesFiltr = {
+        //   max_stops: [],
+        //   total_duration: [],
+        //   price: [],
+        //   segment_durations: [],
+        //   segments_time: [],
+        //   stop_duration: [],
+        //   sales: [],
+        //   airlines: [],
+        //   stops_airports: [],
+        //   segments: [],
+        // }
         // get new data
-        self.getAviaTickets({'uuid': uuid});
+        self.getTransfer(obj);
         // test data
         // self.getAviaTicketsTest({})
       })
     },
     mounted () {
       console.log('///////////////')
-      console.log('avia - loaded')
+      console.log('transfer - loaded')
 
       // get data for test
       // this.getAvia({})
 
-      // prototype
-      Array.prototype.total = function () {
-        var total = 0
-        for ( var i = 0, _len = this.length; i < _len; i++ ) {
-          total += this[i]
-        }
-        return total
-      }
     },
     methods: {
       // change radio in label defaul filtr
@@ -248,81 +241,52 @@
       },
       
       // get data by uuid ------
-      getAviaTickets(obj){
+      getTransfer(obj){
         let self = this;
-        this.$http.post(self.pathData + '/getAviaTickets', obj).then(function (response) {
+        this.$http.post(self.pathData + '/getTransfer', obj).then(function (response) {
             // Success
             console.log('///////////////')
-            console.log('get ticket - loaded')
+            console.log('get transfer price - loaded')
             
             let data = response.data;
-            // if(this.searchCount != 40){
-              // set to component data  dictionary and tickets
-            if(data != null){
-              if(self.ticketsNoSort.length == 1) self.ticketsNoSort = [];
-              Object.assign(this.airlines, data.airlines);
-              Object.assign(this.airports, data.airports);
-              Object.assign(this.airplane, data.airplane);
-              Object.assign(this.sales, data.sales);
 
-              // Array.prototype.push.apply(self.ticketsNoSort, data.ticketsNoSort); 
-              for (var i = 0; i < data.ticketsNoSort.length; i++) {
-                self.ticketsNoSort.push(data.ticketsNoSort[i]);
-              }
-              // console.log(self.ticketsNoSort);
-              this.segments = data.segments;
+            // // if(this.searchCount != 40){
+            //   // set to component data  dictionary and tickets
+            // if(data != null){
+            //   if(self.ticketsNoSort.length == 1) self.ticketsNoSort = [];
+            //   Object.assign(this.airlines, data.airlines);
+            //   Object.assign(this.airports, data.airports);
+            //   Object.assign(this.airplane, data.airplane);
+            //   Object.assign(this.sales, data.sales);
 
-              if(data.ticketsNoSort.length > 1){
-                self.setPropertyFilter();
-                self.mainFiltr();
-              }
-            }else{
-              this.progressPerc["avia"] = 100;
-              this.timeOutSearch();
-              return;
-            }
+            //   // Array.prototype.push.apply(self.ticketsNoSort, data.ticketsNoSort); 
+            //   for (var i = 0; i < data.ticketsNoSort.length; i++) {
+            //     self.ticketsNoSort.push(data.ticketsNoSort[i]);
+            //   }
+            //   // console.log(self.ticketsNoSort);
+            //   this.segments = data.segments;
+
+            //   if(data.ticketsNoSort.length > 1){
+            //     self.setPropertyFilter();
+            //     self.mainFiltr();
+            //   }
+            // }else{
+            //   this.progressPerc["avia"] = 100;
+            //   this.timeOutSearch();
+            //   return;
+            // }
             
-            // repeat request tickets
+            // // repeat request tickets
 
-            setTimeout(() => {
-              if(this.progressPerc["avia"] <= 100 && data != null){
-                this.getAviaTickets(obj);
-              }
-            }, 2500);
+            // setTimeout(() => {
+            //   if(this.progressPerc["avia"] <= 100 && data != null){
+            //     this.getAviaTickets(obj);
+            //   }
+            // }, 2500);
 
-            if(this.progressPerc["avia"] < 80){
-              this.progressPerc["avia"] = this.progressPerc["avia"] + 15;
-            }
-
-        });
-      },
-      // get data from server ------
-      getAviaTicketsTest(obj){
-        let self = this;
-        this.$http.post(self.pathData + '/getAviaTicketsTest', obj).then(function (response) {
-            // Success
-            console.log('///////////////')
-            console.log('get ticket - loaded')
-
-            let data = response.data;
-            if(data != null){
-              
-              if(this.ticketsNoSort.length == 1) this.ticketsNoSort = [];
-                Object.assign(this.airlines, data.airlines);
-                Object.assign(this.airports, data.airports);
-                Object.assign(this.airplane, data.airplane);
-                Object.assign(this.sales, data.sales);
-                for (var i = 0; i < data.ticketsNoSort.length; i++) {
-                  self.ticketsNoSort.push(data.ticketsNoSort[i]);
-                }
-                this.segments = data.segments;
-
-                if(data.ticketsNoSort.length > 1){
-                  this.setPropertyFilter();
-                  this.mainFiltr();
-                }
-
-            }
+            // if(this.progressPerc["avia"] < 80){
+            //   this.progressPerc["avia"] = this.progressPerc["avia"] + 15;
+            // }
 
         });
       },

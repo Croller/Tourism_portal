@@ -17,6 +17,7 @@
   import NavBar from './components/NavBar.vue'
   import BusEvent from './components/BusEvent.vue';
 
+  
   export default {
     name: 'app',
     components: { 

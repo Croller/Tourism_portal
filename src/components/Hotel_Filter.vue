@@ -440,7 +440,7 @@
     padding-left: 1px;
   }
 
-  .headFiltr{
+  #hotel .headFiltr{
     font-family: 'Comfortaa', sans-serif;
     color: #000;
     font-size: 13px;

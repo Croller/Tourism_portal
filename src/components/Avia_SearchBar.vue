@@ -156,7 +156,7 @@
         if(Object.keys(this.$route.params.avia).length > 0){
           let rParams = this.$route.params.avia.searchBar;
           let uuid = this.$route.params.avia.uuid;
-
+          console.log(uuid);
           this.locale = rParams.locale;
           this.aviaTripClass = rParams.aviaTripClass;
           this.aviaDep_Place = rParams.aviaDep_Place;
@@ -598,7 +598,10 @@
           'aviaInfants': this.aviaInfants,
         }
         this.uuid = uuid;
-        this.$router.push({ name: 'Search', params: { avia:{ uuid: this.uuid, searchBar: searchBarData }, hotels: (this.$route.params.hasOwnProperty("hotels") ? this.$route.params.hotels : {}), show: "avia"}});
+        // if same route same, need update route
+        this.$route.params.avia = { uuid: uuid, searchBar: searchBarData };
+        
+        this.$router.push({ name: 'Search', params: { avia:{ uuid: uuid, searchBar: searchBarData }, hotels: (this.$route.params.hasOwnProperty("hotels") ? this.$route.params.hotels : {}), show: "avia"}});
         BusEvent.$emit('getTicket', this.uuid);
       },
 

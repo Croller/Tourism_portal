@@ -290,7 +290,7 @@
                 self.getHotels(self.queryObj);
 
               }else{
-                self.hotelsNoSort = data.hotelsNoSort;
+                self.hotelsNoSort = self.hotelsNoSort.concat(data.hotelsNoSort);
                 self.progressPerc["hotels"] = 100;
                 this.timeOutSearch();
               }

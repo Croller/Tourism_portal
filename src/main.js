@@ -1,9 +1,9 @@
 
 import Vue from 'vue'
-import Resource from 'vue-resource'
 
 import App from './App'
 import routers from './router'
+import Resource from 'vue-resource'
 
 Vue.use(Resource)
 
@@ -16,6 +16,8 @@ require('@/assets/css/plugin/air-datepicker-master/datepicker.min.css')
 require('@/assets/js/plugin/air-datepicker-master/datepicker.min.js')
 
 require('@/assets/js/plugin/air-datepicker-master/datepicker.min.js')
+
+
 
 
 

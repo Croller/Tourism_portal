@@ -13,6 +13,8 @@
           <div id="hotelProgress" class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" :style="'width: ' + progressPerc.hotels +'%'" aria-valuenow="25" aria-valuemin="3" aria-valuemax="100" v-if="progressPerc.hotels > 0"></div>
 
           <div id="excurProgress" class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" :style="'width: ' + progressPerc.excurs +'%'" aria-valuenow="25" aria-valuemin="3" aria-valuemax="100" v-if="progressPerc.excurs > 0"></div>
+
+          <div id="transfProgress" class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" :style="'width: ' + progressPerc.excurs +'%'" aria-valuenow="25" aria-valuemin="3" aria-valuemax="100" v-if="progressPerc.transfer > 0"></div>
         </div>
 
 
@@ -30,6 +32,7 @@
         avia: Number,
         hotels: Number,
         excurs: Number,
+        transfer: Number,
       },
     },
     data() {
@@ -67,6 +70,16 @@
             excursBar.classList.add('progress-bar-animated');
           }else{
             excursBar.classList.remove('progress-bar-animated');
+          }
+        }, 100);
+      },
+      'progressPerc.transfer': function(nVal, oVal){
+        setTimeout(() => {
+          let transfBar = document.getElementById("transfProgress");
+          if(nVal > 0 && nVal < 100){
+            transfBar.classList.add('progress-bar-animated');
+          }else{
+            transfBar.classList.remove('progress-bar-animated');
           }
         }, 100);
       },
