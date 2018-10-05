@@ -11,7 +11,7 @@ Purchase of air tickets, hotel booking, life hack, wiki, and more.
 3. Excursion - Done,
 4. Map - Soon,
 5. Weather - Soon,
-6. Transfer/Taxi - Soon,
+6. Transfer/Taxi - Done ( Russia only ),
 7. Blog - Soon,
 8. Account - Soon,
 9. Bot - Soon.
@@ -50,4 +50,4 @@ npm run build --report
 #### Transfer Page
 ![alt text](https://dl.dropboxusercontent.com/s/vdv3kreei9i1r2j/Screenshot_9.png?dl=0)
 #### Excursion Page
-![alt text](https://dl.dropboxusercontent.com/s/vdv3kreei9i1r2j/Screenshot_10.png?dl=0)
+![alt text](https://dl.dropboxusercontent.com/s/677otxilbtxtff1/Screenshot_10.png?dl=0)
