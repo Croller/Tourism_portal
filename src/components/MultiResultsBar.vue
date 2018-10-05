@@ -14,7 +14,7 @@
 
           <div id="excurProgress" class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" :style="'width: ' + progressPerc.excurs +'%'" aria-valuenow="25" aria-valuemin="3" aria-valuemax="100" v-if="progressPerc.excurs > 0"></div>
 
-          <div id="transfProgress" class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" :style="'width: ' + progressPerc.excurs +'%'" aria-valuenow="25" aria-valuemin="3" aria-valuemax="100" v-if="progressPerc.transfer > 0"></div>
+          <div id="transfProgress" class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" :style="'width: ' + progressPerc.transfer +'%'" aria-valuenow="25" aria-valuemin="3" aria-valuemax="100" v-if="progressPerc.transfer > 0"></div>
         </div>
 
 
@@ -106,9 +106,14 @@
   #infoBlock .progress #hotelProgress{
     background-color: #A5DB93 !important;
   }
+  #infoBlock .progress #transfProgress{
+    background-color: #EDCF07 !important;
+  }
   #infoBlock .progress #excurProgress{
     background-color: #02A9E0 !important;
   }
+
+  
 
 </style>
 

@@ -17,16 +17,16 @@
               <a class="nav-link" data-toggle="tab" href="#hotels" ref="hotels" role="tab"  aria-selected="true">Отели</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" href="#transfer" role="tab"  aria-selected="true">Трансфер</a>
+              <a class="nav-link" data-toggle="tab" href="#transfer" ref="transfer"  aria-selected="true">Трансфер</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" data-toggle="tab" href="#excursions" ref="excursions" role="tab"  aria-selected="true">Экскурсии</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" href="#wiki" role="tab"  aria-selected="true">Wiki</a>
+              <a class="nav-link" data-toggle="tab" href="#wiki" ref="wiki"  aria-selected="true">Wiki</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" href="#chats" role="tab"  aria-selected="true">ЧатБот</a>
+              <a class="nav-link" data-toggle="tab" href="#chats" ref="chats"  aria-selected="true">ЧатБот</a>
             </li>
           </ul>
         </div>
@@ -227,7 +227,7 @@
     background-color: #55B533;
   }
   #searchBlock #searchCategory .nav a[href$=transfer].active{
-    background-color: #E3C500;
+    background-color: #EDCF07;
   }  
   #searchBlock #searchCategory .nav a[href$=excursions].active{
     background-color: #02A9E0;

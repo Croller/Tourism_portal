@@ -1,6 +1,6 @@
 <template>
   
-  <div id="avia" class="row">
+  <div id="transfer" class="row">
 
     <div class="col-12">
       <Transfer_SearchBar v-bind:style="{position: positionSearchBar}" ></Transfer_SearchBar>
@@ -28,11 +28,11 @@
 
 
     <div id="filterBlock" class="col-md-3 col-lg-3 d-none d-sm-none d-md-block d-lg-block">
-      <!-- <Avia_Filter v-bind:propertiesFiltr=propertiesFiltr v-on:getExtraFiltr="mainFiltr"></Avia_Filter>                 -->
+      <Transfer_Filter v-bind:propertiesFiltr=propertiesFiltr :info=info :tarif=tarif v-on:getExtraFiltr="mainFiltr" ></Transfer_Filter>                
     </div>
 
     <div id="resultsBlock" class="col-12 col-sm-12 col-md-9 col-lg-9">
-      <div id="defaultFilter" class="col-12 shadow">
+      <!-- <div id="defaultFilter" class="col-12 shadow" style="display: none;">
         <div class="row">
           <div class="btn-group btn-group-toggle btn-block scrollmenu" data-toggle="buttons">
             <label class="btn col-4 active" v-on:click="changeRadio($event)">
@@ -49,21 +49,22 @@
             </label>
           </div>
         </div>
-      </div>
-      <div id="aviaItems" class="col-12" >
+      </div> -->
+      <div id="transferItems" class="col-12" >
+        <div class="row">
+          <Transfer_Item v-bind:transfer=item v-for="(item, index) in transfer" :key="index" :currency=info.currency v-if="transfer.length > 0"></Transfer_Item>
+        </div>
 
-        <!-- <Avia_Item v-bind:ticket=ticket v-bind:airlines=airlines v-bind:airports=airports v-bind:airplane=airplane v-bind:sales=sales v-for="(ticket, index) in tickets" v-bind:statTimeOut=statTimeOut :key="index" v-if="tickets.length > 0"></Avia_Item> -->
 
-
-        <div id="errorBlock" class="row shadow" v-if="tickets.length == 0 && progressPerc.avia == 100" style="margin-bottom: 100px;">
+        <div id="errorBlock" class="row shadow" v-if="transfer.length == 0 && progressPerc.transfer == 100" style="margin-bottom: 100px;">
           <div class="container">
-            <h3 class="display-6 text-center">Мы не нашли билетов :(</h3>
-            <p class="h6 text-center" v-if="ticketsNoSort.length == 0">Совет: попробуйте изменить даты вылета и/или прилета.</p>
-            <p class="h6 text-center" v-if="ticketsExtraSort.length == 0">Совет: попробуйте изменить настройки фильтрации.</p>
+            <h3 class="display-6 text-center">Мы не нашли такси :(</h3>
+            <p class="h6 text-center" v-if="transfer.length == 0">Совет: попробуйте изменить места отправления или прибытия.</p>
+            <p class="h6 text-center" v-if="transferExtraSort.length == 0">Совет: попробуйте изменить настройки фильтрации.</p>
           </div>
         </div>
         
-        <Loader  v-if="progressPerc.avia < 100 && progressPerc.avia > 0" style="margin-bottom: 100px;" :color=color></Loader>
+        <Loader  v-if="progressPerc.transfer < 100 && progressPerc.transfer > 0" style="margin-bottom: 100px;" :color=color></Loader>
 
       </div>
     </div>
@@ -75,8 +76,8 @@
 
   import Transfer_SearchBar from './Transfer_SearchBar.vue'
   import MultiResultsBar from './MultiResultsBar.vue';
-  // import Avia_Item from './Avia_Item.vue'
-  // import Avia_Filter from './Avia_Filter.vue'
+  import Transfer_Item from './Transfer_Item.vue'
+  import Transfer_Filter from './Transfer_Filter.vue'
   import Loader from './Loader.vue'
 
   import Moment from 'moment';
@@ -89,8 +90,8 @@
     components: {
       'Transfer_SearchBar': Transfer_SearchBar,
       'MultiResultsBar': MultiResultsBar,
-      // 'Avia_Item': Avia_Item,
-      // 'Avia_Filter': Avia_Filter,
+      'Transfer_Item': Transfer_Item,
+      'Transfer_Filter': Transfer_Filter,
       'Loader': Loader,
     },
     http: {
@@ -104,30 +105,27 @@
 
         // language
         locale: "ru",
-        color: "#FF9F1C",
+        color: "#E3C500",
 
         // data map
         geojson: {},
 
-        // data tickets
-        ticketsNoSort: [], 
-        ticketsExtraSort: [], 
-        tickets: [],
+        // data transfer
+        transferNoSort: [], 
+        transferExtraSort: [], 
+        transfer: [],
 
         // time out search results
         statTimeOut: false,
 
         // dictionary
-        airlines: {},
-        airports: {},
-        airplane: {},
-        sales: {},
-        segments: [],
+        class: [],
+        info: {},
+        agency: [],
 
         // stats
-        positionSearchBar : "static", // set position searchBar
-        // searchCount: 0,
-        // stats
+        positionSearchBar : "static",
+
         progressPerc: {
           avia: 0,
           hotels: 0,
@@ -140,77 +138,41 @@
         defaultFiltrData: "0",
 
         propertiesFiltr: {
-          max_stops: [],
-          total_duration: [],
+          class: [],
           price: [],
-          segment_durations: [],
-          segments_time: [],
-          stop_duration: [],
-          sales: [],
-          airlines: [],
-          stops_airports: [],
-          segments: [],
-        } // data for avia_filter component
+          min_price: [],
+          waiting_time: [],
+          agency: [],
+        } // data for transfer_filter component
       }
     },
     computed:{
-
-      segment_durationsProps: function(){
-        if(this.ticketsNoSort.length != 0){
-          let ticketProp = this.ticketsNoSort;
-          var arr = [];
-          for (var i = 0; i < ticketProp[0].segment.length; i++) {
-            arr.push([
-              Object.keys(this.groupObjVal(ticketProp, 'segment_durations_'+i))[0],
-              Object.keys(this.groupObjVal(ticketProp, 'segment_durations_'+i))[Object.keys(this.groupObjVal(ticketProp, 'segment_durations_'+i)).length - 1],
-            ]);
-          }
-          return arr;
-        }
-      },
-      segments_timeProps: function(){
-        if(this.ticketsNoSort.length != 0){
-          let ticketProp = this.ticketsNoSort;
-          var arr = [];
-          for (var i = 0; i < ticketProp[0].segment.length; i++) {
-            arr.push([
-              Object.keys(this.groupObjVal(ticketProp, 'segments_time_'+i+'_0'))[0],
-              Object.keys(this.groupObjVal(ticketProp, 'segments_time_'+i+'_1'))[Object.keys(this.groupObjVal(ticketProp, 'segments_time_'+i+'_1')).length - 1],
-            ]);
-          
-          }
-          return arr;
-        }
-      },
+      tarif: function(){
+        return this.class;
+      }
     },
     created: function() {
       let self = this;
 
-      //get avia ticket
+      //get transfer ticket
       BusEvent.$on('getTransfer', function(obj) {
         // clear data before
-        self.progressPerc["transfer"] = 0; 
-        // // self.searchCount = 0;
-        // self.ticketsNoSort = ['0'];
-        // self.ticketsExtraSort = ['0'];
-        // self.statTimeOut = false;
+        self.progressPerc["transfer"] = 10; 
+        self.transferNoSort = ['0'];
+        self.transferExtraSort = ['0'];
+        self.transfer = [];
 
-        // self.propertiesFiltr = {
-        //   max_stops: [],
-        //   total_duration: [],
-        //   price: [],
-        //   segment_durations: [],
-        //   segments_time: [],
-        //   stop_duration: [],
-        //   sales: [],
-        //   airlines: [],
-        //   stops_airports: [],
-        //   segments: [],
-        // }
+        this.propertiesFiltr = {
+          class: [],
+          price: [],
+          min_price: [],
+          waiting_time: [],
+          agency: [],
+        }
         // get new data
         self.getTransfer(obj);
         // test data
-        // self.getAviaTicketsTest({})
+        // self.getAviaTransferTest({})
       })
     },
     mounted () {
@@ -230,10 +192,10 @@
           this.defaultFiltrData = el.children[0].value;
         }
       },
-      // check time out avia results
+      // check time out transfer results
       timeOutSearch(){
         setTimeout( () => {
-          if(!this.statTimeOut && this.ticketsNoSort.length > 0){
+          if(!this.statTimeOut && this.transfer.length > 0){
             // this.alertMsg('Время истекло','Результат поиска устарел','warning');
             this.statTimeOut = true;
           }
@@ -242,52 +204,32 @@
       
       // get data by uuid ------
       getTransfer(obj){
+
+        this.progressPerc["transfer"] = 25;
+
         let self = this;
         this.$http.post(self.pathData + '/getTransfer', obj).then(function (response) {
-            // Success
-            console.log('///////////////')
-            console.log('get transfer price - loaded')
-            
-            let data = response.data;
+          // Success
+          console.log('///////////////')
+          console.log('get transfer price - loaded')
+          
+          let data = response.data;
+          if(data != null && data.transferNoSort.length > 0){
+            // console.log(data)
+            this.transferNoSort = data.transferNoSort;
+            this.class = data.class;
+            this.info = data.info;
+            this.agency = data.agency;
 
-            // // if(this.searchCount != 40){
-            //   // set to component data  dictionary and tickets
-            // if(data != null){
-            //   if(self.ticketsNoSort.length == 1) self.ticketsNoSort = [];
-            //   Object.assign(this.airlines, data.airlines);
-            //   Object.assign(this.airports, data.airports);
-            //   Object.assign(this.airplane, data.airplane);
-            //   Object.assign(this.sales, data.sales);
-
-            //   // Array.prototype.push.apply(self.ticketsNoSort, data.ticketsNoSort); 
-            //   for (var i = 0; i < data.ticketsNoSort.length; i++) {
-            //     self.ticketsNoSort.push(data.ticketsNoSort[i]);
-            //   }
-            //   // console.log(self.ticketsNoSort);
-            //   this.segments = data.segments;
-
-            //   if(data.ticketsNoSort.length > 1){
-            //     self.setPropertyFilter();
-            //     self.mainFiltr();
-            //   }
-            // }else{
-            //   this.progressPerc["avia"] = 100;
-            //   this.timeOutSearch();
-            //   return;
-            // }
-            
-            // // repeat request tickets
-
-            // setTimeout(() => {
-            //   if(this.progressPerc["avia"] <= 100 && data != null){
-            //     this.getAviaTickets(obj);
-            //   }
-            // }, 2500);
-
-            // if(this.progressPerc["avia"] < 80){
-            //   this.progressPerc["avia"] = this.progressPerc["avia"] + 15;
-            // }
-
+            this.setPropertyFilter();
+            this.mainFiltr();
+          }else{
+            self.transferNoSort = [];
+            self.transferExtraSort = [];
+            self.transfer = [];
+          }
+          
+          this.progressPerc["transfer"] = 100;
         });
       },
 
@@ -295,115 +237,98 @@
       mainFiltr(filtrObj) {
         let self = this;
 
-        var countTickets = 30;
-        var groupTicketsArr = [];
-
+        var groupTransferArr = [];
+        // console.log(filtrObj)
         // add comapre extraDataFiltr for filtering speed
         this.extraFiltrData = filtrObj;
 
-        // extra sort tickets ( output tickets without groupping by param )
+        // extra sort transfer ( output transfer without groupping by param )
         if( typeof filtrObj == "object"){
-          let tickets = self.ticketsNoSort;
+          let transfer = this.transferNoSort;
           for (var f = 0; f < Object.keys(filtrObj).length; f++) {
             let key = Object.keys(filtrObj)[f];
             let params = filtrObj[Object.keys(filtrObj)[f]];
 
-            // filtr by value from avia_filter
+            // filtr by value from transfer_filter
             switch (key) {
-              case "max_stops":
+              case "class":
                 for (var i = 0; i < params.length; i++) {
                   let param = params[i];
                   if(param.length > 0 && param != undefined){
-                    tickets = tickets.filter(ticket => ticket[key] != param );
-                  }
-                }
-                break;
-              case "segments_time":
-                for (var i = 0; i < params.length; i++) {
-                  let param = params[i];
-                  if(param.length > 0 && param != undefined && param[0] != undefined && param[1] != undefined){
-                    tickets = tickets.filter(ticket => ticket.segments_time[i][0] >= param[0] && ticket.segments_time[i][1] <= param[1]);
+                    transfer = transfer.filter(transfer => transfer[key+'_name'] != param );
                   }
                 }
                 break;
               case "price":
-                let param = params;
-                if(param.length > 0 && param != undefined && param[0] != undefined && param[1] != undefined){
-                  tickets = tickets.filter(ticket => ticket.terms[Object.keys(ticket.terms)[0]].price >= param[0] - 1  && ticket.terms[Object.keys(ticket.terms)[0]].price <= param[1] + 1 );
+                for (var i = 0; i < params.length; i++) {
+                  let param = params;
+                  if(param.length > 0 && param != undefined && param[0] != undefined && param[1] != undefined){
+                    transfer = transfer.filter(transfer => transfer.price >= param[0] && transfer.price <= param[1]);
+                  }
                 }
                 break;
-              case "segment_durations":
+              case "min_price":
+                for (var i = 0; i < params.length; i++) {
+                  let param = params;
+                  if(param.length > 0 && param != undefined && param[0] != undefined && param[1] != undefined){
+                    transfer = transfer.filter(transfer => transfer.min_price >= param[0] && transfer.min_price <= param[1]);
+                  }
+                }
+                break;
+              case "waiting_time":
+                for (var i = 0; i < params.length; i++) {
+                  let param = params;
+                  if(param.length > 0 && param != undefined && param[0] != undefined && param[1] != undefined){
+                    transfer = transfer.filter(transfer => transfer.waiting_time >= param[0] && transfer.waiting_time <= param[1]);
+                  }
+                }
+                break;
+              case "agency":
                 for (var i = 0; i < params.length; i++) {
                   let param = params[i];
-                  if(param.length > 0 && param != undefined && param[0] != undefined && param[1] != undefined){
-                    tickets = tickets.filter(ticket => ticket[key][i] >= param[0] && ticket[key][i] <= param[1]);
-                  }
-                }
-                break;
-              case "stops_airports":
-                for (var i = 0; i < params.length; i++) {
-                  let param = params[i].id;
-                  if(param.length > 0 && param != undefined){
-                    tickets = tickets.filter(ticket => ticket[key].filter( port => port == param ).length == 0);
-                  }
-                }
-                break;
-              case "airlines":
-                for (var i = 0; i < params.length; i++) {
-                  let param = params[i].id;
-                  if(param.length > 0 && param != undefined){
-                    tickets = tickets.filter(ticket => ticket['carriers'].filter( carrier => carrier == param ).length == 0);
-                  }
-                }
-                break;
-              case "sales":
-                for (var i = 0; i < params.length; i++) {
-                  let param = params[i].id;
-                  if(param.length > 0 && param != undefined){
-                    tickets = tickets.filter(ticket => Object.keys(ticket['terms'])[0] != param);
+                  if(param != undefined){
+                    transfer = transfer.filter(transfer => transfer[key] != param.id );
                   }
                 }
                 break;
             }
           }
-          this.ticketsExtraSort = tickets;
+          this.transferExtraSort = transfer;
         }else{
-          this.ticketsExtraSort = self.ticketsNoSort;
+          this.transferExtraSort = self.transferNoSort;
         }
-        // console.log('extra len = ' + this.ticketsExtraSort.length)
         
-        // default sort tickets
-        switch (this.defaultFiltrData) {
-          case "0":
-            groupTicketsArr = this.groupTickets(this.ticketsExtraSort, 'price');
-            break;
-          case "1":
-            groupTicketsArr = this.groupTickets(this.ticketsExtraSort, 'total_duration');
-            break;
-          case "2":
-            groupTicketsArr = this.sortObjVal('price', this.groupTickets(this.ticketsExtraSort, 'total_duration'));
-            break;
-          case "3":
-            groupTicketsArr = this.sortObjVal('total_duration', this.groupTickets(this.ticketsExtraSort, 'price')).reverse();
-            break;
-        }
-        // get first 30 tickets
-        groupTicketsArr = groupTicketsArr.slice(0, countTickets);
-        this.tickets = groupTicketsArr;
-      },
-      extraFiltr(val){
-        // get extra filtr from Avia_filtr Component by change parametr
-        this.extraFiltrData = val;
-        console.log(val)
-        // run re sorting
-        // this.mainFiltr();
+        //default sort transfer
+        // switch (this.defaultFiltrData) {
+        //   case "0":
+        // console.log(this.sortObjVal('price', this.transferExtraSort))
+            // groupTransferArr = this.sortObjVal('price', this.transferExtraSort);
+        //     break;
+        //   case "1":
+        //     groupTransferArr = this.groupTransfer(this.transferExtraSort, 'total_duration');
+        //     break;
+        //   case "2":
+        //     groupTransferArr = this.sortObjVal('price', this.groupTransfer(this.transferExtraSort, 'total_duration'));
+        //     break;
+        //   case "3":
+        //     groupTransferArr = this.sortObjVal('total_duration', this.groupTransfer(this.transferExtraSort, 'price')).reverse();
+        //     break;
+        // }
+        // console.log(groupTransferArr)
+        // get first 30 transfer
+        // groupTransferArr = groupTransferArr;
+        this.transfer = this.sortObjVal('price', this.transferExtraSort);
       },
 
-      groupTickets(arr, filtr){
+      extraFiltr(val){
+        this.extraFiltrData = val;
+      },
+
+      groupTransfer(arr, filtr){
         // group by filtr
         let group = this.groupObjVal(arr, filtr)
 
-        // set tickets to group_param which less 
+        // set transfer to group_param which less 
         var results = [];
         var groupK = Object.keys(group);
         for (var i = 0; i < groupK.length; i++) {
@@ -421,25 +346,20 @@
 
       setPropertyFilter(){
         this.propertiesFiltr = {
-          max_stops: Object.keys(this.groupObjVal(this.ticketsNoSort, 'max_stops')),
-          total_duration: [
-            Object.keys(this.groupObjVal(this.ticketsNoSort, 'total_duration'))[0],
-            Object.keys(this.groupObjVal(this.ticketsNoSort, 'total_duration')).reverse()[0],
-          ],
+          class: Object.keys(this.groupObjVal(this.class, 'id')),
           price: [
-            this.sortObjVal('',Object.keys(this.groupObjVal(this.ticketsNoSort, 'price')))[0],
-            this.sortObjVal('',Object.keys(this.groupObjVal(this.ticketsNoSort, 'price'))).reverse()[0]
+            Object.keys(this.groupObjVal(this.transferNoSort, 'price'))[0],
+            Object.keys(this.groupObjVal(this.transferNoSort, 'price')).reverse()[0]
           ],
-          segment_durations: this.segment_durationsProps,
-          segments_time: this.segments_timeProps,
-          stop_duration: [
-            Object.keys(this.groupObjVal(this.ticketsNoSort, 'min_stop_duration'))[0],
-            Object.keys(this.groupObjVal(this.ticketsNoSort, 'max_stop_duration')).reverse()[0]
+          min_price: [
+            Object.keys(this.groupObjVal(this.transferNoSort, 'min_price'))[0],
+            Object.keys(this.groupObjVal(this.transferNoSort, 'min_price')).reverse()[0]
           ],
-          sales: this.sortObjVal('average_rate', this.reCollectArr(this.sales)).reverse(),
-          airlines: this.sortObjVal('lowcost', this.reCollectArr(this.airlines)),
-          stops_airports: this.sortObjVal('average_rate', this.reCollectArr(this.airports)).reverse(),
-          segments: this.segments,
+          waiting_time: [
+            Object.keys(this.groupObjVal(this.sortObjVal('waiting_time', this.transferNoSort), 'waiting_time'))[0],
+            Object.keys(this.groupObjVal(this.sortObjVal('waiting_time', this.transferNoSort), 'waiting_time')).reverse()[0]
+          ],
+          agency: this.agency,
         }
       },
 
@@ -448,63 +368,24 @@
 
       groupObjVal(arr, filtr){
         return arr.reduce(function(rv, x) {
-          if( filtr == 'price'){
-            var key = Object.keys(x.terms);
-            if(rv[x['terms'][key[0]].price] = rv[x['terms'][key[0]].price] || []){
-              rv[x['terms'][key[0]].price].push(x);
-            }
-          }else if( filtr.indexOf('segments_time') != -1 ){
-            var key = 'segments_time';
-            var int = filtr.replace(key+'_','').split('_');
-            var parent = x[key][parseInt(int[0])];
-            var child = parseInt(int[1]);
-            if(rv[parent[child]] = rv[parent[child]] || []){
-              rv[parent[child]].push(x)
-            }
-          }else if( filtr.indexOf('segment_durations') != -1 ){
-            var key = 'segment_durations';
-            var int = parseInt(filtr.replace(key+'_',''));
-            if(rv[x[key][int]] = rv[x[key][int]] || []){
-              rv[x[key][int]].push(x)
-            }
-          }else{
-            if(rv[x[filtr]] = rv[x[filtr]] || []){
-              rv[x[filtr]].push(x)
-            }
+          if (rv[x[filtr]] = rv[x[filtr]] || []){
+            rv[x[filtr]].push(x)
           }
           return rv;
         }, {});
       },
       
       sortObjVal(key, obj){
-        switch (key) {
-          case "price":
-            obj.sort(function(a,b) {
-              var aK = Object.keys(a.terms);
-              var bK = Object.keys(b.terms);
-              return a['terms'][aK[0]].price - b['terms'][bK[0]].price;
-            });
-            return obj;
-            break;
-          case "lowcost":
-            obj.sort(function(a,b) {
-              return (a.lowcost === b.lowcost)? 0 : a.lowcost? -1 : 1;
-            });
-            return obj;
-            break;
-        }
-
         if( key.length > 0 && key != undefined){
           obj.sort(function(a,b) {
             return a[key] - b[key];
           });
-          return obj;
         }else{
           obj.sort(function(a,b) {
             return a - b;
           });
-          return obj;
         }
+        return obj;
       },
       // obj to arr, key of obj to id in self obj
       reCollectArr(arr){
@@ -559,11 +440,11 @@
 
 <style>
   
-  #avia #resultsBlock .btn{
+  #transfer #resultsBlock .btn{
     -webkit-box-shadow: none;
   }
 
-  #avia #defaultFilter .col-4{
+  #transfer #defaultFilter .col-4{
     text-align: center;
     font-family: 'Comfortaa', sans-serif;
     /*color: #000;*/
@@ -574,30 +455,30 @@
     min-width: 150px;
   }
 
-  #avia #defaultFilter .col-4:last-child{
+  #transfer #defaultFilter .col-4:last-child{
     border-right: 0px solid #EBEBEB;
   }
 
-  #avia #defaultFilter .active{
+  #transfer #defaultFilter .active{
     background-color: #FF9F1C;
     color: white;
   }
 
-  #avia #defaultFilter .scrollmenu {
+  #transfer #defaultFilter .scrollmenu {
      white-space: nowrap;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: -ms-autohiding-scrollbar; 
   }
-  #avia #defaultFilter .scrollmenu::-webkit-scrollbar {
+  #transfer #defaultFilter .scrollmenu::-webkit-scrollbar {
     display: none;
   }
 
-  #avia #filterBlock{
+  #transfer #filterBlock{
     padding-right: 5px;
   }
 
-  #avia #errorBlock {
+  #transfer #errorBlock {
     font-family: 'Comfortaa', sans-serif;
     color: #888;
     font-size: 14px;
@@ -605,8 +486,24 @@
     padding-bottom: 15px;
     margin-top: 20px;
   }
-  #avia #errorBlock p{
+  #transfer #errorBlock p{
     margin-top: 15px;
+  }
+
+  @media (min-width: 768px){ 
+    #transfer #transferItems .row .col-lg-4{
+      padding-left: 12px;
+    }
+    #transfer #transferItems .row .col-lg-4:nth-child(5n-1){
+      padding-left: 7px;
+    }
+    #transfer #transferItems .row .col-lg-4:nth-child(1){
+      padding-left: 7px;
+    }
+/*    #transfer #transferItems .row .col-md-4:nth-child(2n){
+      padding-right: 10px;
+      padding-left: 10px;
+    }*/
   }
 
 </style>

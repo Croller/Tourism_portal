@@ -296,9 +296,12 @@
               }
               self.mainFiltr();
               self.setPropertyFilter();
-
+            }else{
+              self.progressPerc["hotels"] = 100;
+              self.hotelsNoSort = [];
+              self.hotelsExtraSort = [];
+              self.hotels = [];
             }
-            
           }
 
           setTimeout(() => {

@@ -144,27 +144,27 @@
       // set data from route params
       // console.log(this.$route.params.objQuery)
 
-      if(this.$route.params.hasOwnProperty("transf") && this.$route.name == 'Search'){
+      if(this.$route.params.hasOwnProperty("transfer") && this.$route.name == 'Search'){
 
-        if(Object.keys(this.$route.params.transf).length > 0){
-          let rParams = this.$route.params.transf.searchBar;
-          let uuid = this.$route.params.transf.uuid;
+        if(Object.keys(this.$route.params.transfer).length > 0){
+          let rParams = this.$route.params.transfer.searchBar;
+          let obj = this.$route.params.transfer.queryObj;
 
           this.locale = rParams.locale;
           this.transfDep_Place = rParams.transfDep_Place;
-          this.transfDep_IATA = rParams.transfDep_IATA;
+          this.transfDep_Coords = rParams.transfDep_Coords;
           this.transfArr_Place = rParams.transfArr_Place;
-          this.transfArr_IATA = rParams.transfArr_IATA;
+          this.transfArr_Coords = rParams.transfArr_Coords;
           this.transfAdults = rParams.transfAdults;
           this.transfChildren = rParams.transfChildren;
+          this.transfFacilities = rParams.transfFacilities;
 
-          BusEvent.$emit('getTicket', uuid);
+          BusEvent.$emit('getTransfer', obj);
         }
       }else{
         // check cookie
         // BusEvent.$emit('getTicket', uuid);
       }
-
 
       //reload data after time out
       BusEvent.$on('reloadTicket', function() {
@@ -457,6 +457,7 @@
       // start search
       transfSubmit() {
         this.focused = false;
+        this.focusedFac = false;
         let queryObj = this.validObj();
         if(queryObj != null){
           this.mainLogic(queryObj);
@@ -475,6 +476,9 @@
           'transfFacilities': this.transfFacilities,
         }
         this.$router.push({ name: 'Search', params: { transfer:{ queryObj: obj, searchBar: searchBarData }, hotels: (this.$route.params.hasOwnProperty("hotels") ? this.$route.params.hotels : {}), avia: (this.$route.params.hasOwnProperty("avia") ? this.$route.params.avia : {}), show: "transfer"}});
+
+        this.$route.params.transfer = { queryObj: obj, searchBar: searchBarData };
+        
         BusEvent.$emit('getTransfer', obj);
       },
 
