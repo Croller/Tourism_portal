@@ -9,8 +9,8 @@
           <img class="img-fluid rounded" :src="imgTarif(transfer.class_name)" alt="tarif_class" style="height: 40px">
       </div>
       <div id="desc" class="text-center">
-        <span>Цена поездки:</span>
-        <h3>{{ transfer.price.toLocaleString('ru') }} <span :class=iconCurr /></h3>
+        <span>Цена за поездку:</span>
+        <h3> ~ {{ transfer.price.toLocaleString('ru') }} <span :class=iconCurr /></h3>
         <span>Время подачи: {{ convertTime(transfer.waiting_time) }}</span>
 
         <!--  -->

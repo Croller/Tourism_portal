@@ -106,7 +106,7 @@
       BusEvent.$on('zoomTo', function(data) {
         self.zoomTo(data, 10, 100);
       })
-      //get geojson
+
       BusEvent.$on('closePopUp', function() {
         self.popUpCard.remove();
       })
