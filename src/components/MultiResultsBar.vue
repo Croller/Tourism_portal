@@ -15,6 +15,8 @@
           <div id="excurProgress" class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" :style="'width: ' + progressPerc.excurs +'%'" aria-valuenow="25" aria-valuemin="3" aria-valuemax="100" v-if="progressPerc.excurs > 0"></div>
 
           <div id="transfProgress" class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" :style="'width: ' + progressPerc.transfer +'%'" aria-valuenow="25" aria-valuemin="3" aria-valuemax="100" v-if="progressPerc.transfer > 0"></div>
+
+          <div id="wikiProgress" class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" :style="'width: ' + progressPerc.wiki +'%'" aria-valuenow="25" aria-valuemin="3" aria-valuemax="100" v-if="progressPerc.wiki > 0"></div>
         </div>
 
 
@@ -33,6 +35,7 @@
         hotels: Number,
         excurs: Number,
         transfer: Number,
+        wiki: Number,
       },
     },
     data() {
@@ -83,6 +86,16 @@
           }
         }, 100);
       },
+      'progressPerc.wiki': function(nVal, oVal){
+        setTimeout(() => {
+          let wikiBar = document.getElementById("wikiProgress");
+          if(nVal > 0 && nVal < 100){
+            wikiBar.classList.add('progress-bar-animated');
+          }else{
+            wikiBar.classList.remove('progress-bar-animated');
+          }
+        }, 100);
+      },
     },
   }
 </script>
@@ -112,7 +125,9 @@
   #infoBlock .progress #excurProgress{
     background-color: #02A9E0 !important;
   }
-
+  #infoBlock .progress #wikiProgress{
+    background-color: #E675B1 !important;
+  }
   
 
 </style>

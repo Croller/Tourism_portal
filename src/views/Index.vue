@@ -52,7 +52,7 @@
             <Excursion_SearchBar ></Excursion_SearchBar>
           </div>
           <div id="wiki" class="tab-pane fade show" role="tabpanel">
-            5
+            <Wiki_SearchBar ></Wiki_SearchBar>
           </div>
           <div id="chats" class="tab-pane fade show" role="tabpanel">
             6
@@ -86,6 +86,7 @@
   import Hotel_SearchBar from '../components/Hotel_SearchBar.vue'
   import Transfer_SearchBar from '../components/Transfer_SearchBar.vue'
   import Excursion_SearchBar from '../components/Excursion_SearchBar.vue'
+  import Wiki_SearchBar from '../components/Wiki_SearchBar.vue'
 
   import Footer from '../components/Footer.vue'
 
@@ -99,6 +100,7 @@
       'Hotel_SearchBar': Hotel_SearchBar,
       'Transfer_SearchBar': Transfer_SearchBar,
       'Excursion_SearchBar': Excursion_SearchBar,
+      'Wiki_SearchBar': Wiki_SearchBar,
       'Footer': Footer
     },
     data () {

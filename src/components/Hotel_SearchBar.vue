@@ -499,7 +499,7 @@
           "hotelChildren": this.hotelChildren,  
           "childAgeObj": this.childAgeObj,
         }
-        this.$router.push({ name: 'Search', params: { hotels: {queryObj: this.queryObj, searchBar: searchBarData }, avia: (this.$route.params.hasOwnProperty("avia") ? this.$route.params.avia : {}), show: "hotels"}});
+        this.$router.push({ name: 'Search', params: { hotels: {queryObj: this.queryObj, searchBar: searchBarData }, avia: (this.$route.params.hasOwnProperty("avia") ? this.$route.params.avia : {}), transfer: (this.$route.params.hasOwnProperty("transfer") ? this.$route.params.transfer : {}), excursions: (this.$route.params.hasOwnProperty("excursions") ? this.$route.params.excursions : {}), show: "hotels"}});
         BusEvent.$emit('getHotels', {'queryObj': this.queryObj, 'cityId': this.hotelArr_CityID});
 
       },

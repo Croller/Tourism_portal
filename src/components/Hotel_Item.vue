@@ -188,21 +188,7 @@
     created: function() {
 
     },
-    mounted() {
-
-      // get photo hotels
-      // https://yasen.hotellook.com/photos/hotel_photos?id=1898372396,1249981778
-      // get single photo for hotel
-      // https://photo.hotellook.com/image_v2/limit/8230374267/800/520.auto
-      // get room photo
-      // http://photo.hotellook.com/rooms/limit/h1743427074_31_0/200/200.auto
-      // get sprite photo
-      // http://photo.hotellook.com/rooms/sprite/h1743427074_31/100/3/50.auto
-
-      // console.log(this.sortObjList(this.groupObjVal(this.hotel.rooms, 'internalTypeId'), 'total'));
-      // console.log(this.sortObjVal(this.groupObjVal(this.hotel.rooms, 'internalTypeId'), 'total'))
-      // console.log(this.$parent.$options)
-    },
+    mounted() {},
     methods: {
       declension(num, expressions) {
         var result;
@@ -316,10 +302,10 @@
     opacity: 1;
   }
   #hotelItem #photoInfo #countPhoto{
+    position: absolute;
     color: white;
     font-size: 10px;
     bottom: 5%;
-    position: absolute;
     text-align: center;
     border-radius: 3px;
     border: 1px solid white;
@@ -587,3 +573,17 @@ box-shadow: 0px 0px 15px 0px rgba(189,189,189,1)
 
 </style>
 
+
+
+// get photo hotels
+// https://yasen.hotellook.com/photos/hotel_photos?id=1898372396,1249981778
+// get single photo for hotel
+// https://photo.hotellook.com/image_v2/limit/8230374267/800/520.auto
+// get room photo
+// http://photo.hotellook.com/rooms/limit/h1743427074_31_0/200/200.auto
+// get sprite photo
+// http://photo.hotellook.com/rooms/sprite/h1743427074_31/100/3/50.auto
+
+// console.log(this.sortObjList(this.groupObjVal(this.hotel.rooms, 'internalTypeId'), 'total'));
+// console.log(this.sortObjVal(this.groupObjVal(this.hotel.rooms, 'internalTypeId'), 'total'))
+// console.log(this.$parent.$options)

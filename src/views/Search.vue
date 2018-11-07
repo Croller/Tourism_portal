@@ -47,7 +47,7 @@
             <Excursion></Excursion>
           </div>
           <div id="wiki" class="tab-pane fade show" role="tabpanel">
-            5
+            <Wiki></Wiki>
           </div>
           <div id="chats" class="tab-pane fade show" role="tabpanel">
             6
@@ -71,6 +71,7 @@
   import Hotel from '../components/Hotel.vue'
   import Transfer from '../components/Transfer.vue'
   import Excursion from '../components/Excursion.vue'
+  import Wiki from '../components/Wiki.vue'
   import Footer from '../components/Footer.vue'
 
   export default {
@@ -82,6 +83,7 @@
       'Hotel': Hotel,
       'Transfer': Transfer,
       'Excursion': Excursion,
+      'Wiki': Wiki,
       'Footer': Footer,
     },
     data () {

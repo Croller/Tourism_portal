@@ -369,7 +369,7 @@
           "excur_Place": this.excur_Place,
           "excurAdults": this.excurAdults
         }
-        this.$router.push({ name: 'Search', params: { excurs: {queryObj: this.queryObj, searchBar: searchBarData }, avia: (this.$route.params.hasOwnProperty("avia") ? this.$route.params.avia : {}), hotels: (this.$route.params.hasOwnProperty("hotels") ? this.$route.params.hotels : {}), show: "excursions"}});
+        this.$router.push({ name: 'Search', params: { excurs: {queryObj: this.queryObj, searchBar: searchBarData }, avia: (this.$route.params.hasOwnProperty("avia") ? this.$route.params.avia : {}), hotels: (this.$route.params.hasOwnProperty("hotels") ? this.$route.params.hotels : {}), transfer: (this.$route.params.hasOwnProperty("transfer") ? this.$route.params.transfer : {}), show: "excursions"}});
         BusEvent.$emit('getExcursions', this.queryObj);
 
       },

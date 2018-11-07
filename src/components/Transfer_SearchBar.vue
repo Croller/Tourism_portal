@@ -475,7 +475,7 @@
           'transfChildren': this.transfChildren,
           'transfFacilities': this.transfFacilities,
         }
-        this.$router.push({ name: 'Search', params: { transfer:{ queryObj: obj, searchBar: searchBarData }, hotels: (this.$route.params.hasOwnProperty("hotels") ? this.$route.params.hotels : {}), avia: (this.$route.params.hasOwnProperty("avia") ? this.$route.params.avia : {}), show: "transfer"}});
+        this.$router.push({ name: 'Search', params: { transfer:{ queryObj: obj, searchBar: searchBarData }, avia: (this.$route.params.hasOwnProperty("avia") ? this.$route.params.avia : {}), hotels: (this.$route.params.hasOwnProperty("hotels") ? this.$route.params.hotels : {}), excursions: (this.$route.params.hasOwnProperty("excursions") ? this.$route.params.excursions : {}), show: "transfer"}});
 
         this.$route.params.transfer = { queryObj: obj, searchBar: searchBarData };
         
