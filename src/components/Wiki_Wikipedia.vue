@@ -1,7 +1,7 @@
 <template>
   <div id="wikiPedia" class="shadow">
     <div id="logo">
-      <i class="fab fa-wikipedia-w"></i>
+      <i class="fab fa-wikipedia-w">ikipedia</i>
     </div>
     <div id="text">
       

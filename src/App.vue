@@ -26,16 +26,17 @@
     data () {
       return {
         locale: "ru",
+        pathData: document.location.href.indexOf("8080") != -1 ? document.location.href.split(":").slice(0,2).join(":")+":8081" : document.location.href.split("/").slice(0,3).join("/"),
       }
     }, 
 
     mounted() {
-
+      console.log(this.$store)
       // this.aviaLoadCities()
 
       // this.getIP();
       // this.getVT();
-
+      this.$store.state.pathData = this.pathData;
     },
 
     methods: {
@@ -94,5 +95,7 @@
 
 <style>
   
-
+  .spaceDiv{
+    height: 550px;
+  }
 </style>

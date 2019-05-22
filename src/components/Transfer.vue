@@ -6,7 +6,9 @@
       <Transfer_SearchBar v-bind:style="{position: positionSearchBar}" ></Transfer_SearchBar>
     </div>
     
-    <div class="col-12">
+    <div class="spaceDiv" v-if="transferNoSort.length == 0"></div>
+
+    <div class="col-12" v-if="firstSearch">
       <MultiResultsBar :progressPerc="progressPerc"></MultiResultsBar>
     </div>
 
@@ -27,11 +29,11 @@
 
 
 
-    <div id="filterBlock" class="col-md-3 col-lg-3 d-none d-sm-none d-md-block d-lg-block">
+    <div id="filterBlock" class="col-md-3 col-lg-3 d-none d-sm-none d-md-block d-lg-block" v-if="firstSearch">
       <Transfer_Filter v-bind:propertiesFiltr=propertiesFiltr :info=info :tarif=tarif v-on:getExtraFiltr="mainFiltr" ></Transfer_Filter>                
     </div>
 
-    <div id="resultsBlock" class="col-12 col-sm-12 col-md-9 col-lg-9">
+    <div id="resultsBlock" class="col-12 col-sm-12 col-md-9 col-lg-9" v-if="firstSearch">
       <!-- <div id="defaultFilter" class="col-12 shadow" style="display: none;">
         <div class="row">
           <div class="btn-group btn-group-toggle btn-block scrollmenu" data-toggle="buttons">
@@ -50,7 +52,7 @@
           </div>
         </div>
       </div> -->
-      <div id="transferItems" class="col-12" >
+      <div id="transferItems" class="col-12" v-if="firstSearch">
         <div class="row">
           <Transfer_Item v-bind:transfer=item v-for="(item, index) in transfer" :key="index" :currency=info.currency v-if="transfer.length > 0"></Transfer_Item>
         </div>
@@ -114,6 +116,7 @@
         transferNoSort: [], 
         transferExtraSort: [], 
         transfer: [],
+        firstSearch: false,
 
         // time out search results
         statTimeOut: false,
@@ -161,6 +164,7 @@
         self.transferNoSort = ['0'];
         self.transferExtraSort = ['0'];
         self.transfer = [];
+        self.firstSearch = true,
 
         this.propertiesFiltr = {
           class: [],

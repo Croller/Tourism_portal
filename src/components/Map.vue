@@ -145,7 +145,7 @@
           style: 'mapbox://styles/croller/cjj8xkmu73qh32snzotqzhsdj',
           center: [15.057,25.885],
           zoom: 1.8,
-          // minZoom: 1.8,
+          minZoom: 1.7,
           doubleClickZoom: false,
           dragPan: true,
           dragRotate: false,

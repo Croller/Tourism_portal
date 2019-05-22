@@ -5,15 +5,17 @@
       <Excursion_SearchBar></Excursion_SearchBar>
     </div>
 
-    <div class="col-12">
+    <div class="spaceDiv" v-if="!firstSearch"></div>
+
+    <div class="col-12" v-if="firstSearch">
       <MultiResultsBar :progressPerc="progressPerc"></MultiResultsBar>
     </div>
 
-    <div id="filterBlock" class="col-md-3 col-lg-3 d-none d-sm-none d-md-block d-lg-block">
+    <div id="filterBlock" class="col-md-3 col-lg-3 d-none d-sm-none d-md-block d-lg-block" v-if="firstSearch">
       <Excursion_Filter v-bind:propertiesFiltr=propertiesFiltr v-bind:currency=currency v-on:getExtraFiltr="mainFiltr"></Excursion_Filter>                
     </div>
 
-    <div id="resultsBlock" class="col-12 col-sm-12 col-md-9 col-lg-9">
+    <div id="resultsBlock" class="col-12 col-sm-12 col-md-9 col-lg-9" v-if="firstSearch">
       <div id="defaultFilter" class="col-12 shadow">
         <div class="row">
           <div class="btn-group btn-group-toggle btn-block scrollmenu" data-toggle="buttons">
@@ -34,7 +36,7 @@
           </div>
         </div>
       </div>
-      <div id="excurItems" class="col-12" >
+      <div id="excurItems" class="col-12" v-if="firstSearch">
         <div class="row">
           <Excursion_Item v-bind:excur=excur v-bind:currency="currency" v-for="(excur, index) in excurs" :key="index"></Excursion_Item>
         </div>
@@ -95,13 +97,14 @@
         geojson: {},
 
         // data excur
-        excurNoSort: ['0'], 
-        exrucExtraSort: ['0'], 
+        excurNoSort: [], 
+        exrucExtraSort: [], 
         excurs: [],
+        firstSearch: false,
 
         currency: 'RUB',
         // time out search results
-        statTimeOut: false,
+        statTimeOut: true,
 
         // dictionary
 
@@ -138,7 +141,7 @@
         self.exrucExtraSort = ['0'];
         self.excurs = [];
         self.statTimeOut = false;
-
+        self.firstSearch = true;
         self.propertiesFiltr = {
           rating: [],
           tags: [],

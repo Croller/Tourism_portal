@@ -1,11 +1,12 @@
 
-import Vue from 'vue'
+import Vue from 'vue';
 
-import App from './App'
-import routers from './router'
-import Resource from 'vue-resource'
+import App from './App';
+import store from './store/store.js';
+import router from './router/router.js';
+import Resource from 'vue-resource';
 
-Vue.use(Resource)
+Vue.use(Resource);
 
 require('@/assets/css/index.css')
 require('@/assets/css/fonts.css')
@@ -25,10 +26,16 @@ Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 
+// new Vue({
+//   router: router,
+//   el: '#app',
+//   // render: h => h(App)
+//   components: { App },
+//   template: '<App/>'
+// })
+
 new Vue({
-  router: routers,
-  el: '#app',
-  // render: h => h(App)
-  components: { App },
-  template: '<App/>'
-})
+  router,
+  store,
+  render: h => h(App),
+}).$mount('#app');

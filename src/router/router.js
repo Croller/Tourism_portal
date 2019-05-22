@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Resource from 'vue-resource'
 import YandexMetrika from 'vue-yandex-metrika' 
 
 import Index from '@/views/Index.vue'

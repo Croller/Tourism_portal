@@ -5,8 +5,10 @@
     <div class="col-12">
       <Avia_SearchBar v-bind:style="{position: positionSearchBar}" ></Avia_SearchBar>
     </div>
+
+    <div class="spaceDiv" v-if="!firstSearch"></div>
     
-    <div class="col-12">
+    <div class="col-12" v-if="firstSearch">
       <MultiResultsBar :progressPerc="progressPerc"></MultiResultsBar>
     </div>
 
@@ -27,11 +29,11 @@
 
 
 
-    <div id="filterBlock" class="col-md-3 col-lg-3 d-none d-sm-none d-md-block d-lg-block">
+    <div id="filterBlock" class="col-md-3 col-lg-3 d-none d-sm-none d-md-block d-lg-block" v-if="firstSearch">
       <Avia_Filter v-bind:propertiesFiltr=propertiesFiltr v-on:getExtraFiltr="mainFiltr"></Avia_Filter>                
     </div>
 
-    <div id="resultsBlock" class="col-12 col-sm-12 col-md-9 col-lg-9">
+    <div id="resultsBlock" class="col-12 col-sm-12 col-md-9 col-lg-9" v-if="firstSearch">
       <div id="defaultFilter" class="col-12 shadow">
         <div class="row">
           <div class="btn-group btn-group-toggle btn-block scrollmenu" data-toggle="buttons">
@@ -50,7 +52,7 @@
           </div>
         </div>
       </div>
-      <div id="aviaItems" class="col-12" >
+      <div id="aviaItems" class="col-12" v-if="firstSearch">
 
         <Avia_Item v-bind:ticket=ticket v-bind:airlines=airlines v-bind:airports=airports v-bind:airplane=airplane v-bind:sales=sales v-for="(ticket, index) in tickets" v-bind:statTimeOut=statTimeOut :key="index" v-if="tickets.length > 0"></Avia_Item>
 
@@ -110,10 +112,11 @@
         geojson: {},
 
         // data tickets
-        ticketsNoSort: [], 
-        ticketsExtraSort: [], 
+        ticketsNoSort: ['0'], 
+        ticketsExtraSort: ['0'], 
         tickets: [],
 
+        firstSearch: false,
         // time out search results
         statTimeOut: false,
 
@@ -193,6 +196,7 @@
         self.ticketsNoSort = ['0'];
         self.ticketsExtraSort = ['0'];
         self.statTimeOut = false;
+        self.firstSearch = true;
 
         self.propertiesFiltr = {
           max_stops: [],

@@ -5,19 +5,15 @@
       <Wiki_SearchBar></Wiki_SearchBar>
     </div>
 
-    <div class="col-12">
+    <div class="spaceDiv" v-if="!firstSearch"></div>
+
+    <div class="col-12" v-if="firstSearch">
       <MultiResultsBar :progressPerc="progressPerc"></MultiResultsBar>
     </div>
 
-    <div class="col-12">
-      <Wiki_Wikipedia></Wiki_Wikipedia>
-      <!-- <Loader :color=color></Loader> -->
-    </div>
-
-    <div class="col-12">
+    <div class="col-12" v-if="firstSearch">
       <div id="wikiInst" class="shadow">
         <div id="slider">
-          <Loader v-if="post.length == 0" :color=color></Loader>
 
           <Wiki_Instagram_Item v-bind:pos=pos v-for="(pos, index) in post" :key="index" v-if="post.length > 0"></Wiki_Instagram_Item>
 
@@ -28,13 +24,35 @@
             <span class="fas fa-chevron-circle-right"></span>
           </div> 
         </div>
+
+        <div id="errorBlock" class="row shadow" v-if="(post.length == 0 && progressPerc.wiki == 100)" style="margin-bottom: 100px;">
+          <div class="container">
+            <h3 class="display-6 text-center">Instagram не дала результата 😔</h3>
+          </div>
+        </div>
+        
+        <Loader  v-if="post.length == 0" :color=color></Loader>
       </div>
     </div>
-    
+
+    <div class="col-12" v-if="firstSearch">
+      <Wiki_Wikipedia></Wiki_Wikipedia>
+      
+      <div id="errorBlock" class="row shadow" v-if="(wiki.length == 0 && progressPerc.excurs == 100)" style="margin-bottom: 100px;">
+        <div class="container">
+          <h3 class="display-6 text-center">Wikipedia не дала результата 😔</h3>
+        </div>
+      </div>
+        
+      <Loader  v-if="wiki.length < 100 && wiki.length > 0" style="margin-bottom: 100px;" :color=color></Loader>
+    </div>
+
   </div>
 </template>
 
 <script>
+
+  import { mapState } from 'vuex';
 
   import BusEvent from './BusEvent.vue';
 
@@ -63,8 +81,9 @@
         color: "#DE66A6",
 
         //data post instagram
-        postNoSort: [], 
+        wiki: '',
         post: [], 
+        firstSearch: false,
 
 
         // stats
@@ -80,7 +99,14 @@
 
       }
     },
-    computed: {},
+    computed: {
+      wiki() {
+        return this.$store.state.wikiPedia;
+      },
+      postNoSort() {
+        return this.$store.state.wikiInstagram;
+      },
+    },
     created: function() {
       let self = this;
 
@@ -92,15 +118,22 @@
     },
     mounted() {},
     methods: {
+      // ...mapState(["getWikiPedia"]),
 
       getWiki(obj){
         let self = this;
         self.queryObj = obj;
+        self.firstSearch = true;
 
         this.progressPerc["wiki"] = 20;
 
-        self.getWikiInstagram(obj);
-        self.getWikiPedia(obj);
+        // console.log(this)
+        // self.getWikiInstagram(obj);
+        // self.getWikiPedia(obj);
+        this.$store.commit('WIKI_QUERY', obj);
+        this.$store.dispatch("getWikiPedia");
+        this.$store.dispatch("getWikiInstagram");
+
       },
 
       getWikiInstagram(obj){
@@ -150,21 +183,27 @@
         }
       },
 
-      getWikiPedia(obj){
-        let self = this;
-        this.$http.post(self.pathData + '/getWikipedia', obj).then(function (response) {
-          console.log('///////////////')
-          console.log('get wikipedia tag - loaded');
+      // getWikiPedia(obj){
 
-          let data = response.data;
-          console.log(data); // full resp
+        // this.getWikiPedia();
+        // let self = this;
+        // this.$http.post(self.pathData + '/getWikipedia', obj).then(function (response) {
+        //   console.log('///////////////')
+        //   console.log('get wikipedia tag - loaded');
+
+        //   let data = response.data;
+        //   console.log(data); // full resp
           
 
-          this.progressPerc["wiki"] = 100;
-        });
+        //   this.progressPerc["wiki"] = 100;
+        // });
+      // }
+    },
+    watch: {
+      postNoSort: function(nVal, oVal) {
+        this.post = nVal.slice(0, 10);
       }
     },
-    watch: {},
   }
 </script>
 
@@ -172,6 +211,7 @@
   #wikiInst{
     padding: 10px;
     font-family: 'Comfortaa', sans-serif;
+    /*margin-top: 12px;*/
   }
   #wikiInst #instLogo{
     font-size: 35px;
@@ -210,6 +250,7 @@
   #wikiInst #slickNext{
     right: 0px;
   }
+  
 
 </style>
 

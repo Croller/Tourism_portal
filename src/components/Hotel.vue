@@ -5,15 +5,17 @@
       <Hotel_SearchBar></Hotel_SearchBar>
     </div>
 
-    <div class="col-12">
+    <div class="spaceDiv" v-if="!firstSearch"></div>
+
+    <div class="col-12" v-if="firstSearch">
       <MultiResultsBar :progressPerc="progressPerc"></MultiResultsBar>
     </div>
 
-    <div id="filterBlock" class="col-md-3 col-lg-3 d-none d-sm-none d-md-block d-lg-block">
+    <div id="filterBlock" class="col-md-3 col-lg-3 d-none d-sm-none d-md-block d-lg-block" v-if="firstSearch">
       <Hotel_Filter v-bind:propertiesFiltr=propertiesFiltr v-on:getExtraFiltr="mainFiltr"></Hotel_Filter>                
     </div>
 
-    <div id="resultsBlock" class="col-12 col-sm-12 col-md-9 col-lg-9">
+    <div id="resultsBlock" class="col-12 col-sm-12 col-md-9 col-lg-9" v-if="firstSearch">
       <div id="defaultFilter" class="col-12 shadow">
         <div class="row">
           <div class="btn-group btn-group-toggle btn-block scrollmenu" data-toggle="buttons">
@@ -34,7 +36,7 @@
           </div>
         </div>
       </div>
-      <div id="hotelItems" class="col-12" >
+      <div id="hotelItems" class="col-12" v-if="firstSearch">
         <Hotel_Item v-bind:hotel=hotel v-bind:hotelTypes=hotelTypes v-bind:amenities=amenities v-bind:roomTypes=roomTypes  v-for="(hotel, index) in hotels" v-bind:statTimeOut=statTimeOut :key="index" v-if="hotels.length > 0" ></Hotel_Item>
         <!-- <Hotel_Item v-bind:hotel=hotel v-bind:airlines=airlines v-bind:airports=airports v-bind:airplane=airplane v-bind:sales=sales v-for="(hotel, index) in hotels" v-bind:statTimeOut=statTimeOut :key="index" v-if="hotels.length > 0"></Hotel_Item> -->
 
@@ -99,6 +101,7 @@
         hotelsNoSort: ['0'], 
         hotelsExtraSort: ['0'], 
         hotels: [],
+        firstSearch: false,
 
         // time out search results
         statTimeOut: false,
@@ -143,6 +146,7 @@
         self.hotelsExtraSort = ['0'];
         self.hotels = [];
         self.statTimeOut = false;
+        self.firstSearch = true,
 
         self.propertiesFiltr= {
           stars: [],
@@ -583,6 +587,8 @@
   #hotel #errorBlock p{
     margin-top: 15px;
   }
-
+  #hotel .spaceDiv{
+    height: 550px;
+  }
 </style>
 
